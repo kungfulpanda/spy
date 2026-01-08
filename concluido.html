@@ -451,7 +451,7 @@
             z-index: 85;
             box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
             animation: pulse-red 2s infinite;
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             gap: 8px;
@@ -938,7 +938,7 @@
     </div>
     
     <!-- Timer de conexão -->
-    <div class="connection-timer" id="connectionTimer" style="display: none;">
+    <div class="connection-timer" id="connectionTimer">
         <div class="timer-icon">
             <i class="bi bi-wifi-off"></i>
         </div>
@@ -1374,16 +1374,16 @@
         const timerCountdown = document.getElementById('timerCountdown');
         const unlockConnectionButton = document.getElementById('unlockConnectionButton');
         
-        // Variáveis de controle
-        let popupShown = false;
-        let newConversationsAdded = false;
-        let timerInterval;
-        let timeLeft = 300; // 5 minutos em segundos
+        // Variáveis de controle do timer
+        let timeLeft = 300; // 5 minutos em segundos (300)
+        let timerInterval = null;
         let timerStarted = false;
         let connectionButtonShown = false;
-        let messageIntervals = [];
-        let typingIntervals = [];
-        let removeButtonTimeout;
+        let removeButtonTimeout = null;
+        
+        // Variáveis gerais
+        let popupShown = false;
+        let newConversationsAdded = false;
         
         // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
@@ -1421,19 +1421,16 @@
             
             // Botão de desbloquear tudo
             unlockAllButton.addEventListener('click', function(e) {
-                // Não precisa de ação adicional, o link já redireciona
                 resetTimer(); // Resetar timer ao clicar no botão
             });
             
             // Link da promoção
             promoLink.addEventListener('click', function(e) {
-                // Não precisa de ação adicional, o link já redireciona
                 resetTimer(); // Resetar timer ao clicar no botão
             });
             
             // Botão de desbloquear e manter conexão
             unlockConnectionButton.querySelector('a').addEventListener('click', function(e) {
-                // Não precisa de ação adicional, o link já redireciona
                 resetTimer(); // Resetar timer ao clicar no botão
             });
             
@@ -1563,55 +1560,61 @@
                 removeButtonTimeout = setTimeout(removeConnectionButton, 30000);
             }, 2000);
             
-            // Atualizar o timer a cada segundo
-            timerInterval = setInterval(function() {
-                timeLeft--;
+            // Iniciar contagem regressiva
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+        
+        // Atualizar timer
+        function updateTimer() {
+            timeLeft--;
+            
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                timerCountdown.textContent = '00:00';
                 
-                if (timeLeft <= 0) {
-                    clearInterval(timerInterval);
-                    timerCountdown.textContent = '00:00';
-                    connectionTimer.innerHTML = `
-                        <div class="timer-icon">
-                            <i class="bi bi-exclamation-triangle"></i>
-                        </div>
-                        <div class="timer-text">
-                            Conexão perdida! Reconectando...
-                        </div>
-                    `;
-                    
-                    // Remover botão de desbloquear conexão
-                    removeConnectionButton();
-                    
-                    // Após 10 segundos, reiniciar o timer
-                    setTimeout(function() {
-                        resetTimer();
-                    }, 10000);
-                    
-                    return;
-                }
+                // Mostrar mensagem de conexão perdida
+                const timerIcon = connectionTimer.querySelector('.timer-icon');
+                const timerText = connectionTimer.querySelector('.timer-text');
+                if (timerIcon) timerIcon.innerHTML = '<i class="bi bi-exclamation-triangle"></i>';
+                if (timerText) timerText.textContent = 'Conexão perdida! Reconectando...';
+                timerCountdown.style.display = 'none';
                 
-                // Formatar o tempo como MM:SS
-                const minutes = Math.floor(timeLeft / 60);
-                const seconds = timeLeft % 60;
-                timerCountdown.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                // Remover botão de desbloquear conexão
+                removeConnectionButton();
                 
-                // Adicionar classe de warning quando o tempo estiver acabando
-                if (timeLeft <= 60) {
-                    connectionTimer.classList.add('timer-warning');
+                // Após 10 segundos, reiniciar o timer
+                setTimeout(function() {
+                    // Restaurar o conteúdo do timer
+                    if (timerIcon) timerIcon.innerHTML = '<i class="bi bi-wifi-off"></i>';
+                    if (timerText) timerText.textContent = 'Conexão instável • Tempo até desconectar:';
+                    timerCountdown.style.display = 'block';
+                    resetTimer();
+                }, 10000);
+                
+                return;
+            }
+            
+            // Formatar o tempo como MM:SS
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerCountdown.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            // Adicionar classe de warning quando o tempo estiver acabando
+            if (timeLeft <= 60) {
+                connectionTimer.classList.add('timer-warning');
+                
+                // Intensificar a pulsação do botão de conexão
+                if (timeLeft <= 30) {
+                    unlockConnectionButton.querySelector('.unlock-connection-link').style.animation = 'pulse-green 0.8s infinite';
                     
-                    // Intensificar a pulsação do botão de conexão
-                    if (timeLeft <= 30) {
-                        unlockConnectionButton.querySelector('.unlock-connection-link').style.animation = 'pulse-green 0.8s infinite';
-                        
-                        // Mudar a cor para vermelho nos últimos 10 segundos
-                        if (timeLeft <= 10) {
-                            unlockConnectionButton.querySelector('.unlock-connection-link').style.background = 'linear-gradient(135deg, #dc2626, #b91c1c)';
-                            unlockConnectionButton.querySelector('.unlock-connection-link').style.boxShadow = '0 4px 15px rgba(220, 38, 38, 0.3)';
-                            unlockConnectionButton.querySelector('.unlock-connection-link').innerHTML = '<i class="bi bi-exclamation-triangle"></i> DESBLOQUEAR AGORA! - R$ 27,90';
-                        }
+                    // Mudar a cor para vermelho nos últimos 10 segundos
+                    if (timeLeft <= 10) {
+                        unlockConnectionButton.querySelector('.unlock-connection-link').style.background = 'linear-gradient(135deg, #dc2626, #b91c1c)';
+                        unlockConnectionButton.querySelector('.unlock-connection-link').style.boxShadow = '0 4px 15px rgba(220, 38, 38, 0.3)';
+                        unlockConnectionButton.querySelector('.unlock-connection-link').innerHTML = '<i class="bi bi-exclamation-triangle"></i> DESBLOQUEAR AGORA! - R$ 27,90';
                     }
                 }
-            }, 1000);
+            }
         }
         
         // Remover botão de desbloquear conexão
@@ -1631,12 +1634,15 @@
             // Limpar o timeout se existir
             if (removeButtonTimeout) {
                 clearTimeout(removeButtonTimeout);
+                removeButtonTimeout = null;
             }
         }
         
         // Resetar timer
         function resetTimer() {
             clearInterval(timerInterval);
+            timerInterval = null;
+            timerStarted = false;
             timeLeft = 300; // 5 minutos
             timerCountdown.textContent = '05:00';
             connectionTimer.classList.remove('timer-warning');
@@ -1651,19 +1657,8 @@
             // Remover botão
             removeConnectionButton();
             
-            // Atualizar o conteúdo do timer
-            connectionTimer.innerHTML = `
-                <div class="timer-icon">
-                    <i class="bi bi-wifi-off"></i>
-                </div>
-                <div class="timer-text">
-                    Conexão instável • Tempo até desconectar:
-                </div>
-                <div class="timer-countdown" id="timerCountdown">05:00</div>
-            `;
-            
-            // Reatribuir a referência do elemento
-            const newTimerCountdown = document.getElementById('timerCountdown');
+            // Esconder o timer temporariamente
+            connectionTimer.style.display = 'none';
             
             // Reiniciar o timer após 5 segundos
             setTimeout(function() {
