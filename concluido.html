@@ -258,6 +258,36 @@
             gap: 6px;
         }
         
+        /* Indicador de digitação */
+        .typing-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            color: #25d366;
+            font-style: italic;
+        }
+        
+        .typing-dot {
+            width: 4px;
+            height: 4px;
+            background-color: #25d366;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.3; }
+            30% { opacity: 1; }
+        }
+        
         /* Badge de bloqueio */
         .locked-badge {
             background-color: rgba(245, 158, 11, 0.2);
@@ -468,6 +498,7 @@
             max-width: 380px;
             z-index: 86;
             display: none;
+            transition: opacity 0.5s, transform 0.5s;
         }
         
         .unlock-connection-link {
@@ -714,6 +745,15 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(10px); }
+        }
+        
+        .fade-out {
+            animation: fadeOut 0.5s forwards;
+        }
+        
         /* Ajustes para telas muito pequenas */
         @media (max-width: 360px) {
             .whatsapp-header {
@@ -910,8 +950,8 @@
     
     <!-- Botão de desbloquear e manter conexão -->
     <div class="unlock-connection-button" id="unlockConnectionButton">
-        <a href="https://app.cashinpay.online/pagar/08a91f71bf07" class="unlock-connection-link">
-            <i class="bi bi-wifi"></i> DESBLOQUEAR E MANTER CONEXÃO - R$ 49,50
+        <a href="https://app.cashinpay.online/pagar/1894d5b7831f" class="unlock-connection-link">
+            <i class="bi bi-wifi"></i> DESBLOQUEAR E MANTER CONEXÃO - R$ 27,90
         </a>
     </div>
     
@@ -939,7 +979,7 @@
                 <!-- Promoção de pagamento -->
                 <a href="https://app.cashinpay.online/pagar/1894d5b7831f" class="payment-promo pulse-animation" id="promoLink">
                     <div class="payment-promo-title">🔓 LIBERAR ACESSO COMPLETO</div>
-                    <div class="payment-promo-price">R$ 49,50</div>
+                    <div class="payment-promo-price">R$ 27,90</div>
                 </a>
                 
                 <!-- Seção: Conversas Bloqueadas -->
@@ -1147,7 +1187,7 @@
             <!-- Botão de desbloqueio fixo no rodapé -->
             <div class="unlock-button-container">
                 <a href="https://app.cashinpay.online/pagar/1894d5b7831f" class="unlock-all-button pulse-animation" id="unlockAllButton">
-                    <i class="bi bi-unlock-fill"></i> DESBLOQUEAR TODAS AS CONVERSAS - R$ 49,50
+                    <i class="bi bi-unlock-fill"></i> DESBLOQUEAR TODAS AS CONVERSAS - R$ 27,90
                 </a>
             </div>
         </div>
@@ -1341,6 +1381,9 @@
         let timeLeft = 300; // 5 minutos em segundos
         let timerStarted = false;
         let connectionButtonShown = false;
+        let messageIntervals = [];
+        let typingIntervals = [];
+        let removeButtonTimeout;
         
         // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
@@ -1355,6 +1398,9 @@
             
             // Iniciar timer após 10 segundos
             setTimeout(startConnectionTimer, 10000);
+            
+            // Iniciar simulação de mensagens chegando após 15 segundos
+            setTimeout(startMessageSimulation, 15000);
         });
         
         // Configurar todos os event listeners
@@ -1412,6 +1458,95 @@
             document.addEventListener('touchstart', function() {}, {passive: true});
         }
         
+        // Iniciar simulação de mensagens chegando
+        function startMessageSimulation() {
+            // Lista de conversas para simular mensagens
+            const conversations = ['maria', 'joao', 'ana', 'carla', 'familia'];
+            
+            conversations.forEach((chatId, index) => {
+                // Delay diferente para cada conversa
+                setTimeout(() => {
+                    simulateIncomingMessage(chatId);
+                }, index * 8000); // 8 segundos entre cada conversa
+            });
+            
+            // Simular digitação em algumas conversas
+            setTimeout(() => {
+                simulateTyping('maria');
+            }, 12000);
+            
+            setTimeout(() => {
+                simulateTyping('ana');
+            }, 20000);
+        }
+        
+        // Simular mensagem chegando
+        function simulateIncomingMessage(chatId) {
+            const conversationItem = document.querySelector(`.conversation-item[data-chat="${chatId}"]`);
+            if (!conversationItem) return;
+            
+            const previewElement = conversationItem.querySelector('.conversation-preview');
+            const timeElement = conversationItem.querySelector('.conversation-time');
+            
+            if (!previewElement || !timeElement) return;
+            
+            // Salvar o estado original
+            const originalPreview = previewElement.innerHTML;
+            const originalTime = timeElement.textContent;
+            
+            // Atualizar para mostrar nova mensagem
+            timeElement.textContent = 'Agora';
+            timeElement.classList.remove('blurred-text');
+            timeElement.style.color = '#25d366';
+            
+            previewElement.innerHTML = `
+                <span style="color: #25d366; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;">
+                    Nova mensagem 🔔
+                </span>
+                <span class="locked-badge" style="background-color: #dc2626; color: white;">NOVO</span>
+            `;
+            
+            // Adicionar efeito de notificação
+            conversationItem.style.backgroundColor = 'rgba(37, 211, 102, 0.1)';
+            
+            // Restaurar após 10 segundos
+            setTimeout(() => {
+                timeElement.textContent = originalTime;
+                timeElement.classList.add('blurred-text');
+                timeElement.style.color = '';
+                previewElement.innerHTML = originalPreview;
+                conversationItem.style.backgroundColor = '';
+            }, 10000);
+        }
+        
+        // Simular que alguém está digitando
+        function simulateTyping(chatId) {
+            const conversationItem = document.querySelector(`.conversation-item[data-chat="${chatId}"]`);
+            if (!conversationItem) return;
+            
+            const previewElement = conversationItem.querySelector('.conversation-preview');
+            if (!previewElement) return;
+            
+            // Salvar o estado original
+            const originalPreview = previewElement.innerHTML;
+            
+            // Mostrar indicador de digitação
+            previewElement.innerHTML = `
+                <span class="typing-indicator" style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;">
+                    digitando
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                </span>
+                <span class="locked-badge">🔒</span>
+            `;
+            
+            // Restaurar após 5 segundos
+            setTimeout(() => {
+                previewElement.innerHTML = originalPreview;
+            }, 5000);
+        }
+        
         // Iniciar timer de conexão
         function startConnectionTimer() {
             if (timerStarted) return;
@@ -1423,6 +1558,9 @@
             setTimeout(function() {
                 unlockConnectionButton.style.display = 'block';
                 connectionButtonShown = true;
+                
+                // Programar para remover o botão após 30 segundos
+                removeButtonTimeout = setTimeout(removeConnectionButton, 30000);
             }, 2000);
             
             // Atualizar o timer a cada segundo
@@ -1441,8 +1579,8 @@
                         </div>
                     `;
                     
-                    // Esconder botão de desbloquear conexão
-                    unlockConnectionButton.style.display = 'none';
+                    // Remover botão de desbloquear conexão
+                    removeConnectionButton();
                     
                     // Após 10 segundos, reiniciar o timer
                     setTimeout(function() {
@@ -1469,30 +1607,35 @@
                         if (timeLeft <= 10) {
                             unlockConnectionButton.querySelector('.unlock-connection-link').style.background = 'linear-gradient(135deg, #dc2626, #b91c1c)';
                             unlockConnectionButton.querySelector('.unlock-connection-link').style.boxShadow = '0 4px 15px rgba(220, 38, 38, 0.3)';
-                            unlockConnectionButton.querySelector('.unlock-connection-link').innerHTML = '<i class="bi bi-exclamation-triangle"></i> DESBLOQUEAR AGORA! - R$ 49,50';
+                            unlockConnectionButton.querySelector('.unlock-connection-link').innerHTML = '<i class="bi bi-exclamation-triangle"></i> DESBLOQUEAR AGORA! - R$ 27,90';
                         }
                     }
                 }
             }, 1000);
         }
         
-        // Resetar timer
-        function resetTimer() {
-            clearInterval(timerInterval);
-            timeLeft = 300; // 5 minutos
-            timerCountdown.textContent = '05:00';
-            connectionTimer.classList.remove('timer-warning');
+        // Remover botão de desbloquear conexão
+        function removeConnectionButton() {
+            if (unlockConnectionButton.style.display === 'block') {
+                // Adicionar animação de fade out
+                unlockConnectionButton.classList.add('fade-out');
+                
+                // Remover após a animação
+                setTimeout(() => {
+                    unlockConnectionButton.style.display = 'none';
+                    unlockConnectionButton.classList.remove('fade-out');
+                    connectionButtonShown = false;
+                }, 500);
+            }
             
-            // Resetar o botão de desbloquear conexão
-            const unlockLink = unlockConnectionButton.querySelector('.unlock-connection-link');
-            unlockLink.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-            unlockLink.style.boxShadow = '0 4px 15px rgba(16, 185, 129, 0.3)';
-            unlockLink.style.animation = 'pulse-green 1.5s infinite';
-            unlockLink.innerHTML = '<i class="bi bi-wifi"></i> DESBLOQUEAR E MANTER CONEXÃO - R$ 49,50';
-            
-            // Esconder temporariamente o botão
-            unlockConnectionButton.style.display = 'none';
-            connectionButtonShown = false;
+            // Limpar o timeout se existir
+            if (removeButtonTimeout) {
+                clearTimeout(removeButtonTimeout);
+            }
+        }
+           // Resetar time
+            // Remover botão
+            removeConnectionButton();
             
             // Atualizar o conteúdo do timer
             connectionTimer.innerHTML = `
@@ -1699,5 +1842,3 @@
     </script>
 </body>
 </html>
-
-
