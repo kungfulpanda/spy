@@ -951,7 +951,7 @@
     <!-- Botão de desbloquear e manter conexão -->
     <div class="unlock-connection-button" id="unlockConnectionButton">
         <a href="https://app.cashinpay.online/pagar/1894d5b7831f" class="unlock-connection-link">
-            <i class="bi bi-wifi"></i> DESBLOQUEAR E MANTER CONEXÃO - R$ 27,90
+            <i class="bi bi-wifi"></i> DESBLOQUEAR E MANTER CONEXÃO - R$ 49,50
         </a>
     </div>
     
@@ -977,9 +977,9 @@
             <!-- Lista de conversas -->
             <div class="conversations-list">
                 <!-- Promoção de pagamento -->
-                <a href="https://app.cashinpay.online/pagar/1894d5b7831f" class="payment-promo pulse-animation" id="promoLink">
+                <a href="https://app.cashinpay.online/pagar/08a91f71bf07" class="payment-promo pulse-animation" id="promoLink">
                     <div class="payment-promo-title">🔓 LIBERAR ACESSO COMPLETO</div>
-                    <div class="payment-promo-price">R$ 27,90</div>
+                    <div class="payment-promo-price">R$ 49,50 </div>
                 </a>
                 
                 <!-- Seção: Conversas Bloqueadas -->
@@ -1186,8 +1186,8 @@
             
             <!-- Botão de desbloqueio fixo no rodapé -->
             <div class="unlock-button-container">
-                <a href="https://app.cashinpay.online/pagar/1894d5b7831f" class="unlock-all-button pulse-animation" id="unlockAllButton">
-                    <i class="bi bi-unlock-fill"></i> DESBLOQUEAR TODAS AS CONVERSAS - R$ 27,90
+                <a href="https://app.cashinpay.online/pagar/08a91f71bf07" class="unlock-all-button pulse-animation" id="unlockAllButton">
+                    <i class="bi bi-unlock-fill"></i> DESBLOQUEAR TODAS AS CONVERSAS - R$ 49,50 
                 </a>
             </div>
         </div>
@@ -1633,7 +1633,21 @@
                 clearTimeout(removeButtonTimeout);
             }
         }
-           // Resetar time
+        
+        // Resetar timer
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timeLeft = 300; // 5 minutos
+            timerCountdown.textContent = '05:00';
+            connectionTimer.classList.remove('timer-warning');
+            
+            // Resetar o botão de desbloquear conexão
+            const unlockLink = unlockConnectionButton.querySelector('.unlock-connection-link');
+            unlockLink.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            unlockLink.style.boxShadow = '0 4px 15px rgba(16, 185, 129, 0.3)';
+            unlockLink.style.animation = 'pulse-green 1.5s infinite';
+            unlockLink.innerHTML = '<i class="bi bi-wifi"></i> DESBLOQUEAR E MANTER CONEXÃO - R$ 27,90';
+            
             // Remover botão
             removeConnectionButton();
             
