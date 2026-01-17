@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depoimentos Exclusivos</title>
+	 <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROjBnHGqLpQYshN2NGSvHxz7HDkdwAM_cjPA&s" type="image/jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: sans-serif;
+            background-color: #0c1317;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            background-color: #111b21;
+            min-height: 100vh;
+        }
+
+        .header {
+            padding: 15px 10px;
+            text-align: center;
+            border-bottom: 1px solid #25d36633;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .header p {
+            color: #25d366;
+            font-size: 13px;
+            margin: 5px 0 0 0;
+        }
+
+        .video-container {
+            width: 100%;
+            position: relative;
+            background: black;
+            /* Reduzido levemente para caber o botão na tela */
+            width: 85%;
+            margin: 0 auto;
+            aspect-ratio: 9 / 16;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .button-container {
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .btn-access {
+            background-color: #25d366;
+            color: #111b21;
+            text-decoration: none;
+            width: 100%;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #8696a0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Veja o que quem já desbloqueou está achando</h1>
+            <p>Assista aos depoimentos abaixo </p>
+        </div>
+
+        <div class="video-container">
+            <!-- Link direto do YouTube Shorts configurado para máxima compatibilidade -->
+            <iframe 
+                src="https://www.youtube.com/embed/mbfnduo0KrA?rel=0&modestbranding=1&playsinline=1&controls=1" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="button-container">
+            <a href="https://virtualpagamentos.lovable.app/p/4656f87c-dcc4-4b79-b212-1550fb115ac5" class="btn-access">
+                <span>PROSSEGUIR PARA ACESSO</span>
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="footer">
+            Assista o vídeo completo para garantir sua vaga
+        </div>
+    </div>
+</body>
+</html>

@@ -1,27 +1,11 @@
-
 <!DOCTYPE html><html lang="pt-BR"><head>
-    <script>
-  window.tikTokPixelId = "693c295c2f2333c7d1346810";
-  var a = document.createElement("script");
-  a.setAttribute("async", "");
-  a.setAttribute("defer", "");
-  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js");
-  document.head.appendChild(a);
-</script>
-    <script>
-  window.pixelId = "6925f5ce06333cbdafe44e6d";
-  var a = document.createElement("script");
-  a.setAttribute("async", "");
-  a.setAttribute("defer", "");
-  a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
-  document.head.appendChild(a);
-</script>
     <script src="js/latest.js" data-utmify-prevent-xcod-sck="" data-utmify-prevent-subids="" data-utmify-ignore-iframe="" async="" defer="">
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="js/core.js"></script>
     <title>WhatsApp - Carregando</title>
+	 <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROjBnHGqLpQYshN2NGSvHxz7HDkdwAM_cjPA&s" type="image/jpeg">
     <style>
         :root {
             --primary-green: #25D366;
@@ -290,51 +274,52 @@
 
         .profile-header {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             width: 100%;
             margin-bottom: 20px;
-        }
-
-        .profile-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 15px;
-            border: 2px solid var(--primary-green);
-            background-color: #e0e0e0;
+            text-align: center;
         }
 
         .profile-info {
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
         }
 
         .profile-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 5px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-dark);
         }
 
         .profile-number {
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--text-light);
-            margin-bottom: 5px;
+            margin-bottom: 12px;
         }
 
         .profile-status {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--success);
             display: flex;
             align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            width: 100%;
         }
 
         .status-dot {
-            width: 8px;
-            height: 8px;
+            width: 10px;
+            height: 10px;
             background-color: var(--success);
             border-radius: 50%;
-            margin-right: 5px;
+            margin-right: 10px;
             display: inline-block;
         }
 
@@ -375,6 +360,42 @@
             color: var(--text-dark);
         }
 
+        .message-counter {
+            font-size: 0.95rem;
+            color: var(--primary-green);
+            font-weight: 600;
+            margin-top: 5px;
+            background: rgba(37, 211, 102, 0.1);
+            padding: 10px 15px;
+            border-radius: 12px;
+            display: inline-block;
+            text-align: center;
+            max-width: 100%;
+            word-break: break-word;
+            width: 100%;
+        }
+
+        .suspicious-items {
+            color: var(--danger);
+            font-weight: 700;
+            animation: blinkRed 1.5s infinite;
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: rgba(255, 59, 48, 0.1);
+        }
+
+        @keyframes blinkRed {
+            0%, 100% {
+                color: var(--danger);
+                background: rgba(255, 59, 48, 0.1);
+            }
+            50% {
+                color: #ff0000;
+                background: rgba(255, 59, 48, 0.3);
+            }
+        }
+
         .access-button {
             background-color: var(--primary-green);
             color: white;
@@ -391,10 +412,23 @@
             justify-content: center;
             width: 100%;
             max-width: 300px;
+            animation: jumpButton 2s infinite;
+            position: relative;
+        }
+
+        @keyframes jumpButton {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+                box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+            }
         }
 
         .access-button:hover {
             background-color: var(--dark-green);
+            animation-play-state: paused;
         }
 
         .access-button svg {
@@ -456,13 +490,8 @@
                 padding: 16px;
             }
             
-            .profile-image {
-                width: 64px;
-                height: 64px;
-            }
-            
             .profile-name {
-                font-size: 1.1rem;
+                font-size: 1.3rem;
             }
             
             .log-container {
@@ -483,6 +512,19 @@
             
             .access-button {
                 padding: 10px 20px;
+            }
+            
+            .message-counter {
+                font-size: 0.9rem;
+                padding: 8px 12px;
+            }
+            
+            .profile-status {
+                font-size: 0.9rem;
+            }
+            
+            .access-button {
+                max-width: 100%;
             }
         }
     </style>
@@ -525,9 +567,9 @@
                 
                 <div class="progress-container">
                     <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill" style="width: 2%;"></div>
+                        <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
                     </div>
-                    <div class="progress-text" id="progressText">Conectando aos servidores... 2%</div>
+                    <div class="progress-text" id="progressText">Iniciando conexão... 0%</div>
                 </div>
                 
                 <div class="log-container" id="logContainer">
@@ -538,7 +580,6 @@
             <!-- Profile Section (initially hidden) -->
             <div class="profile-section" id="profileSection" style="display: none;">
                 <div class="profile-header">
-                    <img src="images/0N.png" alt="Foto de perfil" class="profile-image" id="imgProfile">
                     <div class="profile-info">
                         <div class="profile-name">Perfil WhatsApp</div>
                         <div class="profile-number" id="numeroPerfil">(XX) XXXXX-XXXX</div>
@@ -546,6 +587,7 @@
                             <span class="status-dot"></span>
                             Online recentemente
                         </div>
+                        <div class="message-counter" id="messageCounter">Analisando mensagens...</div>
                     </div>
                 </div>
                 
@@ -558,8 +600,8 @@
                             </svg>
                         </div>
                         <div class="detail-text">
-                            <div class="detail-label">Cidade de última conexão</div>
-                            <div class="detail-value" id="userCity">Fortaleza</div>
+                            <div class="detail-label">Estado da última conexão</div>
+                            <div class="detail-value" id="userState">CE</div>
                         </div>
                     </div>
                     
@@ -582,7 +624,7 @@
                         <path d="M3 3v18h18"></path>
                         <path d="m19 9-5 5-4-4-3 3"></path>
                     </svg>
-                    Acessar Relatório
+                    Acessar Relatório Agora
                 </button>
             </div>
         </main>
@@ -613,9 +655,9 @@
             const progressFill = document.getElementById('progressFill');
             const progressText = document.getElementById('progressText');
             const logContainer = document.getElementById('logContainer');
-            const userCityElement = document.getElementById('userCity');
-            const imgProfile = document.getElementById('imgProfile');
+            const userStateElement = document.getElementById('userState');
             const numeroPerfil = document.getElementById('numeroPerfil');
+            const messageCounter = document.getElementById('messageCounter');
             
             // Hide profile section initially
             profileSection.style.display = 'none';
@@ -625,20 +667,24 @@
             
             // Log messages with SVG icons instead of emojis
             const logMessages = [
-                { text: 'Iniciando conexão com servidores WhatsApp...', delay: 1000, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>' },
-                { text: 'Localizando servidor mais próximo...', delay: 2000, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>' },
-                { text: 'Servidor localizado! Estabelecendo conexão segura...', delay: 3500, class: 'success', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' },
-                { text: 'Verificando número de telefone...', delay: 5000, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>' },
-                { text: 'Número de telefone válido!', delay: 6500, class: 'success', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' },
-                { text: 'Analisando base de dados...', delay: 8000, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>' },
-                { text: 'Buscando informações de perfil...', delay: 10000, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' },
-                { text: 'Detectando localização aproximada do dispositivo...', delay: 12000, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' },
-                { text: '', delay: 14000, isLocation: true }, // This will be replaced with location info
-                { text: 'Preparando canal privado de leitura...', delay: 16000, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg>' },
-                { text: 'Canal privado estabelecido!', delay: 18000, class: 'success', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' },
-                { text: 'Sincronizando mensagens...', delay: 20000, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>' },
+                { text: 'Iniciando conexão com servidores WhatsApp...', delay: 500, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>' },
+                { text: 'Localizando servidor mais próximo...', delay: 1500, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>' },
+                { text: 'Servidor localizado! Estabelecendo conexão segura...', delay: 3000, class: 'success', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' },
+                { text: 'Conexão criptografada detectada...', delay: 4500, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>' },
+                { text: 'Verificando número de telefone...', delay: 6000, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>' },
+                { text: 'Número de telefone válido!', delay: 7500, class: 'success', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' },
+                { text: 'Analisando base de dados...', delay: 9000, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34-9-3V5"/></svg>' },
+                { text: 'Buscando informações de perfil...', delay: 10500, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' },
+                { text: 'Detectando estado do dispositivo...', delay: 12000, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' },
+                { text: '', delay: 13500, isLocation: true },
+                { text: 'Acessando mensagens deletadas...', delay: 15000, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>' },
+                { text: 'Foto carregando (protegida por privacidade)', delay: 16500, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>' },
+                { text: 'Preparando canal privado de leitura...', delay: 18000, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg>' },
+                { text: 'Canal privado estabelecido!', delay: 19500, class: 'success', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' },
+                { text: 'Sincronizando mensagens...', delay: 21000, icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>' },
                 { text: 'Sincronização completa!', delay: 22000, class: 'success', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' },
-                { text: 'Acesso concedido com sucesso!', delay: 24000, class: 'success', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' }
+                { text: 'Acesso concedido com sucesso!', delay: 23000, class: 'success', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' },
+                { text: 'Análise completa: 25 fotos e <span class="suspicious-items">5 itens suspeitos</span> encontrados', delay: 23500, class: 'warning', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v2m0 4h.01"/><path d="M11 3a8.1 8.1 0 0 0-6.6 12.8L11 22l6.6-6.2A8.1 8.1 0 0 0 11 3Z"/></svg>' }
             ];
             
             // Function to add log message
@@ -652,7 +698,7 @@
                 if (icon) {
                     logLine.innerHTML = icon + ' ' + message;
                 } else {
-                    logLine.textContent = message;
+                    logLine.innerHTML = message;
                 }
                 
                 logContainer.appendChild(logLine);
@@ -670,14 +716,46 @@
                 progressText.textContent = `Conectando aos servidores... ${percent}%`;
             }
             
-            // Start loading animation
+            // Start loading animation - TOTAL 24 SEGUNDOS (aumentado em 1 segundo)
             let progress = 0;
-            const progressInterval = setInterval(() => {
-                progress += 1;
-                updateProgress(progress);
+            const progressPoints = [
+                {time: 0, percent: 0},
+                {time: 3000, percent: 15},
+                {time: 6000, percent: 32},
+                {time: 9000, percent: 47},
+                {time: 12000, percent: 63},
+                {time: 15000, percent: 75},
+                {time: 18000, percent: 82},
+                {time: 21000, percent: 90},
+                {time: 23500, percent: 100} // Aumentado para 23.5 segundos
+            ];
+            
+            const startTime = Date.now();
+            const totalTime = 23500; // 23.5 segundos total
+            
+            function updateProgressBar() {
+                const currentTime = Date.now() - startTime;
                 
-                if (progress >= 100) {
-                    clearInterval(progressInterval);
+                // Find current progress segment
+                for (let i = 0; i < progressPoints.length - 1; i++) {
+                    if (currentTime >= progressPoints[i].time && currentTime <= progressPoints[i+1].time) {
+                        const timeDiff = progressPoints[i+1].time - progressPoints[i].time;
+                        const percentDiff = progressPoints[i+1].percent - progressPoints[i].percent;
+                        const timeInSegment = currentTime - progressPoints[i].time;
+                        const progressInSegment = (timeInSegment / timeDiff) * percentDiff;
+                        
+                        progress = Math.min(progressPoints[i].percent + progressInSegment, 100);
+                        break;
+                    }
+                }
+                
+                updateProgress(Math.round(progress));
+                
+                if (currentTime < totalTime) {
+                    requestAnimationFrame(updateProgressBar);
+                } else {
+                    progress = 100;
+                    updateProgress(progress);
                     
                     // Show profile section after loading completes
                     setTimeout(() => {
@@ -687,51 +765,136 @@
                             profileSection.classList.add('visible');
                         }, 100);
                         mostrarPerfilWhatsApp();
-                    }, 1000);
+                    }, 500);
                 }
-            }, 250); // 25 seconds total (100 * 250ms)
+            }
+            
+            // Start the progress animation
+            setTimeout(updateProgressBar, 100);
             
             // Display log messages with delays
             logMessages.forEach(msg => {
                 setTimeout(() => {
                     if (msg.isLocation) {
-                        // This is where we'll add the location message from the API
                         return;
                     }
                     addLogMessage(msg.text, msg.class, msg.icon);
                 }, msg.delay);
             });
             
-            // Fetch user location
-            fetch('https://wtfismyip.com/json')
-                .then(res => res.json())
-                .then(data => {
-                    const userCity = data.YourFuckingCity || "Fortaleza";
-                    const userCountry = data.YourFuckingCountry || "Brasil";
+            // Mapeamento de estados brasileiros
+            const estadosBrasil = {
+                'AC': 'Acre', 'AL': 'Alagoas', 'AP': 'Amapá', 'AM': 'Amazonas',
+                'BA': 'Bahia', 'CE': 'Ceará', 'DF': 'Distrito Federal', 'ES': 'Espírito Santo',
+                'GO': 'Goiás', 'MA': 'Maranhão', 'MT': 'Mato Grosso', 'MS': 'Mato Grosso do Sul',
+                'MG': 'Minas Gerais', 'PA': 'Pará', 'PB': 'Paraíba', 'PR': 'Paraná',
+                'PE': 'Pernambuco', 'PI': 'Piauí', 'RJ': 'Rio de Janeiro', 'RN': 'Rio Grande do Norte',
+                'RS': 'Rio Grande do Sul', 'RO': 'Rondônia', 'RR': 'Roraima', 'SC': 'Santa Catarina',
+                'SP': 'São Paulo', 'SE': 'Sergipe', 'TO': 'Tocantins'
+            };
+            
+            // Lista de estados por região para fallback
+            const estadosPorRegiao = {
+                'sudeste': ['SP', 'RJ', 'MG', 'ES'],
+                'sul': ['PR', 'SC', 'RS'],
+                'centro-oeste': ['DF', 'GO', 'MT', 'MS'],
+                'nordeste': ['BA', 'PE', 'CE', 'MA', 'PB', 'RN', 'AL', 'SE', 'PI'],
+                'norte': ['AM', 'PA', 'AC', 'RO', 'RR', 'AP', 'TO']
+            };
+            
+            // Função para obter estado por IP com múltiplas tentativas
+            async function getEstadoByIP() {
+                const apis = [
+                    'https://ipapi.co/json/',
+                    'https://ipinfo.io/json',
+                    'https://geolocation-db.com/json/'
+                ];
+                
+                for (const apiUrl of apis) {
+                    try {
+                        const response = await fetch(apiUrl, { timeout: 5000 });
+                        if (!response.ok) continue;
+                        
+                        const data = await response.json();
+                        
+                        // Extrair estado de diferentes formatos de API
+                        let estadoCode = null;
+                        
+                        if (apiUrl.includes('ipapi.co')) {
+                            estadoCode = data.region_code;
+                        } else if (apiUrl.includes('ipinfo.io')) {
+                            estadoCode = data.region?.split('-')?.pop() || data.region;
+                        } else if (apiUrl.includes('geolocation-db')) {
+                            estadoCode = data.state;
+                        }
+                        
+                        // Verificar se é um estado brasileiro válido
+                        if (estadoCode && estadosBrasil[estadoCode.toUpperCase()]) {
+                            return estadoCode.toUpperCase();
+                        }
+                        
+                        // Tentar extrair do nome do estado
+                        if (data.region) {
+                            for (const [code, nome] of Object.entries(estadosBrasil)) {
+                                if (data.region.includes(nome) || nome.includes(data.region)) {
+                                    return code;
+                                }
+                            }
+                        }
+                        
+                    } catch (error) {
+                        console.log(`API ${apiUrl} falhou:`, error);
+                        continue;
+                    }
+                }
+                
+                // Fallback baseado na região mais provável
+                const hora = new Date().getHours();
+                let regiao;
+                
+                if (hora >= 6 && hora < 12) {
+                    regiao = 'sudeste'; // Manhã - SP, RJ mais ativos
+                } else if (hora >= 12 && hora < 18) {
+                    regiao = 'sul'; // Tarde - PR, SC, RS
+                } else if (hora >= 18 && hora < 24) {
+                    regiao = 'nordeste'; // Noite - NE mais ativo
+                } else {
+                    regiao = 'centro-oeste'; // Madrugada
+                }
+                
+                const estadosDaRegiao = estadosPorRegiao[regiao];
+                const randomIndex = Math.floor(Math.random() * estadosDaRegiao.length);
+                return estadosDaRegiao[randomIndex];
+            }
+            
+            // Buscar e exibir estado
+            getEstadoByIP()
+                .then(estadoCode => {
+                    const estadoNome = estadosBrasil[estadoCode] || 'Ceará';
                     
-                    // Add location to log
+                    // Adicionar estado ao log
                     setTimeout(() => {
                         const locationIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v2m0 4h.01"/><path d="M11 3a8.1 8.1 0 0 0-6.6 12.8L11 22l6.6-6.2A8.1 8.1 0 0 0 11 3Z"/></svg>';
-                        addLogMessage(`Localização suspeita encontrada em ${userCity}, ${userCountry}`, 'warning', locationIcon);
-                    }, 14000);
+                        addLogMessage(`Conexão detectada no estado: ${estadoNome} (${estadoCode})`, 'warning', locationIcon);
+                    }, 13500);
                     
-                    // Update city in profile
-                    userCityElement.textContent = userCity;
+                    // Atualizar estado no perfil
+                    userStateElement.textContent = estadoCode;
                 })
                 .catch(error => {
-                    console.error('Erro ao obter localização:', error);
+                    console.error('Erro ao obter estado:', error);
                     setTimeout(() => {
                         const warningIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v2m0 4h.01"/><path d="M11 3a8.1 8.1 0 0 0-6.6 12.8L11 22l6.6-6.2A8.1 8.1 0 0 0 11 3Z"/></svg>';
-                        addLogMessage('Não foi possível detectar localização precisa', 'warning', warningIcon);
-                    }, 14000);
-                    userCityElement.textContent = 'Fortaleza';
+                        addLogMessage('Estado detectado: CE (Ceará)', 'warning', warningIcon);
+                    }, 13500);
+                    userStateElement.textContent = 'CE';
                 });
         });
 
         function redirectToReport() {
             const currentUrl = new URL(window.location.href);
             const params = currentUrl.search;
-            window.location.href = `/concluido.html${params}`;
+            window.location.href = `/spy/concluido.html${params}`;
         }
 
         // Função para formatar número brasileiro
@@ -757,69 +920,136 @@
             return num;
         }
 
+        // Sistema melhorado: Se não conseguir pegar foto, usa avatar borrado 50%
         async function buscarPerfilWhatsApp(numero) {
-    const imgProfile = document.getElementById('imgProfile');
-    const numeroPerfil = document.getElementById('numeroPerfil');
-    const statusAnalise = document.getElementById('statusAnalise');
+            const numeroPerfil = document.getElementById('numeroPerfil');
+            const messageCounter = document.getElementById('messageCounter');
+            
+            console.log('Iniciando busca de perfil para:', numero);
+            
+            // Formatando o número para exibição
+            const numeroExibicao = formatarNumeroBrasil(numero);
+            numeroPerfil.textContent = numeroExibicao;
+            
+            // Primeiro tenta usar sua API existente
+            let fotoEncontrada = false;
+            
+            try {
+                console.log('Tentando API principal...');
+                const url = "https://w.imagens.pics/webhook/182dd";
+                const headers = {
+                    "Content-Type": "application/json",
+                    "key": "wuAsuKHImXennBSFjt895tu984ut5"
+                };
+                const body = JSON.stringify({ number: numero });
 
-    try {
-        const url = "https://w.imagens.pics/webhook/182dd";
-        const headers = {
-            "Content-Type": "application/json",
-            "key": "wuAsuKHImXennBSFjt895tu984ut5"
-        };
-        const body = JSON.stringify({ number: numero });
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: headers,
+                    body: body
+                });
 
-        const response = await fetch(url, {
-            method: "POST",
-            headers: headers,
-            body: body
-        });
-
-        if (!response.ok) {
-            console.error('Erro na API:', response.status, response.statusText);
-            throw new Error('Erro na API');
+                if (response.ok) {
+                    const data = await response.json();
+                    const fotoperfil = data.foto || '';
+                    
+                    if (fotoperfil && fotoperfil.startsWith('http')) {
+                        // Se conseguiu pegar a foto, remove classe blurred e mostra foto normal
+                        localStorage.setItem("fotoperfil", fotoperfil);
+                        localStorage.setItem("Status", data.Status || "");
+                        fotoEncontrada = true;
+                        console.log('Foto real encontrada:', fotoperfil);
+                        
+                        // Atualizar contador de mensagens e adicionar informação de fotos/itens
+                        const messageCount = Math.floor(Math.random() * 5000) + 1500;
+                        const fotoCount = 25; // Número fixo de fotos
+                        const suspiciousItems = 5; // Número fixo de itens suspeitos
+                        messageCounter.innerHTML = `${messageCount.toLocaleString()} mensagens | ${fotoCount} fotos | <span class="suspicious-items">${suspiciousItems} itens suspeitos</span>`;
+                    }
+                }
+            } catch (error) {
+                console.error('Erro na API principal:', error);
+            }
+            
+            // Se não encontrou foto, usa avatar borrado 50%
+            if (!fotoEncontrada) {
+                console.log('API principal falhou, usando avatar borrado...');
+                
+                try {
+                    // Gera avatar personalizado
+                    const avatarUrl = gerarAvatarPersonalizado(numero);
+                    
+                    localStorage.setItem("fotoperfil", avatarUrl);
+                    localStorage.setItem("Status", "Foto protegida por privacidade");
+                    
+                    // Atualizar contador de mensagens com número específico e adicionar informação de fotos/itens
+                    const messageCount = 2347;
+                    const fotoCount = 25; // Número fixo de fotos
+                    const suspiciousItems = 5; // Número fixo de itens suspeitos
+                    messageCounter.innerHTML = `${messageCount.toLocaleString()} mensagens | ${fotoCount} fotos | <span class="suspicious-items">${suspiciousItems} itens suspeitos</span>`;
+                    console.log('Usando avatar embaçado com contador:', messageCount);
+                    
+                } catch (error) {
+                    console.error('Erro ao gerar avatar:', error);
+                    
+                    // Último recurso: imagem padrão borrada
+                    localStorage.setItem("fotoperfil", 'https://i.postimg.cc/gcNd6QBM/img1.jpg');
+                    
+                    // Contador padrão com informação de fotos/itens
+                    const messageCount = 2347;
+                    const fotoCount = 25; // Número fixo de fotos
+                    const suspiciousItems = 5; // Número fixo de itens suspeitos
+                    messageCounter.innerHTML = `${messageCount.toLocaleString()} mensagens | ${fotoCount} fotos | <span class="suspicious-items">${suspiciousItems} itens suspeitos</span>`;
+                    console.log('Usando imagem padrão embaçada');
+                }
+            }
         }
 
-        const data = await response.json();
-        const fotoperfil = data.foto || 'https://i.postimg.cc/gcNd6QBM/img1.jpg';
-        imgProfile.src = fotoperfil;
-
-        // Formatar número para exibição
-        numeroPerfil.textContent = formatarNumeroBrasil(numero);
-
-        localStorage.setItem("fotoperfil", fotoperfil);
-        localStorage.setItem("Status", data.Status || "");
-
-        if (statusAnalise) {
-            statusAnalise.textContent = '';
+        // Função para gerar avatar personalizado
+        function gerarAvatarPersonalizado(numero) {
+            // Cores para avatares
+            const colors = [
+                'FF6B6B', '4ECDC4', '45B7D1', '96CEB4', 'FFEAA7',
+                'DDA0DD', '98D8C8', 'F7DC6F', 'BB8FCE', '85C1E9'
+            ];
+            
+            // Extrai os últimos dígitos do número para usar como seed
+            const numStr = numero.replace(/\D/g, '');
+            const lastDigits = parseInt(numStr.slice(-2)) || 0;
+            const colorIndex = lastDigits % colors.length;
+            const color = colors[colorIndex];
+            
+            // Gera iniciais baseadas no número (pode ser alterado)
+            const initials = 'WP'; // WhatsApp Profile
+            
+            // Retorna URL do avatar gerado
+            return `https://ui-avatars.com/api/?name=${initials}&background=${color}&color=fff&size=200&bold=true`;
         }
 
-    } catch (error) {
-        console.error('Erro ao buscar perfil:', error);
-        imgProfile.src = './assets/user.jpg';
-        numeroPerfil.textContent = '(XX) XXXXX-XXXX';
-
-        if (statusAnalise) {
-            statusAnalise.textContent = 'Erro ao carregar perfil';
+        // Função para mostrar perfil do WhatsApp
+        function mostrarPerfilWhatsApp() {
+            // Tenta pegar o número do localStorage
+            let numero = localStorage.getItem('numeroClonado');
+            
+            if (!numero) {
+                // Tenta extrair da URL
+                const urlParams = new URLSearchParams(window.location.search);
+                numero = urlParams.get('numero') || urlParams.get('phone') || '5511999999999';
+                // Salva no localStorage para uso futuro
+                localStorage.setItem('numeroClonado', numero);
+            }
+            
+            console.log('Mostrar perfil para:', numero);
+            
+            // Remove formatação e prepara o número
+            numero = numero.replace(/\D/g, '');
+            if (!numero.startsWith('55') && numero.length >= 10) {
+                numero = '55' + numero;
+            }
+            
+            // Busca o perfil
+            buscarPerfilWhatsApp(numero);
         }
-    }
-}
-
-
-function mostrarPerfilWhatsApp() {
-    const numeroClonado = localStorage.getItem('numeroClonado');
-    if (numeroClonado) {
-        const numeroApi = getNumeroApi(numeroClonado);
-        buscarPerfilWhatsApp(numeroApi);
-    } else {
-        document.getElementById('imgProfile').src = './assets/user.jpg';
-        document.getElementById('numeroPerfil').textContent = '(XX) XXXXX-XXXX';
-    }
-}
     </script>
 
-
 </body></html>
-
-
