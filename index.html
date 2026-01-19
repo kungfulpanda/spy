@@ -23,6 +23,7 @@
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
             --safe-area-inset-top: env(safe-area-inset-top);
             --safe-area-inset-bottom: env(safe-area-inset-bottom);
+            --app-download-color: #25D366;
         }
 
         * {
@@ -180,7 +181,7 @@
         /* Subtítulo */
         .subtitle {
             font-size: 1rem;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             color: var(--text-light);
             max-width: 100%;
             font-weight: 500;
@@ -189,17 +190,17 @@
             letter-spacing: 0.15px;
         }
 
-        /* Botão Principal */
-        .main-button {
-            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+        /* Botão de Download do App */
+        .app-download-button {
+            background: linear-gradient(135deg, var(--app-download-color) 0%, var(--dark-green) 100%);
             border: 3px solid #000000;
             border-radius: 16px;
-            padding: 22px 32px;
+            padding: 22px 24px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.2);
             transition: var(--transition);
             color: var(--white);
             position: relative;
@@ -211,15 +212,15 @@
             letter-spacing: -0.01em;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             margin-bottom: 12px;
+            text-decoration: none;
         }
 
-        .main-button:active {
-            animation: none;
+        .app-download-button:active {
             transform: scale(0.95);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.15);
         }
 
-        .main-button-icon {
+        .app-download-icon {
             width: 56px;
             height: 56px;
             background-color: var(--white);
@@ -232,20 +233,20 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .main-button-icon svg {
+        .app-download-icon svg {
             width: 30px;
             height: 30px;
-            fill: var(--primary-green) !important;
+            fill: var(--app-download-color);
         }
 
-        .main-button-text {
+        .app-download-text {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             text-align: left;
         }
 
-        .main-button-label {
+        .app-download-label {
             font-size: 0.8rem;
             font-weight: 700;
             opacity: 0.95;
@@ -254,7 +255,7 @@
             font-family: 'Outfit', sans-serif;
         }
 
-        .main-button-action {
+        .app-download-action {
             font-size: 1.2rem;
             font-weight: 900;
             font-family: 'Outfit', sans-serif;
@@ -402,7 +403,7 @@
             animation: fadeIn 0.6s ease-out forwards;
         }
 
-        /* Pulse no botão - Intensificado */
+        /* Pulse no botão de download */
         @keyframes buttonPulse {
             0% {
                 box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 0 0 0 rgba(37, 211, 102, 0.4);
@@ -426,93 +427,8 @@
             }
         }
 
-        .main-button {
+        .app-download-button {
             animation: buttonPulse 2.5s ease-in-out infinite;
-        }
-
-        /* Contador de Escassez */
-        .scarcity-counter {
-            background: linear-gradient(135deg, #FF6B35 0%, #E63946 100%);
-            color: white;
-            padding: 10px 16px;
-            border-radius: 10px;
-            margin-bottom: 12px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            font-family: 'Outfit', sans-serif;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            animation: scarcityPulse 2s ease-in-out infinite;
-        }
-
-        .scarcity-icon {
-            width: 18px;
-            height: 18px;
-            fill: white;
-            animation: scarcityShake 0.5s infinite;
-        }
-
-        .scarcity-text {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .scarcity-label {
-            font-weight: 600;
-        }
-
-        .timer-display {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            font-family: 'Outfit', sans-serif;
-        }
-
-        .timer-unit {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 4px 8px;
-            border-radius: 6px;
-            min-width: 40px;
-        }
-
-        .timer-number {
-            font-weight: 900;
-            font-size: 1rem;
-        }
-
-        .timer-label {
-            font-size: 0.65rem;
-            font-weight: 600;
-            opacity: 0.9;
-        }
-
-        .timer-separator {
-            font-weight: 900;
-            opacity: 0.8;
-        }
-
-        @keyframes scarcityPulse {
-            0%, 100% {
-                box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
-            }
-            50% {
-                box-shadow: 0 6px 18px rgba(230, 57, 70, 0.5);
-            }
-        }
-
-        @keyframes scarcityShake {
-            0%, 100% { transform: rotate(0deg); }
-            25% { transform: rotate(-15deg); }
-            75% { transform: rotate(15deg); }
         }
 
         /* Tablet */
@@ -540,32 +456,32 @@
 
             .subtitle {
                 font-size: 1.1rem;
-                margin-bottom: 12px;
+                margin-bottom: 24px;
             }
 
-            .main-button {
+            .app-download-button {
                 padding: 24px 40px;
                 min-height: 74px;
                 font-size: 1.25rem;
                 margin-bottom: 12px;
             }
 
-            .main-button-icon {
+            .app-download-icon {
                 width: 60px;
                 height: 60px;
                 margin-right: 18px;
             }
 
-            .main-button-icon svg {
+            .app-download-icon svg {
                 width: 32px;
                 height: 32px;
             }
 
-            .main-button-label {
+            .app-download-label {
                 font-size: 0.9rem;
             }
 
-            .main-button-action {
+            .app-download-action {
                 font-size: 1.3rem;
             }
 
@@ -599,11 +515,11 @@
 
             .subtitle {
                 font-size: 1.3rem;
-                margin-bottom: 14px;
+                margin-bottom: 28px;
                 max-width: 750px;
             }
 
-            .main-button {
+            .app-download-button {
                 padding: 28px 48px;
                 min-height: 82px;
                 font-size: 1.4rem;
@@ -611,27 +527,27 @@
                 max-width: 650px;
             }
 
-            .main-button:hover {
+            .app-download-button:hover {
                 transform: translateY(-2px);
                 box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
             }
 
-            .main-button-icon {
+            .app-download-icon {
                 width: 72px;
                 height: 72px;
                 margin-right: 24px;
             }
 
-            .main-button-icon svg {
+            .app-download-icon svg {
                 width: 38px;
                 height: 38px;
             }
 
-            .main-button-label {
+            .app-download-label {
                 font-size: 0.95rem;
             }
 
-            .main-button-action {
+            .app-download-action {
                 font-size: 1.45rem;
             }
 
@@ -681,49 +597,23 @@
     <div class="container">
         <main class="main-content">
             <!-- Title -->
-            <h1 class="title">Monitoramento <span class="highlight">Total</span> do WhatsApp</h1>
+            <h1 class="title">WhatsMonitor App</h1>
             
             <!-- Subtitle -->
-            <p class="subtitle">Acesso completo em apenas 5 minutos</p>
+            <p class="subtitle">Baixe agora o aplicativo para monitoramento completo do WhatsApp</p>
 
-            <!-- Contador de Escassez -->
-            <div class="scarcity-counter">
-                <svg class="scarcity-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-                </svg>
-                <div class="scarcity-text">
-                    <span class="scarcity-label">Tempo restante:</span>
-                    <div class="timer-display" id="timerDisplay">
-                        <div class="timer-unit">
-                            <div class="timer-number" id="hours">00</div>
-                            <div class="timer-label">h</div>
-                        </div>
-                        <div class="timer-separator">:</div>
-                        <div class="timer-unit">
-                            <div class="timer-number" id="minutes">00</div>
-                            <div class="timer-label">m</div>
-                        </div>
-                        <div class="timer-separator">:</div>
-                        <div class="timer-unit">
-                            <div class="timer-number" id="seconds">00</div>
-                            <div class="timer-label">s</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Main CTA Button -->
-            <button id="monitorarWhatsApp" class="main-button" aria-label="Começar monitoramento agora">
-                <div class="main-button-icon">
+            <!-- Botão de Download do App -->
+            <a href="https://exemplo.com/app/whatsmonitor.apk" class="app-download-button" download aria-label="Baixar aplicativo WhatsMonitor">
+                <div class="app-download-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M12 5.9c1.16 0 2.1.94 2.1 2.1s-.94 2.1-2.1 2.1S9.9 9.16 9.9 8s.94-2.1 2.1-2.1m0 9c2.97 0 6.1 1.46 6.1 2.1v1.1H5.9V17c0-.64 3.13-2.1 6.1-2.1M12 4C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 9c-2.67 0-8 1.34-8 4v3h16v-3c0-2.66-5.33-4-8-4z"/>
+                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
                     </svg>
                 </div>
-                <div class="main-button-text">
-                    <span class="main-button-label">Começar Agora</span>
-                    <span class="main-button-action">Acesso Imediato</span>
+                <div class="app-download-text">
+                    <span class="app-download-label">Baixar Agora</span>
+                    <span class="app-download-action">Aplicativo WhatsMonitor</span>
                 </div>
-            </button>
+            </a>
 
             <!-- Social Proof -->
             <div class="social-proof">
@@ -768,7 +658,7 @@
                 <div class="notification-avatar">${randomName.initials}</div>
                 <div class="notification-text">
                     <div class="notification-name">${randomName.name}</div>
-                    <div class="notification-action">obteve acesso agora</div>
+                    <div class="notification-action">baixou o aplicativo agora</div>
                 </div>
             `;
             
@@ -789,58 +679,23 @@
         // Criar primeira notificação após 3 segundos
         setTimeout(createNotification, 3000);
 
-        // Timer de Escassez
-        function updateTimer() {
-            const now = new Date().getTime();
-            const endOfDay = new Date();
-            endOfDay.setHours(23, 59, 59, 999);
-            const timeLeft = endOfDay.getTime() - now;
-
-            if (timeLeft > 0) {
-                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-
-                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
-                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
-                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
-            }
-        }
-
-        // Atualizar timer a cada segundo
-        updateTimer();
-        setInterval(updateTimer, 1000);
-
         document.addEventListener('DOMContentLoaded', function () {
-            // Contador de Vagas (Escassez)
-            let vagasDisponiveis = 12;
-            function updateVagasCounter() {
-                const randomDecrement = Math.random() > 0.7 ? 1 : 0;
-                if (vagasDisponiveis > 2 && randomDecrement) {
-                    vagasDisponiveis--;
-                }
-            }
-            setInterval(updateVagasCounter, 15000);
-
-            // CTA Button Handler
-            const monitorarWhatsAppCard = document.getElementById('monitorarWhatsApp');
-
-            monitorarWhatsAppCard.addEventListener('click', function () {
-                handleSelection('whatsapp-android');
-            });
-
-            function handleSelection(tipo) {
-                localStorage.setItem('tipoMonitoramento', tipo);
-                localStorage.setItem('monitoramentoWhatsApp', 'true');
-
-                const urlParams = new URLSearchParams(window.location.search);
-                const baseUrl = `${window.location.origin}/numero.html`;
-                const finalUrl = urlParams.toString() ? `${baseUrl}?${urlParams.toString()}` : baseUrl;
-
-                window.location.href = finalUrl;
+            // Handler para o botão de download do app
+            const appDownloadButton = document.querySelector('.app-download-button');
+            if (appDownloadButton) {
+                appDownloadButton.addEventListener('click', function(e) {
+                    // Você pode adicionar analytics ou lógica adicional aqui
+                    console.log('Download do app iniciado');
+                    // O download já ocorrerá naturalmente pelo atributo 'download' e 'href'
+                    
+                    // Opcional: adicionar tracking
+                    // gtag('event', 'download', {
+                    //     'event_category': 'app',
+                    //     'event_label': 'whatsmonitor_app'
+                    // });
+                });
             }
         });
     </script>
 </body>
 </html>
-
