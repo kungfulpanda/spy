@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <script src="js/latest.js" data-utmify-prevent-xcod-sck="" data-utmify-prevent-subids="" data-utmify-ignore-iframe="" async="" defer=""></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#25D366">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="js/core.js"></script>
+    <title>WhatsMonitor - Consultoria Especializada</title>
+    <style>
+        :root {
+            --primary-green: #25D366;
+            --dark-green: #128C7E;
+            --text-dark: #1a1a1a;
+            --text-light: #666666;
+            --white: #ffffff;
+            --gray-light: #f5f5f5;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --safe-area-inset-top: env(safe-area-inset-top);
+            --safe-area-inset-bottom: env(safe-area-inset-bottom);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--white);
+            color: var(--text-dark);
+            font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-weight: 500;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            line-height: 1.65;
+            letter-spacing: 0.25px;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            padding-top: calc(12px + var(--safe-area-inset-top));
+            background-color: var(--white);
+            border-bottom: 1px solid #f0f0f0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.98);
+        }
+
+        .menu-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: var(--transition);
+            min-width: 44px;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-button:active {
+            background-color: var(--gray-light);
+        }
+
+        .menu-button svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--text-dark);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--dark-green);
+            flex: 1;
+            text-align: center;
+            letter-spacing: -0.2px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .logo svg {
+            height: 24px;
+            margin-right: 6px;
+        }
+
+        .download-button {
+            background-color: var(--primary-green);
+            border: 2px solid #000000;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 2px 8px rgba(37, 211, 102, 0.2);
+            position: relative;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+        .download-button:active {
+            background-color: var(--dark-green);
+            transform: scale(0.95);
+        }
+
+        .download-button svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--white);
+        }
+
+        /* Main Container */
+        .container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 16px;
+            padding-bottom: calc(16px + var(--safe-area-inset-bottom));
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: auto;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            padding: 6px 0 20px 0;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Título Principal */
+        .title {
+            font-size: 2rem;
+            margin-bottom: 4px;
+            color: #000000;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.025em;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .title .highlight {
+            color: var(--primary-green);
+        }
+
+        /* Subtítulo */
+        .subtitle {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: var(--text-light);
+            max-width: 100%;
+            font-weight: 500;
+            line-height: 1.55;
+            font-family: 'Geist', sans-serif;
+            letter-spacing: 0.15px;
+        }
+
+        /* Botão Principal */
+        .main-button {
+            background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
+            border: 3px solid #000000;
+            border-radius: 16px;
+            padding: 22px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: var(--transition);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+            min-height: 68px;
+            width: 100%;
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 12px;
+            text-decoration: none;
+        }
+
+        .main-button:active {
+            animation: none;
+            transform: scale(0.95);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+
+        .main-button-icon {
+            width: 56px;
+            height: 56px;
+            background-color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-button-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: var(--primary-green) !important;
+        }
+
+        .main-button-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+        }
+
+        .main-button-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            opacity: 0.95;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .main-button-action {
+            font-size: 1.2rem;
+            font-weight: 900;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Prova Social */
+        .social-proof {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            width: 100%;
+            margin-top: 12px;
+        }
+
+        .proof-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.85rem;
+            font-family: 'Geist', sans-serif;
+            letter-spacing: 0.15px;
+        }
+
+        .proof-item svg {
+            width: 16px;
+            height: 16px;
+            fill: var(--primary-green);
+        }
+
+        .proof-number {
+            color: var(--primary-green);
+            font-weight: 900;
+        }
+
+        /* Notificações de Prova Social */
+        .notification-container {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 300px;
+        }
+
+        .notification {
+            background: var(--white);
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 12px 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            animation: slideInLeft 0.5s ease-out forwards;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'Geist', sans-serif;
+            color: var(--text-dark);
+        }
+
+        .notification-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .notification-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .notification-name {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .notification-action {
+            font-weight: 500;
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOutLeft {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+        }
+
+        .notification.fade-out {
+            animation: slideOutLeft 0.5s ease-out forwards;
+        }
+
+        @media (max-width: 480px) {
+            .notification-container {
+                bottom: 10px;
+                left: 10px;
+                right: 10px;
+                max-width: none;
+            }
+        }
+
+        /* Animações */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .main-content > * {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        /* Pulse no botão - Intensificado */
+        @keyframes buttonPulse {
+            0% {
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 0 0 0 rgba(37, 211, 102, 0.4);
+                transform: scale(1);
+            }
+            25% {
+                box-shadow: 0 8px 28px rgba(37, 211, 102, 0.4), 0 0 0 8px rgba(37, 211, 102, 0.2);
+                transform: scale(1.02);
+            }
+            50% {
+                box-shadow: 0 12px 36px rgba(37, 211, 102, 0.5), 0 0 0 16px rgba(37, 211, 102, 0.1);
+                transform: scale(1.04);
+            }
+            75% {
+                box-shadow: 0 8px 28px rgba(37, 211, 102, 0.4), 0 0 0 8px rgba(37, 211, 102, 0.2);
+                transform: scale(1.02);
+            }
+            100% {
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 0 0 0 rgba(37, 211, 102, 0.4);
+                transform: scale(1);
+            }
+        }
+
+        .main-button {
+            animation: buttonPulse 2.5s ease-in-out infinite;
+        }
+
+        /* Contador de Escassez */
+        .scarcity-counter {
+            background: linear-gradient(135deg, #FF6B35 0%, #E63946 100%);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            font-family: 'Outfit', sans-serif;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            animation: scarcityPulse 2s ease-in-out infinite;
+        }
+
+        .scarcity-icon {
+            width: 18px;
+            height: 18px;
+            fill: white;
+            animation: scarcityShake 0.5s infinite;
+        }
+
+        .scarcity-text {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .scarcity-label {
+            font-weight: 600;
+        }
+
+        .timer-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .timer-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 6px;
+            min-width: 40px;
+        }
+
+        .timer-number {
+            font-weight: 900;
+            font-size: 1rem;
+        }
+
+        .timer-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .timer-separator {
+            font-weight: 900;
+            opacity: 0.8;
+        }
+
+        @keyframes scarcityPulse {
+            0%, 100% {
+                box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+            }
+            50% {
+                box-shadow: 0 6px 18px rgba(230, 57, 70, 0.5);
+            }
+        }
+
+        @keyframes scarcityShake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg); }
+            75% { transform: rotate(15deg); }
+        }
+
+        /* Tablet */
+        @media (min-width: 480px) {
+            .header {
+                padding: 14px 24px;
+                padding-top: calc(14px + var(--safe-area-inset-top));
+            }
+
+            .container {
+                padding: 0 24px;
+                padding-bottom: calc(24px + var(--safe-area-inset-bottom));
+            }
+
+            .main-content {
+                padding: 8px 0 20px 0;
+                max-width: 600px;
+            }
+
+            .title {
+                font-size: 2.4rem;
+                margin-bottom: 6px;
+                font-weight: 800;
+            }
+
+            .subtitle {
+                font-size: 1.1rem;
+                margin-bottom: 12px;
+            }
+
+            .main-button {
+                padding: 24px 40px;
+                min-height: 74px;
+                font-size: 1.25rem;
+                margin-bottom: 12px;
+            }
+
+            .main-button-icon {
+                width: 60px;
+                height: 60px;
+                margin-right: 18px;
+            }
+
+            .main-button-icon svg {
+                width: 32px;
+                height: 32px;
+            }
+
+            .main-button-label {
+                font-size: 0.9rem;
+            }
+
+            .main-button-action {
+                font-size: 1.3rem;
+            }
+
+            .proof-item {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Desktop */
+        @media (min-width: 768px) {
+            .header {
+                padding: 18px 28px;
+                padding-top: calc(18px + var(--safe-area-inset-top));
+            }
+
+            .container {
+                padding: 0 24px;
+                padding-bottom: calc(24px + var(--safe-area-inset-bottom));
+                min-height: calc(100vh - 84px);
+            }
+
+            .main-content {
+                padding: 10px 0 20px 0;
+            }
+
+            .title {
+                font-size: 3.2rem;
+                margin-bottom: 8px;
+                font-weight: 800;
+            }
+
+            .subtitle {
+                font-size: 1.3rem;
+                margin-bottom: 14px;
+                max-width: 750px;
+            }
+
+            .main-button {
+                padding: 28px 48px;
+                min-height: 82px;
+                font-size: 1.4rem;
+                margin-bottom: 16px;
+                max-width: 650px;
+            }
+
+            .main-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+            }
+
+            .main-button-icon {
+                width: 72px;
+                height: 72px;
+                margin-right: 24px;
+            }
+
+            .main-button-icon svg {
+                width: 38px;
+                height: 38px;
+            }
+
+            .main-button-label {
+                font-size: 0.95rem;
+            }
+
+            .main-button-action {
+                font-size: 1.45rem;
+            }
+
+            .proof-item {
+                font-size: 1rem;
+            }
+        }
+
+        /* Acessibilidade */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <button class="menu-button" aria-label="Menu">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
+            </svg>
+        </button>
+
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.264 8.264 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.183 8.183 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43s.17-.25.25-.41c.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18s-.22-.16-.47-.28z"/>
+            </svg>
+            WhatsMonitor
+        </div>
+
+        <button class="download-button" aria-label="Download">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.264 8.264 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.183 8.183 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43s.17-.25.25-.41c.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18s-.22-.16-.47-.28z"/>
+            </svg>
+        </button>
+    </header>
+
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <main class="main-content">
+            <!-- Title -->
+            <h1 class="title">Consultoria <span class="highlight">Especializada</span> WhatsApp</h1>
+            
+            <!-- Subtitle -->
+            <p class="subtitle">Fale agora com nosso especialista e tire todas as suas dúvidas</p>
+
+            <!-- Contador de Escassez -->
+            <div class="scarcity-counter">
+                <svg class="scarcity-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                </svg>
+                <div class="scarcity-text">
+                    <span class="scarcity-label">Atendimento disponível por:</span>
+                    <div class="timer-display" id="timerDisplay">
+                        <div class="timer-unit">
+                            <div class="timer-number" id="hours">04</div>
+                            <div class="timer-label">h</div>
+                        </div>
+                        <div class="timer-separator">:</div>
+                        <div class="timer-unit">
+                            <div class="timer-number" id="minutes">30</div>
+                            <div class="timer-label">m</div>
+                        </div>
+                        <div class="timer-separator">:</div>
+                        <div class="timer-unit">
+                            <div class="timer-number" id="seconds">00</div>
+                            <div class="timer-label">s</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main CTA Button -->
+            <a href="https://wa.me/5511999999999?text=Olá!%20Gostaria%20de%20falar%20com%20um%20especialista%20sobre%20monitoramento%20do%20WhatsApp" 
+               target="_blank" 
+               class="main-button" 
+               id="whatsappButton" 
+               aria-label="Falar com especialista no WhatsApp agora">
+                <div class="main-button-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M19.05 4.91A9.816 9.816 0 0 0 12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01zm-7.01 15.24c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.264 8.264 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24 2.2 0 4.27.86 5.82 2.42a8.183 8.183 0 0 1 2.41 5.83c.02 4.54-3.68 8.23-8.22 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.17.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43s.17-.25.25-.41c.08-.17.04-.31-.02-.43s-.56-1.34-.76-1.84c-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18s-.22-.16-.47-.28z"/>
+                    </svg>
+                </div>
+                <div class="main-button-text">
+                    <span class="main-button-label">Falar com Especialista</span>
+                    <span class="main-button-action">WhatsApp Imediato</span>
+                </div>
+            </a>
+
+            <!-- Social Proof -->
+            <div class="social-proof">
+                <div class="proof-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                    </svg>
+                    <span><span class="proof-number">15K+</span> clientes atendidos</span>
+                </div>
+                <div class="proof-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                    </svg>
+                    <span><span class="proof-number">4.8/5</span> satisfação</span>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Nomes e iniciais para notificações
+        const names = [
+            { name: 'João Silva', initials: 'JS' },
+            { name: 'Maria Santos', initials: 'MS' },
+            { name: 'Pedro Costa', initials: 'PC' },
+            { name: 'Ana Oliveira', initials: 'AO' },
+            { name: 'Carlos Mendes', initials: 'CM' },
+            { name: 'Lucia Ferreira', initials: 'LF' },
+            { name: 'Bruno Alves', initials: 'BA' },
+            { name: 'Fernanda Dias', initials: 'FD' },
+            { name: 'Roberto Lima', initials: 'RL' },
+            { name: 'Juliana Rocha', initials: 'JR' }
+        ];
+
+        function createNotification() {
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            const container = document.getElementById('notificationContainer');
+            
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <div class="notification-avatar">${randomName.initials}</div>
+                <div class="notification-text">
+                    <div class="notification-name">${randomName.name}</div>
+                    <div class="notification-action">acabou de falar com nosso especialista</div>
+                </div>
+            `;
+            
+            container.appendChild(notification);
+            
+            // Remove notificação após 5 segundos
+            setTimeout(() => {
+                notification.classList.add('fade-out');
+                setTimeout(() => {
+                    notification.remove();
+                }, 500);
+            }, 5000);
+        }
+
+        // Criar notificações a cada 8 segundos
+        setInterval(createNotification, 8000);
+        
+        // Criar primeira notificação após 3 segundos
+        setTimeout(createNotification, 3000);
+
+        // Timer de Escassez - 4 horas e 30 minutos a partir do momento atual
+        function updateTimer() {
+            const now = new Date();
+            const endTime = new Date();
+            
+            // Define o horário de término (4 horas e 30 minutos a partir de agora)
+            endTime.setHours(now.getHours() + 4);
+            endTime.setMinutes(now.getMinutes() + 30);
+            endTime.setSeconds(now.getSeconds());
+            
+            const timeLeft = endTime.getTime() - now.getTime();
+
+            if (timeLeft > 0) {
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+            } else {
+                // Reset para 4:30:00 quando o tempo acaba
+                document.getElementById('hours').textContent = '04';
+                document.getElementById('minutes').textContent = '30';
+                document.getElementById('seconds').textContent = '00';
+            }
+        }
+
+        // Atualizar timer a cada segundo
+        updateTimer();
+        setInterval(updateTimer, 1000);
+
+        // Botão do WhatsApp - Função de tracking (opcional)
+        document.addEventListener('DOMContentLoaded', function () {
+            const whatsappButton = document.getElementById('whatsappButton');
+            
+            // Adiciona evento de clique para tracking (se necessário)
+            whatsappButton.addEventListener('click', function() {
+                // Aqui você pode adicionar código de tracking (Google Analytics, Facebook Pixel, etc.)
+                console.log('Botão do WhatsApp clicado - Redirecionando para especialista');
+                
+                // Exemplo de tracking com gtag (se estiver configurado):
+                // if (typeof gtag !== 'undefined') {
+                //     gtag('event', 'whatsapp_click', {
+                //         'event_category': 'conversion',
+                //         'event_label': 'especialista_whatsapp'
+                //     });
+                // }
+            });
+        });
+    </script>
+</body>
+</html>
