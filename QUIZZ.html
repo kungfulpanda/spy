@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WhatsMonitor - Descubra a Verdade Agora</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+	 <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROjBnHGqLpQYshN2NGSvHxz7HDkdwAM_cjPA&s" type="image/jpeg">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        :root {
+            --primary: #FF3B5C;
+            --primary-dark: #E62E4D;
+            --secondary: #6C63FF;
+            --dark: #121212;
+            --darker: #0A0A0A;
+            --light: #F8F9FA;
+            --gray: #6C757D;
+            --white: #FFFFFF;
+            --success: #00C851;
+            --warning: #FFBB33;
+            --danger: #FF4444;
+            
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            --shadow-heavy: 0 8px 30px rgba(0, 0, 0, 0.25);
+            --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.1);
+            
+            --radius: 12px;
+            --radius-lg: 20px;
+            --radius-full: 50px;
+            
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%);
+            color: var(--white);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .app-container {
+            max-width: 500px;
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            background: var(--darker);
+            box-shadow: 0 0 100px rgba(255, 59, 92, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Main Content - Layout compacto SEM header */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Mini Header compacto */
+        .mini-header {
+            padding: 10px 0;
+            margin-bottom: 15px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            flex-shrink: 0;
+        }
+
+        .mini-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .mini-logo {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .mini-logo i {
+            font-size: 16px;
+            color: var(--white);
+        }
+
+        .mini-title {
+            font-weight: 800;
+            font-size: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        /* Progress Bar compacta */
+        .progress-container {
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .progress-title {
+            font-size: 12px;
+            color: var(--gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .progress-percent {
+            font-weight: 800;
+            font-size: 14px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .progress-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+            width: 0%;
+            transition: width 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Content Area - Altura fixa para caber tudo */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            min-height: 0;
+            scroll-behavior: smooth;
+        }
+
+        /* Question Card compacto */
+        .question-card {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.9) 0%, rgba(20, 20, 20, 0.95) 100%);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .question-number {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .question-title {
+            font-size: 18px;
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+
+        /* Options compactas */
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+            padding: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option-card:hover {
+            border-color: rgba(255, 59, 92, 0.3);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-light);
+        }
+
+        .option-card.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(255, 59, 92, 0.1), rgba(108, 99, 255, 0.05));
+            box-shadow: 0 4px 15px rgba(255, 59, 92, 0.2);
+        }
+
+        .option-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .option-card[data-type="family"] .option-icon {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .option-card[data-type="business"] .option-icon {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+        }
+
+        .option-card[data-type="relationship"] .option-icon {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+        }
+
+        .option-card[data-type="recovery"] .option-icon {
+            background: linear-gradient(135deg, #f6d365, #fda085);
+        }
+
+        .option-icon i {
+            font-size: 18px;
+            color: white;
+        }
+
+        .option-content {
+            flex: 1;
+        }
+
+        .option-title {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--white);
+            margin-bottom: 4px;
+        }
+
+        .option-description {
+            font-size: 11px;
+            color: var(--gray);
+            line-height: 1.3;
+        }
+
+        .option-check {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .option-card.selected .option-check {
+            border-color: var(--primary);
+            background: var(--primary);
+        }
+
+        .option-card.selected .option-check::after {
+            content: '✓';
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        /* Answer Options compactas */
+        .answer-option {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius);
+            padding: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .answer-option:hover {
+            border-color: rgba(255, 59, 92, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .answer-option.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(255, 59, 92, 0.1), rgba(108, 99, 255, 0.05));
+            box-shadow: 0 4px 15px rgba(255, 59, 92, 0.2);
+        }
+
+        .answer-text {
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--white);
+            margin-bottom: 6px;
+        }
+
+        .answer-description {
+            font-size: 11px;
+            color: var(--gray);
+            line-height: 1.3;
+        }
+
+        /* Navigation - Compacto e sempre visível */
+        .navigation {
+            background: linear-gradient(to top, rgba(10, 10, 10, 0.95), rgba(0, 0, 0, 0.98));
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            flex-shrink: 0;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 16px;
+            border-radius: var(--radius);
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .btn-prev {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--gray);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-prev:hover:not(:disabled) {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--white);
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(255, 59, 92, 0.3);
+        }
+
+        .btn-next:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 59, 92, 0.4);
+            background: linear-gradient(135deg, var(--primary-dark), #D41C40);
+        }
+
+        .btn-next:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.3);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        /* Result Screen - Ultra compacto */
+        .result-screen {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .result-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px 0;
+            min-height: 0;
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .result-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            box-shadow: 0 8px 20px rgba(255, 59, 92, 0.3);
+        }
+
+        .result-icon i {
+            font-size: 24px;
+            color: white;
+        }
+
+        .result-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .result-subtitle {
+            font-size: 12px;
+            color: var(--gray);
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        /* Profile Result ultra compacto */
+        .profile-result {
+            background: linear-gradient(135deg, rgba(30, 30, 30, 0.9) 0%, rgba(20, 20, 20, 0.95) 100%);
+            border-radius: var(--radius);
+            padding: 15px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .profile-icon {
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .profile-icon i {
+            font-size: 16px;
+            color: white;
+        }
+
+        .profile-title {
+            font-weight: 800;
+            font-size: 14px;
+            color: var(--white);
+        }
+
+        .profile-description {
+            font-size: 11px;
+            color: var(--gray);
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-item {
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+
+        .feature-item i {
+            color: var(--primary);
+            font-size: 10px;
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+
+        .feature-text {
+            font-size: 11px;
+            color: var(--white);
+            line-height: 1.3;
+        }
+
+        /* Critical Alert compacto */
+        .critical-alert {
+            background: linear-gradient(135deg, rgba(255, 59, 92, 0.1), rgba(108, 99, 255, 0.05));
+            border-left: 3px solid var(--primary);
+            border-radius: var(--radius);
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .alert-title {
+            font-weight: 800;
+            font-size: 12px;
+            color: var(--primary);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .alert-title i {
+            font-size: 14px;
+        }
+
+        .alert-text {
+            font-size: 11px;
+            color: var(--white);
+            line-height: 1.3;
+        }
+
+        /* Urgency Badge compacto */
+        .urgency-badge {
+            background: linear-gradient(135deg, #ff3333, #cc0000);
+            color: white;
+            padding: 12px;
+            border-radius: var(--radius);
+            text-align: center;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(255, 51, 51, 0.3);
+            animation: pulseRed 2s infinite;
+        }
+
+        @keyframes pulseRed {
+            0% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 51, 51, 0.3); }
+            50% { transform: scale(1.02); box-shadow: 0 6px 18px rgba(255, 51, 51, 0.4); }
+            100% { transform: scale(1); box-shadow: 0 4px 15px rgba(255, 51, 51, 0.3); }
+        }
+
+        .urgency-label {
+            font-size: 9px;
+            font-weight: 600;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 3px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .urgency-value {
+            font-size: 18px;
+            font-weight: 900;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        /* WhatsApp CTA aprimorado */
+        .whatsapp-cta {
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(0, 0, 0, 0.98) 100%);
+            padding: 15px;
+            border-top: 1px solid rgba(255, 59, 92, 0.2);
+            box-shadow: 0 -5px 30px rgba(255, 59, 92, 0.15);
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .whatsapp-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 59, 92, 0.1), 
+                transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .cta-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 12px;
+            color: var(--white);
+            text-align: center;
+            line-height: 1.3;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-title span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientText 2s ease infinite;
+            background-size: 200% auto;
+        }
+
+        @keyframes gradientText {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Contador de urgência */
+        .urgency-counter {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .counter-label {
+            font-size: 10px;
+            color: var(--gray);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .counter-value {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 900;
+            animation: pulseCounter 1.5s infinite;
+            box-shadow: 0 3px 10px rgba(255, 59, 92, 0.3);
+        }
+
+        @keyframes pulseCounter {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: white;
+            padding: 18px;
+            border-radius: var(--radius);
+            font-weight: 800;
+            font-size: 14px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3), 
+                        0 0 0 1px rgba(37, 211, 102, 0.1);
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .btn-whatsapp::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.7s;
+        }
+
+        .btn-whatsapp:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4),
+                        0 0 0 2px rgba(37, 211, 102, 0.2);
+            background: linear-gradient(135deg, #20bd5c 0%, #0e7a63 100%);
+        }
+
+        .btn-whatsapp:hover::before {
+            left: 100%;
+        }
+
+        .btn-whatsapp:active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3),
+                        0 0 0 1px rgba(37, 211, 102, 0.1);
+            transition: all 0.1s;
+        }
+
+        .btn-whatsapp i {
+            font-size: 22px;
+            filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.2));
+            animation: pulseIcon 2s infinite;
+        }
+
+        @keyframes pulseIcon {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .cta-note {
+            font-size: 10px;
+            color: var(--gray);
+            text-align: center;
+            margin-top: 10px;
+            line-height: 1.3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-note i {
+            color: var(--primary);
+            font-size: 10px;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.5; }
+        }
+
+        /* Loading */
+        .loading-spinner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .loading-spinner.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+
+        .loading-text {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--white);
+        }
+
+        /* Scrollbar personalizada */
+        .content-area::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .content-area::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+        }
+
+        .content-area::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .content-area::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Media queries para telas muito pequenas */
+        @media (max-height: 600px) {
+            .main-content {
+                padding: 10px;
+            }
+            
+            .mini-header {
+                padding: 8px 0;
+                margin-bottom: 10px;
+            }
+            
+            .question-title {
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+            
+            .option-card {
+                padding: 12px;
+            }
+            
+            .option-icon {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .option-icon i {
+                font-size: 16px;
+            }
+            
+            .navigation {
+                padding: 10px;
+            }
+            
+            .nav-btn {
+                padding: 14px;
+                font-size: 12px;
+            }
+            
+            .whatsapp-cta {
+                padding: 12px;
+            }
+            
+            .btn-whatsapp {
+                padding: 16px;
+                font-size: 13px;
+            }
+            
+            .btn-whatsapp i {
+                font-size: 20px;
+            }
+            
+            .cta-title {
+                font-size: 16px;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .app-container {
+                max-width: 100%;
+                min-height: 100vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Loading Spinner -->
+        <div class="loading-spinner" id="loadingSpinner">
+            <div class="spinner"></div>
+            <div class="loading-text">Analisando suas respostas...</div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <!-- Mini Header -->
+            <div class="mini-header" id="miniHeader">
+                <div class="mini-brand">
+                    <div class="mini-logo">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <div class="mini-title">WhatsMonitor</div>
+                </div>
+            </div>
+
+            <!-- Content Area - Ajustada para caber tudo -->
+            <div class="content-area" id="contentArea">
+                <!-- Progress Bar -->
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-header">
+                        <div class="progress-title">DIAGNÓSTICO</div>
+                        <div class="progress-percent" id="progressPercent">0%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+
+                <!-- Quiz Content -->
+                <div id="quizContainer" class="quiz-stage"></div>
+
+                <!-- Result Screen -->
+                <div class="result-screen" id="resultScreen">
+                    <div class="result-content">
+                        <div class="result-header">
+                            <div class="result-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <h1 class="result-title">ANÁLISE CONCLUÍDA</h1>
+                            <p class="result-subtitle">Situação <strong>CRÍTICA</strong> identificada</p>
+                        </div>
+
+                        <!-- Profile Result -->
+                        <div id="profileResult"></div>
+
+                        <!-- Critical Alert -->
+                        <div class="critical-alert">
+                            <div class="alert-title">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                ATENÇÃO: RISCO ELEVADO
+                            </div>
+                            <div class="alert-text" id="alertText">
+                                Suas respostas indicam comportamento suspeito confirmado. Cada minuto de espera reduz suas chances.
+                            </div>
+                        </div>
+
+                        <!-- Urgency Badge -->
+                        <div class="urgency-badge">
+                            <div class="urgency-label">NÍVEL DE URGÊNCIA</div>
+                            <div class="urgency-value">CRÍTICO</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation - SEMPRE VISÍVEL -->
+            <div class="navigation" id="navContainer">
+                <div class="nav-buttons" id="quizNavButtons">
+                    <button class="nav-btn btn-prev" id="prevBtn" onclick="prevQuestion()" style="display: none;">
+                        <i class="fas fa-arrow-left"></i> VOLTAR
+                    </button>
+                    <button class="nav-btn btn-next" id="nextBtn" onclick="nextQuestion()" disabled>
+                        CONTINUAR <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- WhatsApp CTA Fixo -->
+            <div class="whatsapp-cta" id="whatsappCta" style="display: none;">
+                <!-- Contador de urgência -->
+                <div class="urgency-counter">
+                    <div class="counter-label">Pessoas conectadas agora:</div>
+                    <div class="counter-value" id="liveCounter">247</div>
+                </div>
+                
+                <h2 class="cta-title">ACESSE A <span>VERDADE COMPLETA</span> AGORA</h2>
+                <button class="btn-whatsapp" id="whatsappBtn" onclick="accessNow()">
+                    <i class="fab fa-whatsapp"></i>
+                    SOLICITAR ACESSO AGORA 
+                </button>
+                <p class="cta-note">
+                    <i class="fas fa-shield-alt"></i> 100% seguro • Resposta em 2 minutos • Suporte 24h
+                </p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Dados do Quiz COMPLETO com todas as perguntas
+        const quizData = {
+            phase1: [
+                {
+                    question: "QUAL É SUA PRINCIPAL PREOCUPAÇÃO NO MOMENTO?",
+                    options: [
+                        {
+                            type: "family",
+                            title: "👨‍👩‍👧‍👦 MEU FILHO ESTÁ EM RISCO",
+                            description: "Desconfio que meu filho(a) está em perigo online ou se envolvendo com pessoas erradas",
+                            icon: `<i class="fas fa-exclamation-triangle"></i>`
+                        },
+                        {
+                            type: "business",
+                            title: "🏢 MINHA EMPRESA ESTÁ SENDO TRAÍDA",
+                            description: "Funcionários vazando informações ou sabotando o negócio",
+                            icon: `<i class="fas fa-user-secret"></i>`
+                        },
+                        {
+                            type: "relationship",
+                            title: "💔 DESCONFIO QUE ESTOU SENDO TRAÍDO(A)",
+                            description: "Meu parceiro(a) está agindo de forma estranha e escondendo o celular",
+                            icon: `<i class="fas fa-heart-broken"></i>`
+                        },
+                        {
+                            type: "recovery",
+                            title: "🔍 PRECISO DE PROVAS URGENTES",
+                            description: "Alguém apagou mensagens importantes e preciso recuperar a verdade",
+                            icon: `<i class="fas fa-search"></i>`
+                        }
+                    ]
+                }
+            ],
+            
+            phase2: {
+                family: [
+                    {
+                        question: "O QUE VOCÊ DESCONFIA QUE ESTÁ ACONTECENDO?",
+                        options: [
+                            {
+                                text: "ESTÁ SENDO ALVO DE CYBERBULLYING",
+                                description: "Estão humilhando e ameaçando meu filho(a) online",
+                                severity: "critico"
+                            },
+                            {
+                                text: "CONVERSA COM ESTRANHOS PERIGOSOS",
+                                description: "Está marcando encontros com pessoas desconhecidas",
+                                severity: "critico"
+                            },
+                            {
+                                text: "ACESSA CONTEÚDO INAPROPRIADO",
+                                description: "Está vendo coisas que não deveria para a idade",
+                                severity: "alto"
+                            },
+                            {
+                                text: "ESCONDE TUDO DE MIM",
+                                description: "Não me mostra o celular e fica nervoso quando pergunto",
+                                severity: "alto"
+                            }
+                        ]
+                    },
+                    {
+                        question: "HÁ QUANTO TEMPO VOCÊ DESCONFIA?",
+                        options: [
+                            {
+                                text: "ALGUMAS SEMANAS",
+                                description: "Mas a preocupação só aumenta cada dia",
+                                severity: "medio"
+                            },
+                            {
+                                text: "ALGUNS MESES",
+                                description: "Já tentei conversar mas não adiantou",
+                                severity: "alto"
+                            },
+                            {
+                                text: "MAIS DE 6 MESES",
+                                description: "A situação está ficando insustentável",
+                                severity: "critico"
+                            },
+                            {
+                                text: "ANOS, MAS AGORA PIOROU",
+                                description: "Não aguento mais viver com essa angústia",
+                                severity: "critico"
+                            }
+                        ]
+                    },
+                    {
+                        question: "O QUE VOCÊ JÁ TENTOU FAZER?",
+                        options: [
+                            {
+                                text: "CONVERSEI MAS NÃO ADIANTOU",
+                                description: "Meu filho(a) nega tudo ou fica na defensiva",
+                                severity: "alto"
+                            },
+                            {
+                                text: "MONITOREI DE FORMA BÁSICA",
+                                description: "Vi algumas coisas mas preciso de mais controle",
+                                severity: "medio"
+                            },
+                            {
+                                text: "NÃO SEI POR ONDE COMEÇAR",
+                                description: "Estou perdido e preciso de orientação profissional",
+                                severity: "critico"
+                            },
+                            {
+                                text: "PRECISO DE PROVAS CONCRETAS",
+                                description: "Para tomar medidas mais sérias e proteger meu filho",
+                                severity: "critico"
+                            }
+                        ]
+                    }
+                ],
+                business: [
+                    {
+                        question: "QUAL É O MAIOR PERIGO PARA SEU NEGÓCIO?",
+                        options: [
+                            {
+                                text: "VAZAMENTO DE INFORMAÇÕES SECRETAS",
+                                description: "Alguém está passando dados para concorrentes",
+                                severity: "critico"
+                            },
+                            {
+                                text: "SABOTAGEM INTERNA",
+                                description: "Funcionários estão prejudicando a empresa de propósito",
+                                severity: "critico"
+                            },
+                            {
+                                text: "ROUBO DE CLIENTES",
+                                description: "Estão levando minha carteira de clientes embora",
+                                severity: "alto"
+                            },
+                            {
+                                text: "FRAUDES FINANCEIRAS",
+                                description: "Dinheiro está sumindo sem explicação",
+                                severity: "alto"
+                            }
+                        ]
+                    },
+                    {
+                        question: "QUAL O PREJUÍZO JÁ CAUSADO?",
+                        options: [
+                            {
+                                text: "PERDA DE CONFIANÇA",
+                                description: "Não consigo confiar em ninguém na empresa",
+                                severity: "medio"
+                            },
+                            {
+                                text: "QUEDA NOS LUCROS",
+                                description: "O faturamento está caindo misteriosamente",
+                                severity: "alto"
+                            },
+                            {
+                                text: "CLIENTES RECLAMANDO",
+                                description: "Recebo queixas de informações vazadas",
+                                severity: "alto"
+                            },
+                            {
+                                text: "RISCO DE FALÊNCIA",
+                                description: "A empresa pode quebrar se continuar assim",
+                                severity: "critico"
+                            }
+                        ]
+                    },
+                    {
+                        question: "QUEM VOCÊ DESCONFIA?",
+                        options: [
+                            {
+                                text: "ALGUNS FUNCIONÁRIOS ESPECÍFICOS",
+                                description: "Tenho suspeitas sobre pessoas específicas",
+                                severity: "alto"
+                            },
+                            {
+                                text: "VÁRIOS COLABORADORES",
+                                description: "A desconfiança se espalhou por vários setores",
+                                severity: "critico"
+                            },
+                            {
+                                text: "SÓCIOS OU PARCEIROS",
+                                description: "Pessoas próximas ao negócio podem estar envolvidas",
+                                severity: "critico"
+                            },
+                            {
+                                text: "NÃO SEI, MAS ALGO ESTÁ ERRADO",
+                                description: "Sinto que algo está errado mas não sei quem é",
+                                severity: "alto"
+                            }
+                        ]
+                    }
+                ],
+                relationship: [
+                    {
+                        question: "QUAIS SINAIS VOCÊ JÁ NOTOU?",
+                        options: [
+                            {
+                                text: "ESCONDE O CELULAR O TEMPO TODO",
+                                description: "Vira a tela quando chego perto e leva até no banheiro",
+                                severity: "alto"
+                            },
+                            {
+                                text: "FICA NA DEFENSIVA QUANDO PERGUNTO",
+                                description: "Sempre arruma briga quando questiono algo",
+                                severity: "alto"
+                            },
+                            {
+                                text: "SAÍDA SUSPEITAS 'A TRABALHO'",
+                                description: "Fica até tarde no 'trabalho' sem explicação convincente",
+                                severity: "critico"
+                            },
+                            {
+                                text: "JÁ PEGUEI MENTIRAS DESCARADAS",
+                                description: "Provavelmente está me traindo e preciso de provas",
+                                severity: "critico"
+                            }
+                        ]
+                    },
+                    {
+                        question: "COMO ISSO ESTÁ TE AFETANDO?",
+                        options: [
+                            {
+                                text: "NÃO CONSIGO DORMIR PENSANDO",
+                                description: "Fico acordado(a) a noite toda revirando na cama",
+                                severity: "medio"
+                            },
+                            {
+                                text: "PERDI A PAZ E A SAÚDE",
+                                description: "Estou com crises de ansiedade e problemas de saúde",
+                                severity: "alto"
+                            },
+                            {
+                                text: "MINHA VIDA ESTÁ UM INFERNO",
+                                description: "Não consigo trabalhar ou me concentrar em nada",
+                                severity: "critico"
+                            },
+                            {
+                                text: "PRECISO DE RESPOSTAS URGENTES",
+                                description: "Vou enlouquecer se não descobrir a verdade AGORA",
+                                severity: "critico"
+                            }
+                        ]
+                    },
+                    {
+                        question: "O QUE VOCÊ JÁ CONFRONTOU?",
+                        options: [
+                            {
+                                text: "PERGUNTEI MAS NEGA TUDO",
+                                description: "Sempre tem uma desculpa pronta para tudo",
+                                severity: "alto"
+                            },
+                            {
+                                text: "CONFRONTEI COM ALGUMAS PROVAS",
+                                description: "Mas ainda assim nega e inventa histórias",
+                                severity: "critico"
+                            },
+                            {
+                                text: "NÃO CONFRONTEI POR FALTA DE PROVAS",
+                                description: "Preciso de evidências concretas antes de confrontar",
+                                severity: "medio"
+                            },
+                            {
+                                text: "JÁ DISCUTIMOS MUITAS VEZES",
+                                description: "As brigas estão constantes e nada se resolve",
+                                severity: "critico"
+                            }
+                        ]
+                    }
+                ],
+                recovery: [
+                    {
+                        question: "O QUE FOI APAGADO QUE VOCÊ PRECISA RECUPERAR?",
+                        options: [
+                            {
+                                text: "MENSAGENS COMPROMETEDORAS",
+                                description: "Alguém apagou provas importantes de traição ou crime",
+                                severity: "critico"
+                            },
+                            {
+                                text: "TODO O HISTÓRICO DE CONVERSAS",
+                                description: "Preciso recuperar meses ou anos de mensagens",
+                                severity: "alto"
+                            },
+                            {
+                                text: "FOTOS E VÍDEOS IMPORTANTES",
+                                description: "Foram apagadas evidências cruciais",
+                                severity: "alto"
+                            },
+                            {
+                                text: "PROVAS PARA PROCESSO JUDICIAL",
+                                description: "Preciso de evidências para um caso na justiça",
+                                severity: "critico"
+                            }
+                        ]
+                    },
+                    {
+                        question: "QUAL A URGÊNCIA DESTA RECUPERAÇÃO?",
+                        options: [
+                            {
+                                text: "PRECISO PARA TOMAR UMA DECISÃO",
+                                description: "Minha vida depende desta informação",
+                                severity: "alto"
+                            },
+                            {
+                                text: "É PARA UM PRAZO JUDICIAL",
+                                description: "Tem data marcada para entrar com a ação",
+                                severity: "critico"
+                            },
+                            {
+                                text: "ALGUÉM PODE APAGAR MAIS COISAS",
+                                description: "Preciso agir antes que destruam todas as provas",
+                                severity: "critico"
+                            },
+                            {
+                                text: "JÁ PERDI MUITO TEMPO",
+                                description: "Cada dia que passa a chance diminui",
+                                severity: "critico"
+                            }
+                        ]
+                    },
+                    {
+                        question: "COMO OS DADOS FORAM PERDIDOS?",
+                        options: [
+                            {
+                                text: "APAGADOS ACIDENTALMENTE",
+                                description: "Alguém apagou sem querer ou o sistema corrompeu",
+                                severity: "medio"
+                            },
+                            {
+                                text: "APAGADOS DE PROPÓSITO",
+                                description: "Alguém tentou esconder evidências deliberadamente",
+                                severity: "critico"
+                            },
+                            {
+                                text: "CELULAR FOI ROUBADO/DANIFICADO",
+                                description: "Preciso recuperar dados do dispositivo perdido",
+                                severity: "alto"
+                            },
+                            {
+                                text: "NÃO SEI, SIMPLESMENTE SUMIRAM",
+                                description: "As mensagens desapareceram misteriosamente",
+                                severity: "alto"
+                            }
+                        ]
+                    }
+                ]
+            }
+        };
+
+        // Estado do Quiz
+        let currentPhase = 1;
+        let currentQuestionIndex = 0;
+        let userProfile = null;
+        let userResponses = [];
+        let emotionalScore = 0;
+
+        // Elementos DOM
+        const elements = {
+            contentArea: document.getElementById('contentArea'),
+            quizContainer: document.getElementById('quizContainer'),
+            progressFill: document.getElementById('progressFill'),
+            progressPercent: document.getElementById('progressPercent'),
+            progressContainer: document.getElementById('progressContainer'),
+            prevBtn: document.getElementById('prevBtn'),
+            nextBtn: document.getElementById('nextBtn'),
+            resultScreen: document.getElementById('resultScreen'),
+            profileResult: document.getElementById('profileResult'),
+            alertText: document.getElementById('alertText'),
+            whatsappBtn: document.getElementById('whatsappBtn'),
+            navContainer: document.getElementById('navContainer'),
+            quizNavButtons: document.getElementById('quizNavButtons'),
+            whatsappCta: document.getElementById('whatsappCta'),
+            loadingSpinner: document.getElementById('loadingSpinner'),
+            miniHeader: document.getElementById('miniHeader')
+        };
+
+        // Valores de severidade
+        const severityValues = {
+            "medio": 2,
+            "alto": 3,
+            "critico": 4
+        };
+
+        // Configurações por perfil
+        const profileConfig = {
+            family: {
+                title: "PROTEÇÃO FAMILIAR URGENTE",
+                description: "Seu filho pode estar em perigo real",
+                icon: `<i class="fas fa-home"></i>`,
+                features: [
+                    "Acesso completo a todas as conversas em tempo real",
+                    "Localização GPS e histórico de lugares",
+                    "Monitoramento de redes sociais e apps",
+                    "Alertas instantâneos para comportamentos de risco",
+                    "Relatórios detalhados do que realmente acontece"
+                ],
+                alert: "Crianças e adolescentes NÃO contam tudo aos pais. Enquanto você hesita, seu filho pode estar marcando encontros perigosos ou sofrendo bullying. Cada minuto conta."
+            },
+            business: {
+                title: "PROTEÇÃO EMPRESARIAL",
+                description: "Seu negócio está sendo sabotado",
+                icon: `<i class="fas fa-briefcase"></i>`,
+                features: [
+                    "Monitoramento de comunicações corporativas",
+                    "Detecção de vazamento de informações",
+                    "Identificação de funcionários desleais",
+                    "Provas concretas para demissões",
+                    "Proteção total do seu patrimônio"
+                ],
+                alert: "Funcionários desonestos podem destruir anos de trabalho em meses. Enquanto você não tem provas, eles continuam roubando seus clientes e seu dinheiro."
+            },
+            relationship: {
+                title: "VERDADE SOBRE O RELACIONAMENTO",
+                description: "Não viva mais na dúvida",
+                icon: `<i class="fas fa-heart-broken"></i>`,
+                features: [
+                    "Acesso a TODAS as mensagens do WhatsApp",
+                    "Conversas recuperadas mesmo se foram apagadas",
+                    "Fotos e vídeos trocados em segredo",
+                    "Localização em tempo real 24/7",
+                    "Provas irrefutáveis da verdade"
+                ],
+                alert: "A traição raramente é confessada. Enquanto você sofre na dúvida, seu parceiro(a) continua mentindo. Você merece saber a verdade para tomar a decisão certa."
+            },
+            recovery: {
+                title: "RECUPERAÇÃO DE PROVAS",
+                description: "Nada é realmente apagado para sempre",
+                icon: `<i class="fas fa-database"></i>`,
+                features: [
+                    "Recuperação de mensagens apagadas",
+                    "Histórico completo de conversas",
+                    "Fotos e vídeos deletados",
+                    "Arquivos trocados e depois removidos",
+                    "Backup completo do dispositivo"
+                ],
+                alert: "Quanto mais tempo passa, mais difícil fica recuperar as provas. Sistemas sobrescrevem dados e chances se perdem. Aja AGORA enquanto ainda é possível."
+            }
+        };
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            loadQuestion();
+            updateProgress();
+            adjustLayout();
+            startLiveCounter();
+        });
+
+        // Ajustar layout dinamicamente
+        function adjustLayout() {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+        }
+
+        window.addEventListener('resize', adjustLayout);
+        window.addEventListener('orientationchange', adjustLayout);
+
+        // Iniciar contador de usuários online
+        function startLiveCounter() {
+            updateLiveCounter();
+            setInterval(updateLiveCounter, 30000); // Atualizar a cada 30 segundos
+        }
+
+        // Atualizar contador de usuários online
+        function updateLiveCounter() {
+            const counter = document.getElementById('liveCounter');
+            if (counter && elements.whatsappCta.style.display !== 'none') {
+                let count = parseInt(counter.textContent);
+                // Simular variação de usuários online
+                const change = Math.floor(Math.random() * 5) - 2; // -2 a +2
+                count = Math.max(240, Math.min(260, count + change));
+                counter.textContent = count;
+            }
+        }
+
+        // Carregar pergunta
+        function loadQuestion() {
+            let questionData;
+            
+            if (currentPhase === 1) {
+                questionData = quizData.phase1[currentQuestionIndex];
+                renderProfileQuestion(questionData);
+            } else if (currentPhase === 2 && userProfile) {
+                questionData = quizData.phase2[userProfile][currentQuestionIndex];
+                renderAnswerQuestion(questionData);
+            }
+            
+            updateProgress();
+            updateButtons();
+            
+            // Scroll para o topo
+            setTimeout(() => {
+                elements.contentArea.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 100);
+        }
+
+        // Renderizar pergunta de perfil
+        function renderProfileQuestion(questionData) {
+            let optionsHTML = '';
+            
+            questionData.options.forEach((option, index) => {
+                const isSelected = userProfile === option.type;
+                optionsHTML += `
+                    <div class="option-card ${isSelected ? 'selected' : ''}" 
+                         data-type="${option.type}"
+                         onclick="selectProfile('${option.type}')">
+                        <div class="option-icon">
+                            ${option.icon}
+                        </div>
+                        <div class="option-content">
+                            <div class="option-title">${option.title}</div>
+                            <div class="option-description">${option.description}</div>
+                        </div>
+                        <div class="option-check"></div>
+                    </div>
+                `;
+            });
+            
+            elements.quizContainer.innerHTML = `
+                <div class="question-card">
+                    <div class="question-number">PERGUNTA 1/4</div>
+                    <h2 class="question-title">${questionData.question}</h2>
+                    <div class="options-grid">
+                        ${optionsHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Renderizar pergunta de resposta
+        function renderAnswerQuestion(questionData) {
+            let optionsHTML = '';
+            
+            questionData.options.forEach((option, index) => {
+                const isSelected = userResponses[currentQuestionIndex] === index;
+                optionsHTML += `
+                    <div class="answer-option ${isSelected ? 'selected' : ''}"
+                         onclick="selectAnswer(${index})">
+                        <div class="answer-text">${option.text}</div>
+                        <div class="answer-description">${option.description}</div>
+                    </div>
+                `;
+            });
+            
+            const totalQuestions = quizData.phase2[userProfile].length;
+            const questionNumber = currentQuestionIndex + 2;
+            
+            elements.quizContainer.innerHTML = `
+                <div class="question-card">
+                    <div class="question-number">PERGUNTA ${questionNumber}/4</div>
+                    <h2 class="question-title">${questionData.question}</h2>
+                    <div class="options-grid">
+                        ${optionsHTML}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Verificar se o conteúdo cabe na tela
+        function checkContentFit() {
+            const contentHeight = elements.contentArea.scrollHeight;
+            const containerHeight = elements.contentArea.clientHeight;
+            
+            if (contentHeight > containerHeight) {
+                // Se não couber, fazer a área de conteúdo rolável
+                elements.contentArea.style.overflowY = 'auto';
+            } else {
+                elements.contentArea.style.overflowY = 'hidden';
+            }
+        }
+
+        // Selecionar perfil
+        function selectProfile(profileType) {
+            userProfile = profileType;
+            renderProfileQuestion(quizData.phase1[0]);
+            elements.nextBtn.disabled = false;
+            checkContentFit();
+        }
+
+        // Selecionar resposta
+        function selectAnswer(answerIndex) {
+            userResponses[currentQuestionIndex] = answerIndex;
+            
+            const questionData = quizData.phase2[userProfile][currentQuestionIndex];
+            const severity = questionData.options[answerIndex].severity;
+            emotionalScore += severityValues[severity];
+            
+            renderAnswerQuestion(questionData);
+            elements.nextBtn.disabled = false;
+            checkContentFit();
+        }
+
+        // Atualizar progresso
+        function updateProgress() {
+            let progressPercentage = 0;
+            
+            if (currentPhase === 1) {
+                progressPercentage = userProfile ? 25 : 0;
+            } else if (currentPhase === 2) {
+                const totalQuestions = quizData.phase2[userProfile].length;
+                const baseProgress = 25;
+                const questionProgress = ((currentQuestionIndex + 1) / totalQuestions) * 75;
+                progressPercentage = baseProgress + questionProgress;
+            } else if (currentPhase === 3) {
+                progressPercentage = 100;
+                elements.progressContainer.style.display = 'none';
+                elements.miniHeader.style.display = 'none';
+            }
+            
+            elements.progressFill.style.width = `${progressPercentage}%`;
+            elements.progressPercent.textContent = `${Math.round(progressPercentage)}%`;
+        }
+
+        // Atualizar botões
+        function updateButtons() {
+            // Botão anterior
+            if (currentPhase === 1) {
+                elements.prevBtn.style.display = 'none';
+            } else {
+                elements.prevBtn.style.display = 'flex';
+            }
+            
+            // Botão próximo
+            if (currentPhase === 1) {
+                elements.nextBtn.disabled = !userProfile;
+                elements.nextBtn.textContent = 'CONTINUAR';
+            } else if (currentPhase === 2) {
+                const hasAnswer = userResponses[currentQuestionIndex] !== undefined;
+                const totalQuestions = quizData.phase2[userProfile].length;
+                const isLastQuestion = currentQuestionIndex === totalQuestions - 1;
+                
+                elements.nextBtn.disabled = !hasAnswer;
+                elements.nextBtn.textContent = isLastQuestion ? 'VER RESULTADO' : 'PRÓXIMA PERGUNTA';
+            }
+        }
+
+        // Próxima pergunta
+        function nextQuestion() {
+            if (currentPhase === 1) {
+                if (!userProfile) return;
+                
+                currentPhase = 2;
+                currentQuestionIndex = 0;
+                userResponses = [];
+                emotionalScore = 0;
+                loadQuestion();
+            } else if (currentPhase === 2) {
+                if (userResponses[currentQuestionIndex] === undefined) return;
+                
+                const totalQuestions = quizData.phase2[userProfile].length;
+                if (currentQuestionIndex < totalQuestions - 1) {
+                    currentQuestionIndex++;
+                    loadQuestion();
+                } else {
+                    showLoading();
+                    setTimeout(() => {
+                        hideLoading();
+                        showResults();
+                    }, 1200);
+                }
+            }
+        }
+
+        // Pergunta anterior
+        function prevQuestion() {
+            if (currentPhase === 2) {
+                if (currentQuestionIndex > 0) {
+                    currentQuestionIndex--;
+                    
+                    // Remover pontuação da resposta anterior
+                    const prevQuestionData = quizData.phase2[userProfile][currentQuestionIndex + 1];
+                    if (userResponses[currentQuestionIndex + 1] !== undefined) {
+                        const severity = prevQuestionData.options[userResponses[currentQuestionIndex + 1]].severity;
+                        emotionalScore -= severityValues[severity];
+                        userResponses[currentQuestionIndex + 1] = undefined;
+                    }
+                    
+                    loadQuestion();
+                } else {
+                    currentPhase = 1;
+                    currentQuestionIndex = 0;
+                    loadQuestion();
+                }
+            }
+        }
+
+        // Mostrar loading
+        function showLoading() {
+            elements.loadingSpinner.classList.add('active');
+        }
+
+        // Esconder loading
+        function hideLoading() {
+            elements.loadingSpinner.classList.remove('active');
+        }
+
+        // Mostrar resultados
+        function showResults() {
+            currentPhase = 3;
+            updateProgress();
+            
+            // Esconder o quiz e mostrar resultados
+            elements.quizContainer.style.display = 'none';
+            elements.resultScreen.style.display = 'flex';
+            
+            // Esconder botões de navegação e mostrar botão WhatsApp
+            elements.quizNavButtons.style.display = 'none';
+            elements.whatsappCta.style.display = 'block';
+            
+            generateResults();
+            
+            // Scroll para o topo da área de conteúdo
+            elements.contentArea.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Verificar se o conteúdo cabe
+            setTimeout(() => {
+                checkContentFit();
+            }, 100);
+        }
+
+        // Gerar resultados
+        function generateResults() {
+            const config = profileConfig[userProfile];
+            
+            // Criar conteúdo do perfil
+            const featuresHTML = config.features.map(feature => `
+                <li class="feature-item">
+                    <i class="fas fa-check"></i>
+                    <span class="feature-text">${feature}</span>
+                </li>
+            `).join('');
+
+            elements.profileResult.innerHTML = `
+                <div class="profile-result">
+                    <div class="profile-header">
+                        <div class="profile-icon">
+                            ${config.icon}
+                        </div>
+                        <div>
+                            <div class="profile-title">${config.title}</div>
+                            <div class="profile-description">${config.description}</div>
+                        </div>
+                    </div>
+                    <ul class="feature-list">
+                        ${featuresHTML}
+                    </ul>
+                </div>
+            `;
+
+            // Atualizar texto do alerta
+            elements.alertText.innerHTML = config.alert;
+        }
+
+        // Botão de acesso direto
+        function accessNow() {
+            const phoneNumber = "553498273265"; // Substitua pelo número real
+            const config = profileConfig[userProfile];
+            
+            const message = encodeURIComponent(`🚨 URGENTE - Solicitação de Acesso WhatsMonitor
+
+• Situação: ${config.title}
+• Nível de Urgência: CRÍTICO
+• Pontuação: ${emotionalScore}/12
+• Necessidade: Acesso imediato para solução
+
+PRECISO FALAR COM UM ESPECIALISTA AGORA MESMO PARA OBTER ACESSO.`);
+
+            window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+            
+            // Feedback visual
+            const originalHTML = elements.whatsappBtn.innerHTML;
+            elements.whatsappBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> REDIRECIONANDO...`;
+            elements.whatsappBtn.disabled = true;
+            
+            setTimeout(() => {
+                elements.whatsappBtn.innerHTML = originalHTML;
+                elements.whatsappBtn.disabled = false;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
