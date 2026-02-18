@@ -1,28 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-
-	 <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '26475847585350180');
-    fbq('track', 'PageView');
-    fbq('track', 'InitiateCheckout'); 
-    </script>
-    <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
-    /></noscript>
-	
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>WhatsApp</title>
-	 <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROjBnHGqLpQYshN2NGSvHxz7HDkdwAM_cjPA&s" type="image/jpeg">
+    <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROjBnHGqLpQYshN2NGSvHxz7HDkdwAM_cjPA&s" type="image/jpeg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
     <style>
@@ -224,7 +206,7 @@
             flex: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 140px; /* Aumentado para dar espaço para a barra de navegação */
+            padding-bottom: 160px; /* Espaço para botão de desbloqueio + barra de navegação */
             overscroll-behavior: contain;
             background-color: #ffffff;
             scroll-behavior: smooth;
@@ -382,7 +364,7 @@
             font-weight: 500;
         }
         
-        /* Promoção de pagamento light */
+        /* Promoção de pagamento - DESTAQUE PULSANTE */
         .payment-promo {
             background: linear-gradient(135deg, #008069, #00a884);
             color: white;
@@ -398,6 +380,8 @@
             position: relative;
             overflow: hidden;
             transition: transform 0.2s;
+            animation: pulse-promo 1.5s infinite ease-in-out;
+            box-shadow: 0 0 0 0 rgba(0, 168, 132, 0.7);
         }
         
         .payment-promo:active {
@@ -407,11 +391,33 @@
         .payment-promo::after {
             content: '';
             position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
-            opacity: 0.8;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes pulse-promo {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(0, 168, 132, 0.7);
+            }
+            50% {
+                transform: scale(1.02);
+                box-shadow: 0 0 20px 5px rgba(0, 168, 132, 0.9);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(0, 168, 132, 0.7);
+            }
+        }
+        
+        @keyframes shine {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
         }
         
         .payment-promo-title {
@@ -533,7 +539,7 @@
         /* Botão de desbloqueio estilo WhatsApp Light */
         .unlock-button-container {
             position: fixed;
-            bottom: 0;
+            bottom: 80px; /* Acima da barra de navegação */
             width: 100%;
             padding: 12px;
             background-color: #ffffff;
@@ -807,14 +813,14 @@
         
         /* Ajustes para a barra de navegação */
         .conversations-list {
-            padding-bottom: 140px; /* Espaço para botão de desbloqueio + barra de navegação */
+            padding-bottom: 160px; /* Espaço para botão de desbloqueio + barra de navegação */
         }
         
         .unlock-button-container {
-            bottom: 60px; /* Fica acima da barra de navegação */
+            bottom: 80px; /* Acima da barra de navegação do app */
         }
         
-        /* Suporte para iPhone com notch */
+        /* Suporte para iPhone com notch e Android com barra de navegação */
         @supports (padding: max(0px)) {
             .bottom-nav {
                 padding-bottom: max(0px, env(safe-area-inset-bottom));
@@ -822,12 +828,12 @@
             }
             
             .unlock-button-container {
-                bottom: calc(60px + env(safe-area-inset-bottom));
+                bottom: calc(80px + env(safe-area-inset-bottom));
                 padding-bottom: max(12px, env(safe-area-inset-bottom));
             }
             
             .conversations-list {
-                padding-bottom: calc(140px + env(safe-area-inset-bottom));
+                padding-bottom: calc(160px + env(safe-area-inset-bottom));
             }
         }
         
@@ -892,7 +898,7 @@
         
         @media (max-height: 600px) {
             .conversations-list {
-                padding-bottom: 130px;
+                padding-bottom: 150px;
             }
             
             .unlock-button-container {
@@ -999,14 +1005,14 @@
             
             <!-- Lista de conversas -->
             <div class="conversations-list" id="conversationsList">
-                <!-- Promoção de pagamento -->
+                <!-- Promoção de pagamento com destaque pulsante -->
                 <a href="/liberar.html" class="payment-promo" id="promoLink">
-                    <div class="payment-promo-title">Desbloqueie o Modo Completo Agora</div>
+                    <div class="payment-promo-title">DESBLOQUEAR O MODO COMPLETO AGORA</div>
                     <div class="payment-promo-price"></div>
                 </a>
                 
                 <!-- Seção: Conversas Bloqueadas -->
-                <div class="section-title" id="sectionBlocked">Conversas</div>
+                <div class="section-title" id="sectionBlocked">PRINCIPAIS Conversas</div>
                 <div id="blockedConversations">
                     <!-- Conversas individuais serão inseridas aqui -->
                 </div>
@@ -1737,4 +1743,3 @@
     </script>
 </body>
 </html>
-
