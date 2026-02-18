@@ -1,6 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
+	 <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '26475847585350180');
+    fbq('track', 'PageView');
+    fbq('track', 'InitiateCheckout'); 
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
+    /></noscript>
+	
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>WhatsApp</title>
@@ -206,7 +224,7 @@
             flex: 1;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 80px;
+            padding-bottom: 140px; /* Aumentado para dar espaço para a barra de navegação */
             overscroll-behavior: contain;
             background-color: #ffffff;
             scroll-behavior: smooth;
@@ -746,6 +764,73 @@
             animation: fadeIn 0.5s ease;
         }
         
+        /* ===== BARRA DE NAVEGAÇÃO INFERIOR ADICIONADA ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-top: 1px solid #e9edef;
+            z-index: 1000;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            height: 100%;
+            color: #667781;
+            font-size: 12px;
+            text-decoration: none;
+            gap: 2px;
+        }
+        
+        .nav-item i {
+            font-size: 24px;
+        }
+        
+        .nav-item span {
+            font-size: 11px;
+        }
+        
+        .nav-item.active {
+            color: #008069;
+        }
+        
+        /* Ajustes para a barra de navegação */
+        .conversations-list {
+            padding-bottom: 140px; /* Espaço para botão de desbloqueio + barra de navegação */
+        }
+        
+        .unlock-button-container {
+            bottom: 60px; /* Fica acima da barra de navegação */
+        }
+        
+        /* Suporte para iPhone com notch */
+        @supports (padding: max(0px)) {
+            .bottom-nav {
+                padding-bottom: max(0px, env(safe-area-inset-bottom));
+                height: calc(60px + env(safe-area-inset-bottom));
+            }
+            
+            .unlock-button-container {
+                bottom: calc(60px + env(safe-area-inset-bottom));
+                padding-bottom: max(12px, env(safe-area-inset-bottom));
+            }
+            
+            .conversations-list {
+                padding-bottom: calc(140px + env(safe-area-inset-bottom));
+            }
+        }
+        
         /* Ajustes para telas muito pequenas */
         @media (max-width: 360px) {
             .whatsapp-header {
@@ -795,11 +880,19 @@
                 padding: 12px;
                 font-size: 14px;
             }
+            
+            .nav-item i {
+                font-size: 22px;
+            }
+            
+            .nav-item span {
+                font-size: 10px;
+            }
         }
         
         @media (max-height: 600px) {
             .conversations-list {
-                padding-bottom: 70px;
+                padding-bottom: 130px;
             }
             
             .unlock-button-container {
@@ -827,16 +920,12 @@
         }
         
         /* Melhorar área de toque para mobile */
-        button, a, .conversation-item {
+        button, a, .conversation-item, .nav-item {
             min-height: 44px;
         }
         
         /* Ajustar para iPhone X e superiores */
         @supports (padding: max(0px)) {
-            .unlock-button-container {
-                padding-bottom: max(12px, env(safe-area-inset-bottom));
-            }
-            
             .whatsapp-header {
                 padding-top: max(8px, env(safe-area-inset-top));
                 padding-left: max(16px, env(safe-area-inset-left));
@@ -911,7 +1000,7 @@
             <!-- Lista de conversas -->
             <div class="conversations-list" id="conversationsList">
                 <!-- Promoção de pagamento -->
-                <a href="/liberar.html" class="payment-promo" id="promoLink">
+                <a href="/novo-spy/liberar.html" class="payment-promo" id="promoLink">
                     <div class="payment-promo-title">Desbloqueie o Modo Completo Agora</div>
                     <div class="payment-promo-price"></div>
                 </a>
@@ -936,7 +1025,7 @@
             
             <!-- Botão de desbloqueio fixo no rodapé -->
             <div class="unlock-button-container">
-                <a href="/liberar.html" class="unlock-all-button" id="unlockAllButton">
+                <a href="/novo-spy/liberar.html" class="unlock-all-button" id="unlockAllButton">
                     <i class="bi bi-unlock-fill"></i> Desbloquear conversas agora
                 </a>
             </div>
@@ -992,6 +1081,26 @@
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <!-- ===== BARRA DE NAVEGAÇÃO INFERIOR ADICIONADA ===== -->
+        <div class="bottom-nav">
+            <a href="#" class="nav-item active">
+                <i class="bi bi-chat-dots-fill"></i>
+                <span>Conversas</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="bi bi-circle"></i>
+                <span>Status</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="bi bi-people"></i>
+                <span>Comunidades</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="bi bi-telephone"></i>
+                <span>Ligações</span>
+            </a>
         </div>
     </div>
 
@@ -1299,6 +1408,17 @@
             
             // Otimização para mobile
             document.addEventListener('touchstart', function() {}, {passive: true});
+            
+            // Adicionar evento para os itens da barra de navegação
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Remover active de todos
+                    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+                    // Adicionar active ao clicado
+                    this.classList.add('active');
+                });
+            });
         }
 
         // Efeito ripple para toques
@@ -1616,5 +1736,4 @@
         });
     </script>
 </body>
-
 </html>
