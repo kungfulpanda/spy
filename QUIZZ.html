@@ -669,14 +669,13 @@ src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
 
         <!-- NOVOS BOTÕES -->
         <div class="action-buttons-container">
-            <!-- Botão Primário: Liberar Agora -->
-            <a href="concluido.html" class="btn-primary-action" onclick="if(typeof fbq === 'function') fbq('track', 'InitiateCheckout');">
-                <i class="fas fa-unlock"></i>
-                Acessar Agora
+            <!-- Botão Primário: Redirecionamento para o WhatsApp -->
+            <a href="#" target="_blank" class="btn-primary-action" id="whatsappLink" onclick="if(typeof fbq === 'function') fbq('track', 'InitiateCheckout');">
+                <i class="fab fa-whatsapp"></i>
+                Liberar via WhatsApp
             </a>
 
-            <!-- Botão Secundário: Ver Amostra -->
-          
+            <!-- Botão Secundário - Amostra (Removido ou mantido conforme layout original, aqui foi mantido o container) -->
         </div>
 
         <!-- Provas Sociais Melhoradas -->
@@ -888,6 +887,11 @@ src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
             document.getElementById('finalTarget').innerText = targetPhone;
             document.querySelector('.app-header').style.display = 'flex';
             document.getElementById('resultArea').style.display = 'block';
+            
+            // Configurar a mensagem dinâmica do WhatsApp com o número alvo
+            const mensagem = `Olá, gostaria de liberar o meu acesso ao aplicativo para monitorar o número: ${targetPhone}`;
+            document.getElementById('whatsappLink').href = `https://wa.me/${myNumber}?text=${encodeURIComponent(mensagem)}`;
+            
             startCountdown(5 * 60);
         }
 
