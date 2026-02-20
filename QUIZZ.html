@@ -258,43 +258,6 @@ src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
         .review-stars { color: #FFB800; font-size: 12px; }
         .review-body { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
 
-        /* Modal Inicial */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 100;
-            display: flex; align-items: center; justify-content: center; padding: 20px;
-        }
-        .modal-content {
-            background: var(--surface);
-            padding: 30px;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 350px;
-            text-align: center;
-            border: 1px solid var(--border);
-        }
-        .modal-input {
-            width: 100%;
-            padding: 15px;
-            background: #000;
-            border: 1px solid #333;
-            color: #fff;
-            border-radius: 10px;
-            margin: 20px 0;
-            font-size: 16px;
-            text-align: center;
-        }
-        .modal-btn {
-            width: 100%;
-            padding: 15px;
-            background: var(--primary);
-            color: #000;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -302,17 +265,6 @@ src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
     </style>
 </head>
 <body>
-
-    <!-- Modal de Entrada -->
-    <div class="modal-overlay" id="inputModal">
-        <div class="modal-content">
-            <i class="fas fa-shield-alt" style="font-size: 40px; color: var(--primary); margin-bottom: 15px;"></i>
-            <h2 style="font-size: 18px;">Verificar Dispositivo</h2>
-            <p style="color: var(--text-secondary); font-size: 13px; margin-top: 8px;">Insira o número do alvo para iniciar a análise de compatibilidade.</p>
-            <input type="tel" id="targetInput" class="modal-input" placeholder="(00) 00000-0000">
-            <button class="modal-btn" onclick="startSystem()">INICIAR ANÁLISE</button>
-        </div>
-    </div>
 
     <header class="app-header">
         <div class="brand">
@@ -410,7 +362,7 @@ src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
 
     <script>
         const myNumber = "553498273265"; // Seu número de suporte
-        let targetPhone = "";
+        let targetPhone = localStorage.getItem('targetPhone') || "(00) 00000-0000";
         let currentStep = 0;
 
         const quizData = [
@@ -428,17 +380,11 @@ src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
             }
         ];
 
-        function startSystem() {
-            const input = document.getElementById('targetInput').value;
-            if (input.length < 8) {
-                alert("Por favor, insira um número válido.");
-                return;
-            }
-            targetPhone = input;
-            document.getElementById('inputModal').style.display = 'none';
+        // Inicia automaticamente com o número do localStorage
+        window.onload = function() {
             document.getElementById('targetLabel').innerText = `Alvo: ${targetPhone}`;
             renderQuiz();
-        }
+        };
 
         function renderQuiz() {
             if (currentStep >= quizData.length) {
