@@ -21,20 +21,19 @@ src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Conexão Segura WhatsApp</title>
-	 <link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROjBnHGqLpQYshN2NGSvHxz7HDkdwAM_cjPA&s" type="image/jpeg">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+	<link rel="icon" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROjBnHGqLpQYshN2NGSvHxz7HDkdwAM_cjPA&s" type="image/jpeg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --primary: #25D366; 
             --primary-dark: #128C7E;
-            --bg: #050505;
-            --surface: #121212;
+            --bg: #0a0a0a;
+            --surface: #161616;
             --border: #222;
-            --text: #fff;
+            --text: #ffffff;
+            --text-secondary: #a0a0a0;
             --accent: #FF3B5C;
-            --glow: rgba(37, 211, 102, 0.3);
-            --card-bg: #161616;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -70,28 +69,32 @@ src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
             font-weight: 700;
             font-size: 15px;
             color: #fff;
-            letter-spacing: -0.5px;
         }
 
         .brand i { color: var(--primary); font-size: 20px; }
 
-        .secure-badge {
-            background: rgba(37, 211, 102, 0.1);
-            color: var(--primary);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 600;
+        .secure-status {
             display: flex;
             align-items: center;
-            gap: 5px;
-            border: 1px solid rgba(37, 211, 102, 0.2);
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--primary);
+            background: rgba(37, 211, 102, 0.1);
+            padding: 5px 12px;
+            border-radius: 20px;
         }
 
         .pulse-dot {
-            width: 6px; height: 6px; background: var(--primary);
+            width: 7px; height: 7px; background: var(--primary);
             border-radius: 50%;
             animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         /* Container Principal */
@@ -103,813 +106,396 @@ src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            position: relative;
         }
 
         /* Barra de Progresso */
-        .progress-wrapper { margin-bottom: 25px; }
-        .progress-label {
+        .progress-section { margin-bottom: 30px; }
+        .progress-info {
             display: flex;
             justify-content: space-between;
             font-size: 12px;
-            color: #888;
-            margin-bottom: 8px;
-            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
         }
-        .progress-bg {
-            height: 8px;
-            background: #1a1a1a;
+        .progress-bar-bg {
+            height: 6px;
+            background: #222;
             border-radius: 10px;
             overflow: hidden;
-            border: 1px solid #222;
         }
-        .progress-fill {
+        .progress-bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), #4ade80);
+            background: var(--primary);
             width: 0%;
-            transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-            box-shadow: 0 0 10px var(--glow);
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px rgba(37, 211, 102, 0.4);
         }
 
-        /* Cards de Pergunta */
-        .question-card { animation: fadeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+        /* Quiz */
+        .question-card { animation: slideUp 0.4s ease-out; }
         .q-title {
-            font-size: 19px;
+            font-size: 20px;
             font-weight: 700;
-            line-height: 1.4;
             margin-bottom: 25px;
-            color: #fff;
-            letter-spacing: -0.5px;
+            line-height: 1.3;
         }
-        
-        .target-display {
-            font-family: 'JetBrains Mono', monospace;
-            background: #111;
-            border: 1px solid #333;
-            color: var(--primary);
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            margin-bottom: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .options-list { display: flex; flex-direction: column; gap: 10px; }
-
-        .option-btn {
+        .options-grid { display: grid; gap: 12px; }
+        .option-item {
             background: var(--surface);
             border: 1px solid var(--border);
-            padding: 16px;
-            border-radius: 10px;
-            color: #ccc;
-            font-weight: 500;
-            font-size: 14px;
+            padding: 18px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s ease;
             display: flex;
             align-items: center;
-            gap: 15px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .option-btn:active { transform: scale(0.98); }
-
-        .option-btn.selected {
-            background: rgba(37, 211, 102, 0.08);
-            border-color: var(--primary);
-            color: #fff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-        }
-
-        .opt-circle {
-            width: 20px; height: 20px;
-            border-radius: 50%;
-            border: 2px solid #444;
-            display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .opt-inner {
-            width: 10px; height: 10px; 
-            border-radius: 50%; 
-            background: var(--primary); 
-            transform: scale(0);
-            transition: transform 0.2s;
-        }
-
-        .option-btn.selected .opt-circle { border-color: var(--primary); }
-        .option-btn.selected .opt-inner { transform: scale(1); }
-
-        /* Terminal Screen */
-        .terminal-screen {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000;
-            z-index: 100;
-            padding: 40px 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: var(--primary);
-            display: none;
-            flex-direction: column;
-            justify-content: flex-end;
-        }
-        
-        .matrix-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at center, #112211 0%, #000 100%);
-            z-index: -1;
-            opacity: 0.5;
-        }
-
-        .terminal-log {
-            margin-bottom: 4px;
-            line-height: 1.4;
-            opacity: 0.8;
-            animation: slideUp 0.1s ease-out;
-        }
-
-        .terminal-log.warning { color: #facc15; }
-        .terminal-log.highlight { color: #fff; text-shadow: 0 0 5px var(--primary); opacity: 1; }
-
-        .loading-bar-container {
-            width: 100%; height: 3px;
-            background: #222; margin-top: 25px;
-            border-radius: 3px;
-        }
-        .loading-bar {
-            height: 100%; background: var(--primary); width: 0%;
-            transition: width 0.1s linear;
-            box-shadow: 0 0 10px var(--primary);
-        }
-
-        /* Results Screen */
-        .result-screen { display: none; text-align: center; }
-
-        .status-box {
-            background: rgba(37, 211, 102, 0.05);
-            border: 1px solid rgba(37, 211, 102, 0.2);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 25px;
-            animation: fadeIn 0.6s ease;
-        }
-
-        .success-icon {
-            width: 60px; height: 60px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            margin: -50px auto 15px;
-            border: 4px solid var(--bg);
-            font-size: 24px; color: #000;
-            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
-        }
-
-        .data-card {
-            background: #111;
-            border: 1px solid #222;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-align: left;
-        }
-        
-        .data-icon {
-            width: 36px; height: 36px;
-            background: #1a1a1a;
-            border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            color: #888;
-            margin-right: 12px;
-        }
-
-        .data-info { flex: 1; }
-        .data-label { font-size: 13px; color: #ccc; display: block; }
-        .data-status { font-size: 10px; font-weight: 700; color: var(--primary); letter-spacing: 0.5px; }
-
-        /* Mapa Borrado */
-        .map-blur-container {
-            margin-top: 5px;
-            height: 80px;
-            width: 100%;
-            background: #1a1a1a;
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-            border: 1px solid #333;
-        }
-        .map-img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            filter: blur(6px);
-            opacity: 0.6;
-        }
-        .map-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; align-items: center; justify-content: center;
-            background: rgba(0,0,0,0.2);
-        }
-        .lock-icon {
-            background: rgba(0,0,0,0.7);
-            color: #fff;
-            padding: 8px;
-            border-radius: 50%;
-            font-size: 14px;
-        }
-
-        /* Countdown e CTA */
-        .timer-box {
-            background: #1a1a1a;
-            color: #facc15;
-            font-size: 12px;
-            padding: 8px;
-            border-radius: 6px;
-            margin: 20px 0 10px;
-            display: inline-block;
-            font-family: 'JetBrains Mono', monospace;
-            border: 1px solid #333;
-        }
-
-        /* NOVOS ESTILOS PARA OS BOTÕES DUPLOS */
-        .action-buttons-container {
-            display: flex;
-            flex-direction: column;
             gap: 12px;
-            width: 100%;
-        }
-
-        /* Botão Primário - Liberar */
-        .btn-primary-action {
-            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-            color: #fff;
-            padding: 18px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
-            border: 1px solid rgba(255,255,255,0.1);
-            position: relative;
-            overflow: hidden;
-            animation: pulseBtn 2s infinite;
-            text-transform: uppercase;
-        }
-        
-        .btn-primary-action:after {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        /* Botão Secundário - Amostra */
-        .btn-secondary-action {
-            background: rgba(255, 255, 255, 0.05);
-            color: #ccc;
-            padding: 14px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        .btn-secondary-action:active {
-            transform: scale(0.98);
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-
-        /* --- SEÇÃO DE AVALIAÇÕES MELHORADA --- */
-        .social-proof {
-            margin-top: 50px;
-            text-align: left;
-            border-top: 1px solid #222;
-            padding: 30px 0;
-        }
-        .social-title {
-            font-size: 14px;
-            font-weight: 800;
-            margin-bottom: 25px;
-            display: flex; align-items: center; gap: 10px;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .social-title i { font-size: 18px; color: var(--primary); }
-
-        .reviews-container {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .review-card {
-            background: var(--card-bg);
-            border: 1px solid #2a2a2a;
-            border-radius: 16px;
-            padding: 20px;
-            transition: transform 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            position: relative;
-        }
-
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-        }
-
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .review-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 16px;
-            color: #fff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            border: 2px solid rgba(255,255,255,0.1);
-        }
-
-        /* Cores variadas para os avatares */
-        .avatar-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .avatar-2 { background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: #444; }
-        .avatar-3 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: #128C7E; }
-
-        .review-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .review-name {
-            font-size: 15px;
-            font-weight: 700;
-            color: #fff;
-        }
-
-        .review-stars {
-            color: #fbbf24;
-            font-size: 11px;
-            display: flex;
-            gap: 2px;
-        }
-
-        .review-time {
-            font-size: 11px;
-            color: #555;
             font-weight: 500;
         }
+        .option-item:active { transform: scale(0.97); background: #1f1f1f; }
+        .option-item.selected { border-color: var(--primary); background: rgba(37, 211, 102, 0.05); }
 
-        .review-text {
-            font-size: 14px;
-            color: #bbb;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            font-weight: 400;
+        /* Tela de Resultados e Explicação */
+        .result-screen { display: none; text-align: center; }
+
+        .success-banner {
+            background: rgba(37, 211, 102, 0.08);
+            border: 1px solid rgba(37, 211, 102, 0.2);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
         }
-
-        .verified-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-top: 1px solid #222;
-            padding-top: 12px;
-        }
-
-        .verified-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 10px;
+        .success-icon {
+            font-size: 40px;
             color: var(--primary);
-            font-weight: 700;
-            letter-spacing: 0.5px;
+            margin-bottom: 15px;
         }
 
-        .like-count {
-            font-size: 11px;
-            color: #444;
+        .explainer-title {
+            text-align: left;
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #fff;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 10px;
         }
 
-        /* --- FIM SEÇÃO AVALIAÇÕES --- */
+        /* Passos do Processo */
+        .process-steps {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        .step {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 35px;
+            width: 2px;
+            height: calc(100% - 20px);
+            background: #222;
+        }
+        .step-num {
+            width: 30px; height: 30px;
+            background: var(--primary);
+            color: #000;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800;
+            flex-shrink: 0;
+            font-size: 14px;
+            z-index: 2;
+        }
+        .step-txt h4 { font-size: 15px; margin-bottom: 4px; color: #fff; }
+        .step-txt p { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
 
-        .footer-legal {
-            margin-top: 40px;
-            text-align: center;
-            font-size: 10px;
-            color: #444;
-            padding-bottom: 20px;
+        /* Botão Final */
+        .cta-button {
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-size: 16px;
+            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.25);
+            margin-bottom: 20px;
+            animation: pulseBtn 2s infinite;
         }
 
-        /* Modal Entrada */
-        .input-modal {
+        @keyframes pulseBtn {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        /* Avaliações */
+        .reviews-section {
+            border-top: 1px solid var(--border);
+            padding-top: 30px;
+            text-align: left;
+        }
+        .review-card {
+            background: var(--surface);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+        }
+        .review-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .review-name { font-weight: 700; font-size: 14px; }
+        .review-stars { color: #FFB800; font-size: 12px; }
+        .review-body { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
+
+        /* Modal Inicial */
+        .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #000; z-index: 200;
-            display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px;
+            background: #000; z-index: 100;
+            display: flex; align-items: center; justify-content: center; padding: 20px;
         }
-        .input-box {
-            background: #111; border: 1px solid #222; padding: 25px; border-radius: 12px;
-            width: 100%; max-width: 320px; text-align: center;
+        .modal-content {
+            background: var(--surface);
+            padding: 30px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            border: 1px solid var(--border);
         }
-        .phone-input {
-            width: 100%; padding: 12px; background: #000; border: 1px solid #333;
-            color: #fff; border-radius: 8px; margin: 15px 0; font-size: 16px; text-align: center;
+        .modal-input {
+            width: 100%;
+            padding: 15px;
+            background: #000;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: center;
         }
-        .start-btn {
-            background: var(--primary); color: #000; font-weight: 700; border: none;
-            padding: 12px; width: 100%; border-radius: 8px; cursor: pointer;
+        .modal-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; } }
-        @keyframes slideUp { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; } }
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); } 70% { box-shadow: 0 0 0 6px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
-        @keyframes pulseBtn { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
-        @keyframes shimmer { 0% { left: -100%; } 100% { left: 100%; } }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
-    <div class="input-modal" id="inputModal">
-        <div class="input-box">
-            <h3 style="color:#fff; margin-bottom:10px;">Iniciar Monitoramento</h3>
-            <p style="color:#888; font-size:13px;">Digite o número alvo para iniciar a conexão segura.</p>
-            <input type="tel" id="manualPhone" class="phone-input" placeholder="(DDD) 99999-9999">
-            <button class="start-btn" onclick="saveAndStart()">INICIAR RASTREIO</button>
+    <!-- Modal de Entrada -->
+    <div class="modal-overlay" id="inputModal">
+        <div class="modal-content">
+            <i class="fas fa-shield-alt" style="font-size: 40px; color: var(--primary); margin-bottom: 15px;"></i>
+            <h2 style="font-size: 18px;">Verificar Dispositivo</h2>
+            <p style="color: var(--text-secondary); font-size: 13px; margin-top: 8px;">Insira o número do alvo para iniciar a análise de compatibilidade.</p>
+            <input type="tel" id="targetInput" class="modal-input" placeholder="(00) 00000-0000">
+            <button class="modal-btn" onclick="startSystem()">INICIAR ANÁLISE</button>
         </div>
     </div>
 
     <header class="app-header">
         <div class="brand">
             <i class="fab fa-whatsapp"></i>
-            <span>WhatsMonitor V4.2</span>
+            <span>WhatsMonitor PRO</span>
         </div>
-        <div class="secure-badge">
+        <div class="secure-status">
             <div class="pulse-dot"></div>
-            SISTEMA ONLINE
+            SISTEMA ATIVO
         </div>
     </header>
 
-    <div class="main-container" id="quizArea">
-        <div id="targetLabel" class="target-display">
-            <i class="fas fa-crosshairs"></i> Alvo: <span id="targetDisplayNum">...</span>
-        </div>
-
-        <div class="progress-wrapper">
-            <div class="progress-label">
-                <span>Análise de Vulnerabilidade</span>
-                <span id="percent">0%</span>
+    <main class="main-container" id="mainFlow">
+        <!-- Barra de Progresso -->
+        <div class="progress-section">
+            <div class="progress-info">
+                <span id="targetLabel">Alvo: carregando...</span>
+                <span id="percentLabel">0%</span>
             </div>
-            <div class="progress-bg">
-                <div class="progress-fill" id="progressBar"></div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
             </div>
         </div>
 
-        <div id="questionContainer"></div>
-        
-        <div style="margin-top: auto; text-align: center; color: #444; font-size: 11px; padding-top: 20px;">
-            <i class="fas fa-lock"></i> Conexão criptografada ponta-a-ponta
-        </div>
-    </div>
+        <!-- Área das Perguntas -->
+        <div id="quizArea"></div>
+    </main>
 
-    <!-- Tela do Terminal -->
-    <div class="terminal-screen" id="terminalScreen">
-        <div class="matrix-bg"></div>
-        <div id="terminalLogs"></div>
-        <div class="loading-bar-container">
-            <div class="loading-bar" id="termLoad"></div>
-        </div>
-        <div style="margin-top:10px; display:flex; justify-content:space-between; color:#444;">
-            <span>SSH-2.0-OpenSSH_8.2</span>
-            <span>PORT: 443</span>
-        </div>
-    </div>
-
-    <!-- Tela de Resultados -->
+    <!-- Tela de Resultados (Explicação) -->
     <div class="main-container result-screen" id="resultArea">
-        <div class="status-box">
-            <div class="success-icon"><i class="fas fa-check"></i></div>
-            <h2 style="margin-bottom:5px; color:#fff;">Acesso Confirmado</h2>
-            <p style="color:#888; font-size:13px;">
-                Vulnerabilidade explorada com sucesso em <b id="finalTarget" style="color:var(--primary);"></b>.
+        <div class="success-banner">
+            <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+            <h2 style="font-size: 20px; margin-bottom: 8px;">Análise Concluída!</h2>
+            <p style="color: var(--text-secondary); font-size: 14px;">
+                O número <span id="displayTarget" style="color: var(--primary); font-weight: 700;"></span> está pronto para ser monitorado.
             </p>
         </div>
 
-        <div class="data-card">
-            <div class="data-icon"><i class="fas fa-comments"></i></div>
-            <div class="data-info">
-                <span class="data-label">Histórico de Conversas</span>
-                <span class="data-status">1.842 MENSAGENS RECUPERADAS</span>
-            </div>
-            <i class="fas fa-check-circle" style="color:var(--primary);"></i>
-        </div>
-
-        <div class="data-card">
-            <div class="data-icon"><i class="fas fa-microphone"></i></div>
-            <div class="data-info">
-                <span class="data-label">Áudios & Mídia</span>
-                <span class="data-status">BAIXAR PACOTE COMPLETO</span>
-            </div>
-            <i class="fas fa-check-circle" style="color:var(--primary);"></i>
-        </div>
-
-        <div class="data-card" style="flex-direction: column; align-items: flex-start;">
-            <div style="display:flex; width:100%; align-items:center; margin-bottom:8px;">
-                <div class="data-icon"><i class="fas fa-map-marker-alt"></i></div>
-                <div class="data-info">
-                    <span class="data-label">Localização em Tempo Real</span>
-                    <span class="data-status">GPS ATIVO - PRECISÃO 5m</span>
+        <h3 class="explainer-title"><i class="fas fa-info-circle" style="color: var(--primary);"></i> Como obter o acesso?</h3>
+        
+        <div class="process-steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-txt">
+                    <h4>Envie os Dados ao Suporte</h4>
+                    <p>Clique no botão abaixo para abrir o chat. O sistema enviará automaticamente o código do alvo para nossa equipe.</p>
                 </div>
             </div>
-            <div class="map-blur-container">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Google_Maps_Logo_2020.svg/1024px-Google_Maps_Logo_2020.svg.png" 
-                     class="map-img" 
-                     style="background: #2a2a2a; object-fit:none; transform: scale(3);"
-                     alt="Map Preview">
-                <div class="map-overlay">
-                    <div class="lock-icon"><i class="fas fa-lock"></i></div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-txt">
+                    <h4>Liberação Técnica</h4>
+                    <p>Nosso suporte técnico processará o acesso seguro e realizará a extração dos dados em nossos servidores.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-txt">
+                    <h4>Receba seu Painel</h4>
+                    <p>Assim que finalizado, o suporte enviará seu <b>Login e Senha</b> para você visualizar mensagens, áudios e localização em tempo real.</p>
                 </div>
             </div>
         </div>
 
-        <div class="timer-box">
-            <i class="far fa-clock"></i> Link expira em: <span id="countdown">05:00</span>
-        </div>
+        <a href="#" target="_blank" class="cta-button" id="whatsappLink" onclick="fbq('track', 'Purchase');">
+            <i class="fab fa-whatsapp" style="font-size: 22px;"></i>
+            LIBERAR MEU ACESSO AGORA
+        </a>
 
-        <!-- NOVOS BOTÕES -->
-        <div class="action-buttons-container">
-            <!-- Botão Primário: Redirecionamento para o WhatsApp -->
-            <a href="#" target="_blank" class="btn-primary-action" id="whatsappLink" onclick="if(typeof fbq === 'function') fbq('track', 'InitiateCheckout');">
-                <i class="fab fa-whatsapp"></i>
-                Liberar via WhatsApp
-            </a>
+        <p style="font-size: 11px; color: #555; margin-bottom: 40px;">
+            Tempo estimado para liberação: <b>3 a 5 minutos</b>.
+        </p>
 
-            <!-- Botão Secundário - Amostra (Removido ou mantido conforme layout original, aqui foi mantido o container) -->
-        </div>
-
-        <!-- Provas Sociais Melhoradas -->
-        <div class="social-proof">
-            <h3 class="social-title"><i class="fas fa-user-shield"></i> Verificações em Tempo Real</h3>
+        <!-- Avaliações Reais -->
+        <div class="reviews-section">
+            <h4 style="font-size: 14px; margin-bottom: 20px; color: #fff; text-transform: uppercase; letter-spacing: 1px;">Depoimentos Recentes</h4>
             
-            <div class="reviews-container">
-                <!-- Avaliação 1 -->
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="user-info">
-                            <div class="review-avatar avatar-1">A</div>
-                            <div class="review-meta">
-                                <span class="review-name">Amanda S.</span>
-                                <div class="review-stars">
-                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <span class="review-time">há 2 min</span>
-                    </div>
-                    <p class="review-text">"Gente, eu estava muito desconfiada mas paguei para ver. Realmente liberou tudo! Consegui ver todas as conversas apagadas com a ex dele. Fiquei em choque!"</p>
-                    <div class="verified-footer">
-                        <div class="verified-badge"><i class="fas fa-check-circle"></i> ACESSO CONFIRMADO</div>
-                        <div class="like-count"><i class="far fa-thumbs-up"></i> 24</div>
-                    </div>
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="review-name">Ricardo Oliveira</span>
+                    <span class="review-stars">★★★★★</span>
                 </div>
-
-                <!-- Avaliação 2 -->
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="user-info">
-                            <div class="review-avatar avatar-2">R</div>
-                            <div class="review-meta">
-                                <span class="review-name">Rafael M.</span>
-                                <div class="review-stars">
-                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <span class="review-time">há 12 min</span>
-                    </div>
-                    <p class="review-text">"Muito rápido. O suporte me atendeu super bem pelo WhatsApp para configurar os detalhes. Valeu cada centavo investido no acesso."</p>
-                    <div class="verified-footer">
-                        <div class="verified-badge"><i class="fas fa-check-circle"></i> ACESSO CONFIRMADO</div>
-                        <div class="like-count"><i class="far fa-thumbs-up"></i> 18</div>
-                    </div>
-                </div>
-
-                <!-- Avaliação 3 -->
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="user-info">
-                            <div class="review-avatar avatar-3">C</div>
-                            <div class="review-meta">
-                                <span class="review-name">Carla D.</span>
-                                <div class="review-stars">
-                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <span class="review-time">há 43 min</span>
-                    </div>
-                    <p class="review-text">"Consegui recuperar até os áudios que tinham sido apagados na semana passada. A ferramenta de localização também é assustadoramente precisa."</p>
-                    <div class="verified-footer">
-                        <div class="verified-badge"><i class="fas fa-check-circle"></i> ACESSO CONFIRMADO</div>
-                        <div class="like-count"><i class="far fa-thumbs-up"></i> 56</div>
-                    </div>
-                </div>
+                <p class="review-body">O suporte foi muito rápido. Enviei a mensagem e em menos de 10 minutos já estava com o login do painel. Recomendo!</p>
             </div>
-        </div>
 
-        <div class="footer-legal">
-            <p>Este site não é afiliado ao WhatsApp Inc. ou Facebook.<br>Todos os direitos reservados © 2024.</p>
-            <p style="margin-top:5px; opacity: 0.6;">Termos de Uso | Política de Privacidade</p>
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="review-name">Mariana Costa</span>
+                    <span class="review-stars">★★★★★</span>
+                </div>
+                <p class="review-body">Tinha medo de ser difícil, mas o técnico fez tudo. Eu só precisei entrar no link que me mandaram. Sensacional.</p>
+            </div>
         </div>
     </div>
 
     <script>
-        const myNumber = "553498273265"; 
-        let targetPhone = localStorage.getItem('targetPhone');
+        const myNumber = "553498273265"; // Seu número de suporte
+        let targetPhone = "";
+        let currentStep = 0;
 
-        const questions = [
-            { title: "Qual o seu nível de proximidade com o alvo?", options: ["Moro na mesma casa", "Namorado(a)/Cônjuge", "Apenas conheço", "Distante"] },
-            { title: "Com que frequência o alvo utiliza o WhatsApp?", options: ["O tempo todo (Online)", "Frequentemente", "Raramente", "Apenas à noite"] },
-            { title: "Você suspeita que o alvo apaga conversas?", options: ["Sim, com certeza", "Desconfio que sim", "Acho que não", "Não sei dizer"] },
-            { title: "Deseja ativar o modo 'Fantasma' (Sem notificação)?", options: ["Sim, ativar camuflagem", "Não é necessário"] }
+        const quizData = [
+            {
+                q: "Qual o seu nível de acesso ao aparelho alvo?",
+                options: ["Tenho acesso físico", "Apenas conheço o número", "O aparelho está longe"]
+            },
+            {
+                q: "Deseja recuperar mensagens apagadas?",
+                options: ["Sim, todas", "Apenas as recentes", "Não preciso"]
+            },
+            {
+                q: "Qual a finalidade do monitoramento?",
+                options: ["Segurança familiar", "Controle parental", "Dúvida em relacionamento"]
+            }
         ];
 
-        let currentQ = 0;
-
-        document.addEventListener('DOMContentLoaded', () => {
-            if (!targetPhone || targetPhone === "(00) 00000-0000") {
-                document.getElementById('inputModal').style.display = 'flex';
-            } else {
-                initApp();
+        function startSystem() {
+            const input = document.getElementById('targetInput').value;
+            if (input.length < 8) {
+                alert("Por favor, insira um número válido.");
+                return;
             }
-        });
-
-        function saveAndStart() {
-            const input = document.getElementById('manualPhone').value;
-            if(input.length > 8) {
-                targetPhone = input;
-                localStorage.setItem('targetPhone', targetPhone);
-                document.getElementById('inputModal').style.display = 'none';
-                initApp();
-            } else {
-                alert("Por favor, digite um número válido.");
-            }
+            targetPhone = input;
+            document.getElementById('inputModal').style.display = 'none';
+            document.getElementById('targetLabel').innerText = `Alvo: ${targetPhone}`;
+            renderQuiz();
         }
 
-        function initApp() {
-            document.getElementById('targetDisplayNum').innerText = targetPhone;
-            renderQuestion();
-        }
+        function renderQuiz() {
+            if (currentStep >= quizData.length) {
+                finishQuiz();
+                return;
+            }
 
-        function renderQuestion() {
-            const q = questions[currentQ];
-            const pct = Math.round((currentQ / questions.length) * 100);
-            document.getElementById('progressBar').style.width = `${pct}%`;
-            document.getElementById('percent').innerText = `${pct}%`;
+            const data = quizData[currentStep];
+            const progress = (currentStep / quizData.length) * 100;
+            
+            document.getElementById('progressBar').style.width = `${progress}%`;
+            document.getElementById('percentLabel').innerText = `${Math.round(progress)}%`;
 
             let html = `
                 <div class="question-card">
-                    <h2 class="q-title">${q.title}</h2>
-                    <div class="options-list">
+                    <h2 class="q-title">${data.q}</h2>
+                    <div class="options-grid">
             `;
 
-            q.options.forEach(opt => {
+            data.options.forEach(opt => {
                 html += `
-                    <div class="option-btn" onclick="nextStep(this)">
-                        <div class="opt-circle"><div class="opt-inner"></div></div>
+                    <div class="option-item" onclick="handleOptionClick(this)">
+                        <i class="far fa-circle"></i>
                         <span>${opt}</span>
                     </div>
                 `;
             });
 
-            document.getElementById('questionContainer').innerHTML = html + `</div></div>`;
+            document.getElementById('quizArea').innerHTML = html + `</div></div>`;
         }
 
-        function nextStep(el) {
-            const allOpts = document.querySelectorAll('.option-btn');
-            allOpts.forEach(b => b.classList.remove('selected'));
+        function handleOptionClick(el) {
             el.classList.add('selected');
+            el.querySelector('i').className = 'fas fa-check-circle';
+            el.querySelector('i').style.color = '#25D366';
 
             setTimeout(() => {
-                if(currentQ < questions.length - 1) {
-                    currentQ++;
-                    renderQuestion();
-                } else {
-                    document.getElementById('progressBar').style.width = `100%`;
-                    document.getElementById('percent').innerText = `100%`;
-                    setTimeout(startTerminal, 400);
-                }
+                currentStep++;
+                renderQuiz();
             }, 400);
         }
 
-        function startTerminal() {
-            document.getElementById('quizArea').style.display = 'none';
-            document.querySelector('.app-header').style.display = 'none';
-            const term = document.getElementById('terminalScreen');
-            term.style.display = 'flex';
-
-            const logs = [
-                `Iniciando protocolo Handshake v4...`,
-                `Alvo identificado: ${targetPhone}`,
-                "Conectando a servidores regionais (AWS-SA-EAST-1)...",
-                "Bypass AuthToken: [OK]",
-                "Tentativa de injeção SQL... Sucesso.",
-                `[INFO] 1.8GB de logs encontrados.`,
-                "Descriptografando chave privada RSA-2048...",
-                "WARNING: Firewall detectado. Aplicando contramedidas...",
-                "...... Bypass concluído.",
-                "Baixando histórico de conversas (WhatsApp Database)...",
-                "Baixando mídias (Fotos/Vídeos)...",
-                "Baixando áudios deletados...",
-                "Compilando pacote de dados do usuário...",
-                `SUCESSO: ACESSO TOTAL GARANTIDO.`
-            ];
-
-            const logBox = document.getElementById('terminalLogs');
-            const loadBar = document.getElementById('termLoad');
-            let i = 0;
-
-            function addLog() {
-                if(i < logs.length) {
-                    const div = document.createElement('div');
-                    div.className = 'terminal-log';
-                    if(logs[i].includes("WARNING")) div.className += " warning";
-                    if(logs[i].includes("SUCESSO")) div.className += " highlight";
-                    
-                    div.innerText = `> ${logs[i]}`;
-                    logBox.appendChild(div);
-                    logBox.scrollTop = logBox.scrollHeight;
-                    loadBar.style.width = `${((i + 1) / logs.length) * 100}%`;
-                    
-                    const randomTime = Math.floor(Math.random() * 800) + 300;
-                    i++;
-                    setTimeout(addLog, randomTime);
-                } else {
-                    setTimeout(showResults, 1000);
-                }
-            }
-            addLog();
-        }
-
-        function showResults() {
-            document.getElementById('terminalScreen').style.display = 'none';
-            document.getElementById('finalTarget').innerText = targetPhone;
-            document.querySelector('.app-header').style.display = 'flex';
-            document.getElementById('resultArea').style.display = 'block';
+        function finishQuiz() {
+            document.getElementById('progressBar').style.width = `100%`;
+            document.getElementById('percentLabel').innerText = `100%`;
             
-            // Configurar a mensagem dinâmica do WhatsApp com o número alvo
-            const mensagem = `Olá, gostaria de liberar o meu acesso ao aplicativo para monitorar o número: ${targetPhone}`;
-            document.getElementById('whatsappLink').href = `https://wa.me/${myNumber}?text=${encodeURIComponent(mensagem)}`;
-            
-            startCountdown(5 * 60);
-        }
-
-        function startCountdown(duration) {
-            let timer = duration, minutes, seconds;
-            const display = document.getElementById('countdown');
-            setInterval(function () {
-                minutes = parseInt(timer / 60, 10);
-                seconds = parseInt(timer % 60, 10);
-                minutes = minutes < 10 ? "0" + minutes : minutes;
-                seconds = seconds < 10 ? "0" + seconds : seconds;
-                display.textContent = minutes + ":" + seconds;
-                if (--timer < 0) {
-                    timer = 0;
-                    display.style.color = "red";
-                    display.textContent = "EXPIRADO";
-                }
-            }, 1000);
+            setTimeout(() => {
+                document.getElementById('mainFlow').style.display = 'none';
+                document.getElementById('displayTarget').innerText = targetPhone;
+                
+                // Configura o link do WhatsApp
+                const msg = `Olá! Realizei a análise do número ${targetPhone} no site. Desejo que o suporte realize o procedimento de acesso e me entregue o painel de monitoramento.`;
+                document.getElementById('whatsappLink').href = `https://wa.me/${myNumber}?text=${encodeURIComponent(msg)}`;
+                
+                document.getElementById('resultArea').style.display = 'block';
+                window.scrollTo(0, 0);
+            }, 600);
         }
     </script>
 </body>
