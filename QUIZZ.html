@@ -136,14 +136,8 @@ src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
         .q-title {
             font-size: 20px;
             font-weight: 700;
-            margin-bottom: 10px;
-            line-height: 1.3;
-        }
-        .q-desc {
-            font-size: 13px;
-            color: var(--text-secondary);
             margin-bottom: 25px;
-            line-height: 1.4;
+            line-height: 1.3;
         }
         .options-grid { display: grid; gap: 12px; }
         .option-item {
@@ -299,7 +293,7 @@ src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
         <div id="quizArea"></div>
     </main>
 
-    <!-- Tela de Resultados -->
+    <!-- Tela de Resultados (Explicação) -->
     <div class="main-container result-screen" id="resultArea">
         <div class="success-banner">
             <div class="success-icon"><i class="fas fa-check-circle"></i></div>
@@ -344,6 +338,7 @@ src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
             Tempo estimado para liberação: <b>3 a 5 minutos</b>.
         </p>
 
+        <!-- Avaliações Reais -->
         <div class="reviews-section">
             <h4 style="font-size: 14px; margin-bottom: 20px; color: #fff; text-transform: uppercase; letter-spacing: 1px;">Depoimentos Recentes</h4>
             
@@ -366,63 +361,26 @@ src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
     </div>
 
     <script>
-        const myNumber = "553498273265";
+        const myNumber = "553498273265"; // Seu número de suporte
         let targetPhone = localStorage.getItem('targetPhone') || "(00) 00000-0000";
         let currentStep = 0;
 
-        // Questionário focado estritamente no WhatsApp e na urgência do usuário
         const quizData = [
             {
-                q: "Qual o motivo da solicitação de acesso?",
-                d: "Isso define quais algoritmos de busca serão priorizados no banco de dados do WhatsApp.",
-                options: [
-                    "Suspeita de traição / infidelidade", 
-                    "Controle parental / segurança dos filhos", 
-                    "Auditoria de funcionários / empresa",
-                    "Outros motivos de segurança pessoal"
-                ]
+                q: "Qual o seu nível de acesso ao aparelho alvo?",
+                options: ["Tenho acesso físico", "Apenas conheço o número", "O aparelho está longe"]
             },
             {
-                q: "Deseja recuperar as mensagens apagadas do histórico do WhatsApp?",
-                d: "O sistema fará uma varredura no cache 'msgstore.db.crypt' para restaurar conversas deletadas recentemente.",
-                options: [
-                    "Sim, o histórico parece limpo demais e suspeito", 
-                    "Sim, quero ver o que foi apagado nos últimos 30 dias", 
-                    "Não, apenas quero monitorar conversas em tempo real",
-                    "Quero recuperar apenas mídias (fotos e vídeos) apagadas"
-                ]
+                q: "Deseja recuperar mensagens apagadas?",
+                options: ["Sim, todas", "Apenas as recentes", "Não preciso"]
             },
             {
-                q: "O alvo costuma silenciar as notificações ou esconder o aparelho?",
-                d: "Indica se o script deve rodar em modo 'Hidden Protocol' para evitar notificações de 'WhatsApp Web Ativo'.",
-                options: [
-                    "Sim, ele(a) esconde o ecrã e parece defensivo(a)", 
-                    "Sempre coloca o telemóvel virado para baixo", 
-                    "Não, mas sinto que conversas importantes ocorrem fora da minha vista",
-                    "Apenas quero confirmar minha paz de espírito"
-                ]
-            },
-            {
-                q: "Deseja monitorar o status 'Online' e a geolocalização por IP?",
-                d: "O sistema vincula os metadados de conexão do WhatsApp para triangular a localização aproximada do dispositivo.",
-                options: [
-                    "Sim, quero saber onde e com quem está agora", 
-                    "Quero ser avisado(a) toda vez que ele(a) ficar online", 
-                    "Apenas leitura de conversas e áudios é suficiente",
-                    "Ativar todos os alertas de atividade suspeita"
-                ]
-            },
-            {
-                q: "Confirmar Protocolo de Invisibilidade Contra Detecção?",
-                d: "Garante que o espelhamento não apareça na lista de 'Aparelhos Conectados' nas configurações do alvo.",
-                options: [
-                    "Sim, invisibilidade total é a minha prioridade máxima", 
-                    "Ativar criptografia de ponta a ponta no meu painel", 
-                    "Ocultar apenas a minha visualização de Status/Stories"
-                ]
+                q: "Qual a finalidade do monitoramento?",
+                options: ["Segurança familiar", "Controle parental", "Dúvida em relacionamento"]
             }
         ];
 
+        // Inicia automaticamente com o número do localStorage
         window.onload = function() {
             document.getElementById('targetLabel').innerText = `Alvo: ${targetPhone}`;
             renderQuiz();
@@ -443,7 +401,6 @@ src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
             let html = `
                 <div class="question-card">
                     <h2 class="q-title">${data.q}</h2>
-                    <p class="q-desc">${data.d}</p>
                     <div class="options-grid">
             `;
 
@@ -478,6 +435,7 @@ src="https://www.facebook.com/tr?id=26475847585350180&ev=PageView&noscript=1"
                 document.getElementById('mainFlow').style.display = 'none';
                 document.getElementById('displayTarget').innerText = targetPhone;
                 
+                // Configura o link do WhatsApp
                 const msg = `Olá! Realizei a análise do número ${targetPhone} no site. Desejo que o suporte realize o procedimento de acesso e me entregue o painel de monitoramento.`;
                 document.getElementById('whatsappLink').href = `https://wa.me/${myNumber}?text=${encodeURIComponent(msg)}`;
                 
